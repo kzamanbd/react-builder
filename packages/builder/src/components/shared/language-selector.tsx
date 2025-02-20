@@ -1,4 +1,3 @@
-import languages from "@/data/languages.json";
 import Select from "@/components/shared/select";
 import Tooltip from "@/components/shared/tooltip";
 import { setCurrentLanguage } from "@/store/builder-slice";
@@ -8,6 +7,59 @@ import { useAppSelector } from "@/hooks/use-app-selector";
 import { classNames } from "@/utils";
 import { FC } from "react";
 import { FiCheck, FiGlobe } from "react-icons/fi";
+
+const languages = [
+  {
+    name: "English",
+    code: "en",
+    tag: "en-US",
+  },
+  {
+    name: "Español",
+    code: "es",
+    tag: "es-ES",
+  },
+  {
+    name: "Português",
+    code: "pt",
+    tag: "pt-BR",
+  },
+  {
+    name: "Deutsch",
+    code: "de",
+    tag: "de-DE",
+  },
+  {
+    name: "Français",
+    code: "fr",
+    tag: "fr-FR",
+  },
+  {
+    name: "Nederlands",
+    code: "nl",
+    tag: "nl-NL",
+  },
+  {
+    name: "Turkish",
+    code: "tr",
+    tag: "tr-TR",
+  },
+  {
+    name: "العربية",
+    code: "ar",
+    tag: "ar-SA",
+  },
+  {
+    name: "বাংলা",
+    code: "bn",
+    tag: "bn-BD",
+  },
+  {
+    name: "हिन्दी",
+    code: "hi",
+    tag: "hi-IN",
+  },
+];
 
 const LanguageSelector: FC<{ className?: string }> = ({ className }) => {
   const currentLocale = useAppSelector(getCurrentLocale);

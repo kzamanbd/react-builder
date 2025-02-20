@@ -1,6 +1,5 @@
 "use client";
 
-import PageLoader from "@/components/shared/page-loader";
 import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { clearContent, setContent } from "@/store/builder-slice";
@@ -17,25 +16,14 @@ import RightPanel from "./right-panel";
 
 type Props = {
   content: Record<string, Block>;
-  theme: Theme;
 };
 
-const Editor: FC<Props> = ({ content, theme }) => {
+const Editor: FC<Props> = ({ content }) => {
   const dispatch = useAppDispatch();
 
   const contentState = useAppSelector(getContent);
 
   const isDirty = JSON.stringify(content) !== JSON.stringify(contentState);
-
-  useEffect(() => {
-    dispatch(
-      setActiveTheme({
-        id: theme.id,
-        name: theme.name,
-        settings: theme.settings,
-      })
-    );
-  }, [theme]);
 
   useEffect(() => {
     if (!content) {
