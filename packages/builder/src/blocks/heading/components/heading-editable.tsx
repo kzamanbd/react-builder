@@ -1,9 +1,11 @@
 import { useBlockSettings } from "@/hooks/use-block-settings";
 import { BlockMeta } from "@/types/block";
-import { FC } from "react";
+import { FC, useRef } from "react";
 import sanitizeHtml from "sanitize-html";
 import { HeadingSettingsType } from "../types";
-import ContentEditable from "@/components/shared/content-editable";
+import ContentEditable, {
+  ContentEditableEvent,
+} from "@/components/shared/content-editable";
 
 const HeadingEditable: FC<{
   settings: HeadingSettingsType;
@@ -14,6 +16,9 @@ const HeadingEditable: FC<{
     id,
     `title.${meta.locale}`
   );
+
+  const text = useRef<string>("");
+
   const sanitizeConf = {
     allowedTags: [
       "div",
@@ -29,6 +34,16 @@ const HeadingEditable: FC<{
     ],
   };
 
+  const handleChange = (e: ContentEditableEvent) => {
+    const value = e.currentTarget.innerText;
+    text.current = value;
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const value = e.currentTarget.innerText;
+    setTitle(sanitizeHtml(value, sanitizeConf));
+  };
+
   const TagName = settings.htmlTag || "h2";
 
   const defaultTitle = settings.title?.["en"] || "";
@@ -36,37 +51,11 @@ const HeadingEditable: FC<{
   return (
     <ContentEditable
       tagName={TagName}
-      onChange={(e) => {
-        const value = e.target.value;
-        // setTitle(sanitizeHtml(value, sanitizeConf));
-        setTitle(value);
-      }}
+      onChange={handleChange}
+      onBlur={handleBlur}
       html={title || defaultTitle}
       className="heading focus-visible:outline-0 leading-5"
     />
-    // <TagName
-    //   className="heading focus-visible:outline-0 leading-5"
-    //   contentEditable
-    //   suppressContentEditableWarning
-    //   onBlur={(e) => {
-    //     const value = e.currentTarget.innerText;
-    //     setTitle(sanitizeHtml(value, sanitizeConf));
-    //   }}
-    //   // dangerouslySetInnerHTML={{
-    //   //   __html: title || defaultTitle,
-    //   // }}
-    //   onInput={(e) => {
-    //     const value = e.currentTarget.innerText;
-    //     setTitle(sanitizeHtml(value, sanitizeConf));
-    //   }}
-    //   onKeyDown={(e) => {
-    //     if (e.key === "Enter") {
-    //       e.preventDefault();
-    //     }
-    //   }}
-    // >
-    //   {title || defaultTitle}
-    // </TagName>
   );
 };
 

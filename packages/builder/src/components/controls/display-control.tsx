@@ -62,7 +62,7 @@ const DisplayControl: FC<DisplayControlProps> = ({
         label="Display"
         responsive
         options={[
-          { content: "Default", value: undefined },
+          { content: "Select", value: "select" },
           { content: "Block", value: DisplayType.BLOCK },
           { content: "Inline", value: DisplayType.INLINE },
           { content: "Inline Block", value: DisplayType.INLINE_BLOCK },

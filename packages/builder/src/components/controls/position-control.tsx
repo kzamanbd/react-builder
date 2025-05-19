@@ -31,7 +31,7 @@ const PositionControl: FC<PositionControlProps> = ({
         label="Position"
         responsive
         options={[
-          { content: "Default", value: undefined },
+          { content: "Select", value: "select" },
           { content: "Relative", value: "relative" },
           { content: "Absolute", value: "absolute" },
           { content: "Fixed", value: "fixed" },

@@ -25,7 +25,7 @@ const BorderControl: FC<Props> = ({ fieldName, mode, type, className }) => {
       <SelectControl
         type={type}
         options={[
-          { content: "Default", value: undefined },
+          { content: "Select", value: "select" },
           { content: "None", value: "none" },
           { content: "Solid", value: "solid" },
           { content: "Double", value: "double" },
