@@ -3,34 +3,46 @@ import { Breakpoint } from "@/types/responsive";
 import { useEffect, useState } from "react";
 
 export const useBreakpoint = () => {
-  const actualWindow = window.frameWindow ?? window;
-  const width =
-    actualWindow.innerWidth ||
-    actualWindow.document.documentElement.clientWidth ||
-    actualWindow.document.body.clientWidth;
+  // Initialize with default breakpoint
+  const [calculatedBreakpoint, setCalculatedBreakpoint] = useState<Breakpoint>(Breakpoint.DESKTOP);
 
-  const [calculatedBreakpoint, setCalculatedBreakpoint] = useState<Breakpoint>(
-    () => {
-      if (typeof actualWindow === "undefined") return Breakpoint.DESKTOP;
+  // Only access window in useEffect to avoid SSR issues
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-      if (
-        width <
-        BreakpointConfiguration.getBreakpoint(Breakpoint.TABLET).minWidth
-      ) {
-        return Breakpoint.MOBILE;
-      } else if (
-        width <
-        BreakpointConfiguration.getBreakpoint(Breakpoint.DESKTOP).minWidth
-      ) {
-        return Breakpoint.TABLET;
-      }
+    const actualWindow = window.frameWindow ?? window;
+    const width =
+      actualWindow.innerWidth ||
+      actualWindow.document.documentElement.clientWidth ||
+      actualWindow.document.body.clientWidth;
 
-      return Breakpoint.DESKTOP;
+    // Set initial breakpoint based on window width
+    if (
+      width <
+      BreakpointConfiguration.getBreakpoint(Breakpoint.TABLET).minWidth
+    ) {
+      setCalculatedBreakpoint(Breakpoint.MOBILE);
+    } else if (
+      width <
+      BreakpointConfiguration.getBreakpoint(Breakpoint.DESKTOP).minWidth
+    ) {
+      setCalculatedBreakpoint(Breakpoint.TABLET);
+    } else {
+      setCalculatedBreakpoint(Breakpoint.DESKTOP);
     }
-  );
+  }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const actualWindow = window.frameWindow ?? window;
+
     const handleResize = () => {
+      const width =
+        actualWindow.innerWidth ||
+        actualWindow.document.documentElement.clientWidth ||
+        actualWindow.document.body.clientWidth;
+
       if (
         width <
         BreakpointConfiguration.getBreakpoint(Breakpoint.TABLET).minWidth
@@ -51,7 +63,7 @@ export const useBreakpoint = () => {
     return () => {
       actualWindow.removeEventListener("resize", handleResize);
     };
-  }, [actualWindow, width]);
+  }, []);
 
   return calculatedBreakpoint;
 };

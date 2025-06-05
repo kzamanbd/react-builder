@@ -1,5 +1,3 @@
-"use client";
-
 import { classNames } from "@/utils";
 import { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";

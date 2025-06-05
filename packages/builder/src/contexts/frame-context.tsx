@@ -1,14 +1,17 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 let doc;
 let win;
-if (typeof document !== 'undefined') {
+if (typeof document !== "undefined") {
   doc = document;
 }
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   win = window;
 }
 
 export const FrameContext = createContext({ document: doc, window: win });
 
-export const { Provider: FrameContextProvider, Consumer: FrameContextConsumer } = FrameContext;
+export const {
+  Provider: FrameContextProvider,
+  Consumer: FrameContextConsumer,
+} = FrameContext;

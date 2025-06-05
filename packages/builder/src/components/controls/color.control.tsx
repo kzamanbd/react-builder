@@ -10,7 +10,7 @@ import {
 import { SettingsType } from "@/types";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { classNames } from "@/utils";
-import { FC, HTMLAttributes, ReactNode } from "react";
+import { FC, HTMLAttributes, ReactNode, useEffect, useState } from "react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { BsFillSquareFill } from "react-icons/bs";
 import { FaCheckSquare, FaSquare } from "react-icons/fa";
@@ -41,19 +41,60 @@ const ColorControl: FC<Props> = ({
     type
   );
 
+  // Cache for computed colors to avoid recalculating
+  const [computedColors, setComputedColors] = useState<Record<string, string>>({});
+
+  // Function to get color value, with fallback for server-side rendering
   const getColor = (color: string) => {
-    const isVar = Boolean(color.startsWith("var"));
-    if (color && isVar) {
-      const el =
-        document.querySelector("iframe")!.contentWindow!.document
-          .documentElement;
-      const c = window
-        .getComputedStyle(el)
-        .getPropertyValue(color.replace("var(", "").replace(")", ""));
-      return c;
+    // If not a CSS variable, return the color directly
+    if (!color || !color.startsWith("var")) {
+      return color;
     }
+
+    // If we have a cached computed value, use it
+    if (computedColors[color]) {
+      return computedColors[color];
+    }
+
+    // During SSR or before client-side calculation, return the variable name as fallback
     return color;
   };
+
+  // Calculate computed colors on client-side only
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+
+    // Process all CSS variables used in the component
+    const colorsToProcess = [
+      ...(color && color.startsWith("var") ? [color] : []),
+      "var(--text-color)",
+      "var(--background-color)",
+      "var(--accent-color)",
+      ...accentShades.map(shade => `var(--accent-color-${shade})`),
+      ...(colorPresets?.map(preset => `var(--color-preset-${preset.id})`) || [])
+    ];
+
+    try {
+      const iframe = document.querySelector("iframe");
+      if (!iframe || !iframe.contentWindow || !iframe.contentWindow.document) return;
+
+      const el = iframe.contentWindow.document.documentElement;
+
+      const newComputedColors: Record<string, string> = {};
+
+      colorsToProcess.forEach(varColor => {
+        if (varColor.startsWith("var")) {
+          const propertyName = varColor.replace("var(", "").replace(")", "");
+          const computedValue = window.getComputedStyle(el).getPropertyValue(propertyName);
+          newComputedColors[varColor] = computedValue || varColor;
+        }
+      });
+
+      setComputedColors(newComputedColors);
+    } catch (error) {
+      console.error("Error computing colors:", error);
+    }
+  }, [color, colorPresets, accentShades]);
 
   const colorPresets = useAppSelector(getActiveThemeColorPresets);
   const themeSettings = useAppSelector(getActiveThemeSettings);

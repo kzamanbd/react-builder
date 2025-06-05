@@ -17,35 +17,35 @@ type Props = {
 };
 
 const Editor: FC<Props> = ({ content }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const contentState = useAppSelector(getContent);
+  // const contentState = useAppSelector(getContent);
 
-  const isDirty = JSON.stringify(content) !== JSON.stringify(contentState);
+  // const isDirty = JSON.stringify(content) !== JSON.stringify(contentState);
 
-  useEffect(() => {
-    if (!content) {
-      dispatch(clearContent());
-      return;
-    }
+  // useEffect(() => {
+  //   if (!content) {
+  //     dispatch(clearContent());
+  //     return;
+  //   }
 
-    dispatch(setContent(content));
-  }, [content]);
+  //   dispatch(setContent(content));
+  // }, [content]);
 
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = true;
-      }
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+  //     if (isDirty) {
+  //       e.preventDefault();
+  //       e.returnValue = true;
+  //     }
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isDirty]);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, [isDirty]);
 
   return (
     <DndProvider backend={HTML5Backend}>

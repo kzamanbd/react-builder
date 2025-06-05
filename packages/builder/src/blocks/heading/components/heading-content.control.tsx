@@ -1,5 +1,3 @@
-"use client";
-
 import Accordion from "@/components/shared/accordion";
 import Separator from "@/components/shared/seperator";
 

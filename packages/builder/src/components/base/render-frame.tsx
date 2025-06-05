@@ -1,19 +1,23 @@
-import { classNames } from '@/utils';
-import { FC, ReactNode, useEffect, useState } from 'react';
-import Frame, { type FrameProps } from './frame';
+import { classNames } from "@/utils";
+import { FC, ReactNode, useEffect, useState } from "react";
+import Frame, { type FrameProps } from "./frame";
 
 type RenderFrameProps = {
   children: ReactNode;
 } & FrameProps;
 
-const RenderFrame: FC<RenderFrameProps> = ({ children, className, ...rest }) => {
+const RenderFrame: FC<RenderFrameProps> = ({
+  children,
+  className,
+  ...rest
+}) => {
   const [frameContent, setFrameContent] = useState<string | null>();
 
   useEffect(() => {
     // Create html document
     const html = document.implementation.createHTMLDocument();
-    html.documentElement.setAttribute('class', 'h-full');
-    html.body.setAttribute('class', 'h-full');
+    html.documentElement.setAttribute("class", "h-full");
+    html.body.setAttribute("class", "h-full");
     //   Add builder styles
     const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
     cssLinks.forEach((link) => {
@@ -25,10 +29,36 @@ const RenderFrame: FC<RenderFrameProps> = ({ children, className, ...rest }) => 
   if (!frameContent) return null;
 
   return (
-    <Frame initialContent={frameContent} className={classNames('h-full w-full', className)} {...rest}>
+    <Frame
+      initialContent={frameContent}
+      className={classNames("h-full w-full", className)}
+      {...rest}
+    >
       {children}
     </Frame>
   );
 };
 
-export default RenderFrame;
+/**
+ * Client-side only wrapper for RenderFrame to prevent hydration mismatches
+ * in server-side rendering environments like Next.js.
+ * 
+ * This component uses the useEffect hook to initialize browser-specific code
+ * only on the client side, and ensures the initial server render matches
+ * what will be rendered on the client before any effects run.
+ */
+function ClientOnlyRenderFrame({ children, ...props }: RenderFrameProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // Return null on server-side
+  }
+
+  return <RenderFrame {...props}>{children}</RenderFrame>;
+}
+
+export default ClientOnlyRenderFrame;

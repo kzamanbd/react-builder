@@ -7,23 +7,36 @@ const useLocalstorage = <T>(
   initialValue: InitialValueType<T>,
   { serialize = JSON.stringify, deserialize = JSON.parse } = {}
 ): [T, Dispatch<SetStateAction<T>>] => {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  // Initialize with the provided initialValue to avoid hydration mismatches
+  const [storedValue, setStoredValue] = useState<T>(
+    initialValue instanceof Function ? initialValue() : initialValue
+  );
+
+  // Load from localStorage only on the client side
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize from localStorage once on mount (client-side only)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
     try {
       const item = window.localStorage.getItem(key);
       if (item) {
-        return deserialize(item);
+        setStoredValue(deserialize(item));
       }
-
-      return initialValue instanceof Function ? initialValue() : initialValue;
+      setIsInitialized(true);
     } catch (error) {
-      //   console.error(error);
-      return initialValue;
+      // console.error(error);
+      setIsInitialized(true);
     }
-  });
+  }, [key, deserialize]);
 
   const prevKeyRef = useRef(key);
-  // Use useEffect to update localstorage when value changes
+
+  // Use useEffect to update localStorage when value changes (client-side only)
   useEffect(() => {
+    if (typeof window === "undefined" || !isInitialized) return;
+
     try {
       if (prevKeyRef.current !== key) {
         window.localStorage.removeItem(prevKeyRef.current);
@@ -32,9 +45,9 @@ const useLocalstorage = <T>(
       prevKeyRef.current = key;
       window.localStorage.setItem(key, serialize(storedValue));
     } catch (error) {
-      //   console.error(error);
+      // console.error(error);
     }
-  }, [storedValue, serialize, key]);
+  }, [storedValue, serialize, key, isInitialized]);
 
   return [storedValue, setStoredValue];
 };

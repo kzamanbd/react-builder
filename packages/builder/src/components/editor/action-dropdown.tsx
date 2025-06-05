@@ -18,65 +18,96 @@ const ActionDropdown: FC = () => {
   const dispatch = useAppDispatch();
 
   const exportContent = useCallback(() => {
-    const data = JSON.stringify(content);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+    if (typeof document === "undefined") return;
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `content-${Date.now()}.json`;
-    a.click();
+    try {
+      const data = JSON.stringify(content);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
 
-    toast({
-      type: "success",
-      title: "Export successfully",
-      subtitle: "Your data have been downloaded.",
-    });
-  }, [content]);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `content-${Date.now()}.json`;
+      a.click();
+
+      toast({
+        type: "success",
+        title: "Export successfully",
+        subtitle: "Your data have been downloaded.",
+      });
+    } catch (error) {
+      console.error("Error exporting content:", error);
+      toast({
+        type: "error",
+        title: "Export failed",
+        subtitle: "An error occurred while exporting your data.",
+      });
+    }
+  }, [content, toast]);
 
   const importContent = useCallback(() => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
+    if (typeof document === "undefined") return;
 
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) {
-        return;
-      }
+    try {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/json";
 
-      const reader = new FileReader();
-      reader.readAsText(file, "UTF-8");
-
-      reader.onload = (readerEvent) => {
-        const content = readerEvent.target?.result;
-        if (!content) {
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) {
           return;
         }
 
-        const parsedContent = JSON.parse(content.toString());
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
 
-        // Validating content
-        if (!parsedContent.root?.id || !parsedContent.root?.type) {
-          toast({
-            type: "error",
-            title: "Invalid file",
-          });
-          return;
-        }
+        reader.onload = (readerEvent) => {
+          try {
+            const content = readerEvent.target?.result;
+            if (!content) {
+              return;
+            }
 
-        dispatch(setContent(parsedContent));
+            const parsedContent = JSON.parse(content.toString());
 
-        toast({
-          type: "success",
-          title: "Import successfully",
-          subtitle: "Your data have been imported.",
-        });
+            // Validating content
+            if (!parsedContent.root?.id || !parsedContent.root?.type) {
+              toast({
+                type: "error",
+                title: "Invalid file",
+              });
+              return;
+            }
+
+            dispatch(setContent(parsedContent));
+
+            toast({
+              type: "success",
+              title: "Import successfully",
+              subtitle: "Your data have been imported.",
+            });
+          } catch (error) {
+            console.error("Error parsing imported content:", error);
+            toast({
+              type: "error",
+              title: "Import failed",
+              subtitle: "The file format is invalid.",
+            });
+          }
+        };
       };
-    };
 
-    input.click();
-  }, []);
+      input.click();
+    } catch (error) {
+      console.error("Error importing content:", error);
+      toast({
+        type: "error",
+        title: "Import failed",
+        subtitle: "An error occurred while importing your data.",
+      });
+    }
+  }, [dispatch, toast]);
 
   const clearPresentContent = () => {
     dispatch(clearContent());

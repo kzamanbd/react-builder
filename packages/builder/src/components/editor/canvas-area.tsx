@@ -2,7 +2,7 @@ import AddNewSection from "@/components/base/add-new-section";
 import EditorRenderContent from "@/components/base/editor-render-content";
 import EditorStyleManager from "@/components/base/editor-style-manager";
 import { FrameContextManager } from "@/components/base/frame-context-manager";
-import RenderFrame from "@/components/base/render-frame";
+import ClientOnlyRenderFrame from "@/components/base/render-frame";
 import ErrorFallback from "@/components/shared/error-fallback";
 import { BreakpointConfiguration } from "@/config/breakpoints.config";
 import { useActionContext } from "@/contexts/action-context";
@@ -112,7 +112,7 @@ const CanvasArea: FC = () => {
                 : `${previewWidth}px`,
           }}
         >
-          <RenderFrame className="absolute mx-auto" style={frameStyles}>
+          <ClientOnlyRenderFrame className="absolute mx-auto" style={frameStyles}>
             <FrameContextManager>
               <EditorRenderContent content={content} meta={meta} />
 
@@ -125,7 +125,7 @@ const CanvasArea: FC = () => {
 
               <script src="/scripts/drawer.js" defer />
             </FrameContextManager>
-          </RenderFrame>
+          </ClientOnlyRenderFrame>
         </div>
       </ErrorBoundary>
 

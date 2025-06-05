@@ -9,21 +9,29 @@ function normalizeHtml(str: string): string {
 }
 
 function replaceCaret(el: HTMLElement) {
-  // Place the caret at the end of the element
-  const target = document.createTextNode("");
-  el.appendChild(target);
-  // do not move caret if element was not focused
-  const isTargetFocused = document.activeElement === el;
-  if (target !== null && target.nodeValue !== null && isTargetFocused) {
-    var sel = window.getSelection();
-    if (sel !== null) {
-      var range = document.createRange();
-      range.setStart(target, target.nodeValue.length);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
+  // Only run in browser environment
+  if (typeof document === "undefined" || typeof window === "undefined") return;
+
+  try {
+    // Place the caret at the end of the element
+    const target = document.createTextNode("");
+    el.appendChild(target);
+
+    // do not move caret if element was not focused
+    const isTargetFocused = document.activeElement === el;
+    if (target !== null && target.nodeValue !== null && isTargetFocused) {
+      const sel = window.getSelection();
+      if (sel !== null) {
+        const range = document.createRange();
+        range.setStart(target, target.nodeValue.length);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      if (el instanceof HTMLElement) el.focus();
     }
-    if (el instanceof HTMLElement) el.focus();
+  } catch (error) {
+    console.error("Error in replaceCaret:", error);
   }
 }
 

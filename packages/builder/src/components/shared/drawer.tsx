@@ -84,20 +84,27 @@ const Drawer: FC<Props> = (props) => {
   const bodyRef = useRef<HTMLBodyElement | null>(null);
 
   useEffect(() => {
-    const updatePageScroll = () => {
-      bodyRef.current = window.document.querySelector('body');
+    // Only run in browser environment
+    if (typeof window === "undefined" || typeof document === "undefined") return;
 
-      if (bodyRef.current && lockBackgroundScroll) {
-        if (open) {
-          bodyRef.current.style.overflow = 'hidden';
-        } else {
-          bodyRef.current.style.overflow = '';
+    const updatePageScroll = () => {
+      try {
+        bodyRef.current = window.document.querySelector('body');
+
+        if (bodyRef.current && lockBackgroundScroll) {
+          if (open) {
+            bodyRef.current.style.overflow = 'hidden';
+          } else {
+            bodyRef.current.style.overflow = '';
+          }
         }
+      } catch (error) {
+        console.error("Error updating page scroll:", error);
       }
     };
 
     updatePageScroll();
-  }, [open]);
+  }, [open, lockBackgroundScroll]);
 
   const idSuffix = useMemo(() => {
     return customIdSuffix || (Math.random() + 1).toString(36).substring(7);

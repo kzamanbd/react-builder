@@ -1,5 +1,3 @@
-"use client";
-
 import { BlockProps } from "@/types/block";
 import { FC } from "react";
 import { HeadingSettingsType } from "../types";

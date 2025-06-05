@@ -43,64 +43,96 @@ const ThemeActionDropdown: FC = () => {
   };
 
   const exportContent = useCallback(() => {
-    const data = JSON.stringify(theme.settings);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+    if (typeof document === "undefined") return;
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `theme-${theme.name.toLowerCase().split(" ").join("-")}-${Date.now()}.json`;
-    a.click();
+    try {
+      const data = JSON.stringify(theme.settings);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
 
-    // toast({
-    //   type: 'success',
-    //   title: 'Export successfully',
-    //   subtitle: 'Your data have been downloaded.',
-    // });
-  }, [theme.settings]);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `theme-${theme.name.toLowerCase().split(" ").join("-")}-${Date.now()}.json`;
+      a.click();
+
+      toast({
+        type: 'success',
+        title: 'Export successfully',
+        subtitle: 'Your theme settings have been downloaded.',
+      });
+    } catch (error) {
+      console.error("Error exporting theme settings:", error);
+      toast({
+        type: "error",
+        title: "Export failed",
+        subtitle: "An error occurred while exporting your theme settings.",
+      });
+    }
+  }, [theme.settings, theme.name, toast]);
 
   const importContent = useCallback(() => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
+    if (typeof document === "undefined") return;
 
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) {
-        return;
-      }
+    try {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/json";
 
-      const reader = new FileReader();
-      reader.readAsText(file, "UTF-8");
-
-      reader.onload = (readerEvent) => {
-        const content = readerEvent.target?.result;
-        if (!content) {
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) {
           return;
         }
 
-        const parsedContent = JSON.parse(content.toString());
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
 
-        // Validating content
-        if (!parsedContent.color && !parsedContent.typography) {
-          toast({
-            type: "error",
-            title: "Invalid file",
-          });
-          return;
-        }
+        reader.onload = (readerEvent) => {
+          try {
+            const content = readerEvent.target?.result;
+            if (!content) {
+              return;
+            }
 
-        dispatch(setActiveThemeSettings(parsedContent));
-        toast({
-          type: "success",
-          title: "Import successfully",
-          subtitle: "Your data have been imported.",
-        });
+            const parsedContent = JSON.parse(content.toString());
+
+            // Validating content
+            if (!parsedContent.color && !parsedContent.typography) {
+              toast({
+                type: "error",
+                title: "Invalid file",
+                subtitle: "The file does not contain valid theme settings.",
+              });
+              return;
+            }
+
+            dispatch(setActiveThemeSettings(parsedContent));
+            toast({
+              type: "success",
+              title: "Import successfully",
+              subtitle: "Your theme settings have been imported.",
+            });
+          } catch (error) {
+            console.error("Error parsing imported theme settings:", error);
+            toast({
+              type: "error",
+              title: "Import failed",
+              subtitle: "The file format is invalid.",
+            });
+          }
+        };
       };
-    };
 
-    input.click();
-  }, []);
+      input.click();
+    } catch (error) {
+      console.error("Error importing theme settings:", error);
+      toast({
+        type: "error",
+        title: "Import failed",
+        subtitle: "An error occurred while importing your theme settings.",
+      });
+    }
+  }, [dispatch, toast]);
 
   return (
     <div className="flex h-9 bg-indigo-600 rounded-sm text-white divide-x divide-indigo-700 overflow-hidden">

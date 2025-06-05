@@ -90,14 +90,21 @@ const TypographyControl: FC<Props> = ({
   // };
 
   const onOpenChange = (open: boolean) => {
-    const panelScrollContent = document.querySelector<HTMLDivElement>(
-      ".panel-scroll-content"
-    );
-    if (!panelScrollContent) return;
-    if (open) {
-      panelScrollContent.style.paddingBottom = "80vh";
-    } else {
-      panelScrollContent.style.paddingBottom = "0px";
+    if (typeof document === "undefined") return;
+
+    try {
+      const panelScrollContent = document.querySelector<HTMLDivElement>(
+        ".panel-scroll-content"
+      );
+      if (!panelScrollContent) return;
+
+      if (open) {
+        panelScrollContent.style.paddingBottom = "80vh";
+      } else {
+        panelScrollContent.style.paddingBottom = "0px";
+      }
+    } catch (error) {
+      console.error("Error in onOpenChange:", error);
     }
   };
 

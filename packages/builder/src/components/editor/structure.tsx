@@ -67,28 +67,48 @@ const StructureItem = ({ blockId, index }: LayterItemProps) => {
   };
 
   const handleMouseEnter = () => {
-    if (selectedblock?.id === blockId) return;
-    const iframe = document.querySelector("iframe") as HTMLIFrameElement;
-    const el = iframe.contentDocument?.querySelector(
-      `[data-block-id="${blockId}"]`
-    ) as HTMLElement;
-    if (el?.classList.contains("after:ring-inset")) {
-      el.classList.add("after:ring-1", "after:ring-indigo-500");
-    } else {
-      el?.classList.add("ring-1", "ring-indigo-500");
+    if (selectedblock?.id === blockId || typeof document === "undefined") return;
+
+    try {
+      const iframe = document.querySelector("iframe") as HTMLIFrameElement;
+      if (!iframe || !iframe.contentDocument) return;
+
+      const el = iframe.contentDocument.querySelector(
+        `[data-block-id="${blockId}"]`
+      ) as HTMLElement;
+
+      if (!el) return;
+
+      if (el.classList.contains("after:ring-inset")) {
+        el.classList.add("after:ring-1", "after:ring-indigo-500");
+      } else {
+        el.classList.add("ring-1", "ring-indigo-500");
+      }
+    } catch (error) {
+      console.error("Error in handleMouseEnter:", error);
     }
   };
 
   const handleMouseLeave = () => {
-    if (selectedblock?.id === blockId) return;
-    const iframe = document.querySelector("iframe") as HTMLIFrameElement;
-    const el = iframe.contentDocument?.querySelector(
-      `[data-block-id="${blockId}"]`
-    ) as HTMLElement;
-    if (el?.classList.contains("after:ring-inset")) {
-      el.classList.remove("after:ring-1", "after:ring-indigo-500");
-    } else {
-      el?.classList.remove("ring-1", "ring-indigo-500");
+    if (selectedblock?.id === blockId || typeof document === "undefined") return;
+
+    try {
+      const iframe = document.querySelector("iframe") as HTMLIFrameElement;
+      if (!iframe || !iframe.contentDocument) return;
+
+      const el = iframe.contentDocument.querySelector(
+        `[data-block-id="${blockId}"]`
+      ) as HTMLElement;
+
+      if (!el) return;
+
+      if (el.classList.contains("after:ring-inset")) {
+        el.classList.remove("after:ring-1", "after:ring-indigo-500");
+      } else {
+        el.classList.remove("ring-1", "ring-indigo-500");
+      }
+    } catch (error) {
+      console.error("Error in handleMouseLeave:", error);
     }
   };
 
