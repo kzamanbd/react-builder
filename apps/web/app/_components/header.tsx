@@ -1,5 +1,3 @@
 export const Header = () => {
-    return (
-        <></>
-    );
+  return <header className="h-60 w-full bg-slate-800"></header>;
 };

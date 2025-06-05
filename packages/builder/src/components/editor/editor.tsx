@@ -1,22 +1,21 @@
 import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useAppSelector } from "@/hooks/use-app-selector";
-import { clearContent, setContent } from "@/store/builder-slice";
+import { setContent } from "@/store/builder-slice";
 import { getContent } from "@/store/selectors";
-import { setActiveTheme } from "@/store/theme-slice";
 import { Block } from "@/types/block";
-import { Theme } from "@/types/theme";
-import { FC, memo, useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import CanvasArea from "./canvas-area";
 import LeftPanel from "./left-panel";
 import RightPanel from "./right-panel";
+import { classNames } from "@/utils";
 
 export type EditorProps = {
   content: Record<string, Block>;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export const Editor: FC<EditorProps> = ({ content }) => {
+export const Editor: FC<EditorProps> = ({ content, className, ...props }) => {
   const dispatch = useAppDispatch();
 
   const contentState = useAppSelector(getContent);
@@ -63,7 +62,13 @@ export const Editor: FC<EditorProps> = ({ content }) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="relative flex h-full w-full flex-wrap overflow-hidden">
+      <div
+        className={classNames(
+          "relative flex h-full w-full flex-wrap overflow-hidden",
+          className
+        )}
+        {...props}
+      >
         {/* Builder Left Sidebar Panel */}
         <LeftPanel />
 
@@ -76,12 +81,3 @@ export const Editor: FC<EditorProps> = ({ content }) => {
     </DndProvider>
   );
 };
-
-// // Memoize the Editor component to prevent unnecessary rerenders
-// export default memo(Editor, (prevProps, nextProps) => {
-//   // Only rerender if content or onChange has changed
-//   return (
-//     JSON.stringify(prevProps.content) === JSON.stringify(nextProps.content) &&
-//     prevProps.onChange === nextProps.onChange
-//   );
-// });

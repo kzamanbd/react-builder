@@ -7,10 +7,9 @@ import { Header } from "./_components/header";
 export default function HomePage() {
   return (
     <div className="h-screen">
-      {/* <Header text="Page Builder" />
-      <Button>Click me</Button> */}
-      <Header />
       <BuilderProvider store={store}>
+        <Header />
+
         <Editor content={{}} />
       </BuilderProvider>
     </div>
