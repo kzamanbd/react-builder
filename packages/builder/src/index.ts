@@ -1,6 +1,5 @@
 import "./index.css";
 
-
 export * from "./types";
 
 export * from "./components/editor";
@@ -8,5 +7,7 @@ export * from "./components/editor";
 export { BuilderProvider } from "./contexts/builder-context";
 
 export { store } from "./store";
+
+export * from "./core";
 
 export * from "./store/selectors";
