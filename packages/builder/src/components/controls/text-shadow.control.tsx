@@ -1,9 +1,9 @@
-import RangeSlider from "@/components/shared/range-slider";
+import { RangeSlider } from "@/components/shared/range-slider";
 import { BsFillSquareFill } from "react-icons/bs";
-import ColorPicker from "@/components/shared/color-picker";
-import Input from "@/components/shared/input";
-import Label from "@/components/shared/label";
-import Popover from "@/components/shared/popover";
+import { ColorPicker } from "@/components/shared/color-picker";
+import { Input } from "@/components/shared/input";
+import { Label } from "@/components/shared/label";
+import { Popover } from "@/components/shared/popover";
 import { useSettings } from "@/hooks/use-settings";
 import { PseudoClass, TextShadow } from "@/types/style";
 // import ResetControl from './reset.control';

@@ -1,8 +1,8 @@
-import Label from "@/components/shared/label";
+import { Label } from "@/components/shared/label";
 import { useSettings } from "@/hooks/use-settings";
 import { AttributeType } from "@/types/style";
-import Input from "@/components/shared/input";
-import Button from "@/components/shared/button";
+import { Input } from "@/components/shared/input";
+import { Button } from "@/components/shared/button";
 import { BsTrash } from "react-icons/bs";
 import { cloneDeep } from "lodash";
 import { SettingsType } from "@/types";

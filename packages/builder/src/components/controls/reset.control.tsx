@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, FC } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { CiUndo } from "react-icons/ci";
-import Tooltip from "@/components/shared/tooltip";
+import { Tooltip } from "@/components/shared/tooltip";
 import { classNames } from "@/utils";
 import { useSettings } from "../../hooks/use-settings";
 import { SettingsType } from "../../types";

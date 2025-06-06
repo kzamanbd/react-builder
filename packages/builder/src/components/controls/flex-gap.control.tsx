@@ -1,8 +1,8 @@
-import BreakpointSelector from "@/components/shared/breakpoint-selector";
-import Input from "@/components/shared/input";
-import Label from "@/components/shared/label";
-import Select from "@/components/shared/select";
-import Tooltip from "@/components/shared/tooltip";
+import { BreakpointSelector } from "@/components/shared/breakpoint-selector";
+import { Input } from "@/components/shared/input";
+import { Label } from "@/components/shared/label";
+import { Select } from "@/components/shared/select";
+import { Tooltip } from "@/components/shared/tooltip";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { useSettings } from "@/hooks/use-settings";
 import { getCurrentBreakpoint } from "@/store/selectors";

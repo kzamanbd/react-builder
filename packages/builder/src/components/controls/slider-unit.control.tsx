@@ -1,7 +1,7 @@
-import Label from "@/components/shared/label";
-import RangeSlider from "@/components/shared/range-slider";
-import Select from "@/components/shared/select";
-import Tooltip from "@/components/shared/tooltip";
+import { Label } from "@/components/shared/label";
+import { RangeSlider } from "@/components/shared/range-slider";
+import { Select } from "@/components/shared/select";
+import { Tooltip } from "@/components/shared/tooltip";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import useDebounce from "@/hooks/use-debounce";
 import { useSettings } from "@/hooks/use-settings";
@@ -10,7 +10,7 @@ import { SettingsType } from "@/types";
 import { Unit, UnitValue } from "@/types/style";
 import { classNames } from "@/utils";
 import { FC, HTMLAttributes, ReactNode, useEffect, useState } from "react";
-import BreakpointSelector from "../shared/breakpoint-selector";
+import { BreakpointSelector } from "../shared/breakpoint-selector";
 
 interface SliderControlProps extends HTMLAttributes<HTMLDivElement> {
   step?: number;

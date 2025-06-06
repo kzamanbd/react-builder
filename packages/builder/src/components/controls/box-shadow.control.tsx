@@ -1,6 +1,6 @@
-import Input from "@/components/shared/input";
-import Popover from "@/components/shared/popover";
-import RangeSlider from "@/components/shared/range-slider";
+import { Input } from "@/components/shared/input";
+import { Popover } from "@/components/shared/popover";
+import { RangeSlider } from "@/components/shared/range-slider";
 import { BsFillSquareFill } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 
@@ -11,10 +11,10 @@ import { PseudoClass } from "@/types/style";
 import { BoxShadow } from "@/types/style";
 import { classNames } from "@/utils";
 import { FC, HTMLAttributes, useCallback, useEffect } from "react";
-import ColorPicker from "@/components/shared/color-picker";
-import Label from "@/components/shared/label";
-import Select from "@/components/shared/select";
-import BreakpointSelector from "../shared/breakpoint-selector";
+import { ColorPicker } from "@/components/shared/color-picker";
+import { Label } from "@/components/shared/label";
+import { Select } from "@/components/shared/select";
+import { BreakpointSelector } from "../shared/breakpoint-selector";
 import { SettingsType } from "@/types";
 import { debounce } from "lodash";
 

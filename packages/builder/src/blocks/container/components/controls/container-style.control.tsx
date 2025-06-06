@@ -3,8 +3,8 @@ import BorderControl from "@/components/controls/border.control";
 import BoxShadowControl from "@/components/controls/box-shadow.control";
 import SliderInputControl from "@/components/controls/slider-input.control";
 import SpacingControl from "@/components/controls/spacing.control";
-import Accordion from "@/components/shared/accordion";
-import Tabs from "@/components/shared/tabs";
+import { Accordion } from "@/components/shared/accordion";
+import { Tabs } from "@/components/shared/tabs";
 import { SettingsType } from "@/types";
 import { PseudoClass, Unit } from "@/types/style";
 

@@ -1,5 +1,5 @@
-import Input from "@/components/shared/input";
-import Label from "@/components/shared/label";
+import { Input } from "@/components/shared/input";
+import { Label } from "@/components/shared/label";
 import { useSettings } from "@/hooks/use-settings";
 import { SettingsType } from "@/types";
 import { classNames } from "@/utils";

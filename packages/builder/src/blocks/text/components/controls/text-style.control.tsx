@@ -1,6 +1,6 @@
 "use client";
 
-import Accordion from "@/components/shared/accordion";
+import { Accordion } from "@/components/shared/accordion";
 import ColorControl from "@/components/controls/color.control";
 import TextShadowControl from "@/components/controls/text-shadow.control";
 import TypographyControl from "@/components/controls/typography.control";

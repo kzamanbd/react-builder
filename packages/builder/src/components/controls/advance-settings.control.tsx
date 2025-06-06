@@ -1,8 +1,8 @@
-import Accordion from "@/components/shared/accordion";
-import InfoMessage from "@/components/shared/info-message";
-import Label from "@/components/shared/label";
-import Separator from "@/components/shared/seperator";
-import Tabs from "@/components/shared/tabs";
+import { Accordion } from "@/components/shared/accordion";
+import { InfoMessage } from "@/components/shared/info-message";
+import { Label } from "@/components/shared/label";
+import { Separator } from "@/components/shared/seperator";
+import { Tabs } from "@/components/shared/tabs";
 import { SettingsType } from "@/types";
 import { PseudoClass, Unit } from "@/types/style";
 import {

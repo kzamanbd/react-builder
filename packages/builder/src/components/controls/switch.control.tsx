@@ -1,12 +1,12 @@
 import { useSettings } from "@/hooks/use-settings";
-import Label from "@/components/shared/label";
-import Switch from "@/components/shared/switch";
+import { Label } from "@/components/shared/label";
+import { Switch } from "@/components/shared/switch";
 import { FC, HTMLAttributes } from "react";
 import { classNames } from "@/utils";
 import { PseudoClass } from "@/types/style";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { getCurrentBreakpoint } from "@/store/selectors";
-import BreakpointSelector from "../shared/breakpoint-selector";
+import { BreakpointSelector } from "../shared/breakpoint-selector";
 import { SettingsType } from "@/types";
 
 type Props = {

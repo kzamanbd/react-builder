@@ -1,13 +1,13 @@
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import Tooltip from "@/components/shared/tooltip";
+import { Tooltip } from "@/components/shared/tooltip";
 import { classNames } from "@/utils";
 import { HTMLAttributes, ReactNode, forwardRef } from "react";
 import { PseudoClass } from "@/types/style";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { getCurrentBreakpoint } from "@/store/selectors";
 import { VariantProps, cva } from "class-variance-authority";
-import Label from "@/components/shared/label";
-import BreakpointSelector from "../shared/breakpoint-selector";
+import { Label } from "@/components/shared/label";
+import { BreakpointSelector } from "../shared/breakpoint-selector";
 import { SettingsType } from "@/types";
 import { useSettings } from "@/hooks/use-settings";
 

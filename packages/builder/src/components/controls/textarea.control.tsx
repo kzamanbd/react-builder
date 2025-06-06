@@ -1,4 +1,4 @@
-import Label from "@/components/shared/label";
+import { Label } from "@/components/shared/label";
 import { Textarea } from "@/components/shared/textarea";
 import { useSettings } from "@/hooks/use-settings";
 import { SettingsType } from "@/types";
@@ -14,8 +14,8 @@ import {
 import { createId } from "@/utils";
 import { debounce } from "lodash";
 import { useFieldName } from "@/hooks/use-field-name";
-import BreakpointSelector from "../shared/breakpoint-selector";
-import LanguageSelector from "@/components/shared/language-selector";
+import { BreakpointSelector } from "../shared/breakpoint-selector";
+import { LanguageSelector } from "@/components/shared/language-selector";
 
 type Props = {
   label?: string;

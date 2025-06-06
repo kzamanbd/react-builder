@@ -1,7 +1,7 @@
-import ColorPicker from "@/components/shared/color-picker";
-import Label from "@/components/shared/label";
-import Popover from "@/components/shared/popover";
-import Tooltip from "@/components/shared/tooltip";
+import { ColorPicker } from "@/components/shared/color-picker";
+import { Label } from "@/components/shared/label";
+import { Popover } from "@/components/shared/popover";
+import { Tooltip } from "@/components/shared/tooltip";
 import { useSettings } from "@/hooks/use-settings";
 import {
   getActiveThemeColorPresets,

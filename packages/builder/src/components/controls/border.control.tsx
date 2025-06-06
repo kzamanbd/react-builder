@@ -7,13 +7,13 @@ import SelectControl from "./select.control";
 import SpacingControl from "./spacing.control";
 import { classNames } from "@/utils";
 
-type Props = {
+export type BorderProps = {
   fieldName: string;
   mode?: string;
   type: SettingsType;
 } & HTMLAttributes<HTMLDivElement>;
 
-const BorderControl: FC<Props> = ({ fieldName, mode, type, className }) => {
+const BorderControl: FC<BorderProps> = ({ fieldName, mode, type, className }) => {
   const [borderType] = useSettings<string | undefined>(
     mode ? `${fieldName}.type.${mode}` : `${fieldName}.type`,
     type

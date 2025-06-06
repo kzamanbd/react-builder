@@ -1,8 +1,8 @@
-import BreakpointSelector from "@/components/shared/breakpoint-selector";
+import { BreakpointSelector } from "@/components/shared/breakpoint-selector";
 import ToggleGroupControl from "@/components/controls/toggle-group.control";
-import InfoMessage from "@/components/shared/info-message";
-import Input from "@/components/shared/input";
-import Label from "@/components/shared/label";
+import { InfoMessage } from "@/components/shared/info-message";
+import { Input } from "@/components/shared/input";
+import { Label } from "@/components/shared/label";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { useSettings } from "@/hooks/use-settings";
 import { getCurrentBreakpoint } from "@/store/selectors";
