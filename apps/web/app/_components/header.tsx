@@ -1,4 +1,4 @@
-import { useContent } from "@repo/builder";
+import { useContent } from "@repo/builder/hooks";
 import { useState } from "react";
 import toast from "react-hot-toast";
 

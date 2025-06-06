@@ -7,9 +7,12 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: {
+        index: resolve(__dirname, "src/index.ts"),
+        hooks: resolve(__dirname, "src/hooks/index.ts"),
+      },
       formats: ["es"],
-      fileName: "index",
+      fileName: (format, entryName) => `${entryName}.js`,
     },
     outDir: "dist",
     sourcemap: true,

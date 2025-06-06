@@ -15,8 +15,12 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./dist/index.css": {
-      "import": "./dist/index.css"
+    "./hooks": {
+      "import": "./dist/hooks.js",
+      "types": "./dist/hooks.d.ts"
+    },
+    "./dist/builder.css": {
+      "import": "./dist/builder.css"
     }
   },
   "scripts": {

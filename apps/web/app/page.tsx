@@ -1,6 +1,6 @@
 "use client";
 
-import "@repo/builder/dist/index.css";
+import "@repo/builder/dist/builder.css";
 import { BuilderProvider, store, Editor, Block } from "@repo/builder";
 import { Header } from "./_components/header";
 import { useEffect, useState } from "react";
