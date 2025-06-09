@@ -122,7 +122,7 @@ export const IconControl: FC<IconControlProps> = ({
             </Dialog.Title>
 
             <Dialog.Description asChild>
-              <div className="h-[500px]">
+              <div>
                 {/* Icon collections and list */}
                 <div className="flex h-[450px]">
                   <IconSetViewer
@@ -135,32 +135,27 @@ export const IconControl: FC<IconControlProps> = ({
                 </div>
 
                 {/* Footer */}
-                <div className={" border-t border-[#E9E9E9]"}>
-                  <div
-                    className={
-                      "flex justify-end items-center space-x-2 mt-2 me-4"
-                    }
+                <div
+                  className={
+                    " border-t border-slate-200 flex justify-end gap-2 p-4"
+                  }
+                >
+                  <Button onClick={() => setOpen(false)} variant={"secondary"}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOpen(false);
+                      setValue({
+                        ...value,
+                        iconSet: selectedCollection,
+                        iconName: selectedIcon as string,
+                      });
+                    }}
+                    disabled={!selectedIcon}
                   >
-                    <Button
-                      onClick={() => setOpen(false)}
-                      variant={"secondary"}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setOpen(false);
-                        setValue({
-                          ...value,
-                          iconSet: selectedCollection,
-                          iconName: selectedIcon as string,
-                        });
-                      }}
-                      disabled={!selectedIcon}
-                    >
-                      Select
-                    </Button>
-                  </div>
+                    Select
+                  </Button>
                 </div>
               </div>
             </Dialog.Description>
@@ -187,7 +182,6 @@ export function IconSetViewer({
   setSelectedIcon,
 }: IconSetViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null); // Ref for the sentinel element
   const [searchText, setSearchText] = useState<string>("");
   const debouncedSearchText = useDebounce(searchText, 500); // Debounce search text with 500ms delay
@@ -281,63 +275,61 @@ export function IconSetViewer({
 
               {/* Icons grid */}
               <ScrollArea className="flex-1">
-                <div ref={scrollRef}>
-                  <div
-                    ref={ref}
-                    className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8  gap-4"
-                  >
-                    {iconData?.pages ? (
-                      iconData.pages.flatMap((page) =>
-                        Object.keys(page?.icons ?? {}).map((iconName) => (
-                          <div
-                            key={iconName}
-                            className={classNames(
-                              "p-4 cursor-pointer rounded text-center transition-colors",
-                              selectedIcon === iconName
-                                ? "bg-indigo-100"
-                                : "hover:bg-slate-100"
-                            )}
-                            onClick={() => setSelectedIcon(iconName)}
-                          >
-                            <RenderIcon
-                              iconSet={collection.value}
-                              iconName={iconName}
-                              size="1.5rem"
-                              className="text-slate-600"
-                            />
-                          </div>
-                        ))
-                      )
-                    ) : isError ? (
-                      <div className="col-span-full flex justify-center py-10 text-red-500">
-                        <div className="text-center">
-                          <div className="text-2xl mb-2">
-                            Error loading icons
-                          </div>
-                          <div className="text-sm">
-                            Please try again or select a different icon set
-                          </div>
+                <div
+                  ref={ref}
+                  className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8  gap-4"
+                >
+                  {iconData?.pages ? (
+                    iconData.pages.flatMap((page) =>
+                      Object.keys(page?.icons ?? {}).map((iconName) => (
+                        <div
+                          key={iconName}
+                          className={classNames(
+                            "p-4 cursor-pointer rounded text-center transition-colors",
+                            selectedIcon === iconName
+                              ? "bg-indigo-100"
+                              : "hover:bg-slate-100"
+                          )}
+                          onClick={() => setSelectedIcon(iconName)}
+                        >
+                          <RenderIcon
+                            iconSet={collection.value}
+                            iconName={iconName}
+                            size="1.5rem"
+                            className="text-slate-600"
+                          />
+                        </div>
+                      ))
+                    )
+                  ) : isError ? (
+                    <div className="col-span-full flex justify-center py-10 h-[350px]">
+                      <div className="text-center">
+                        <div className="text-2xl mb-2 text-slate-800 font-semibold">
+                          Something went wrong
+                        </div>
+                        <div className="text-sm text-slate-600">
+                          Please try again or select a different icon set
                         </div>
                       </div>
-                    ) : isLoading ? (
-                      <div className="col-span-full flex justify-center py-10">
-                        <CgSpinner className="animate-spin text-2xl text-slate-600" />
-                      </div>
-                    ) : null}
-                  </div>
-
-                  {/* Sentinel element for intersection observer */}
-                  {hasNextPage && (
-                    <div
-                      ref={loadMoreRef}
-                      className="flex justify-center mt-4 mb-2 h-10"
-                    >
-                      {isFetchingNextPage && (
-                        <CgSpinner className="animate-spin text-2xl text-slate-600" />
-                      )}
                     </div>
-                  )}
+                  ) : isLoading ? (
+                    <div className="col-span-full flex justify-center py-10 h-[350px]">
+                      <CgSpinner className="animate-spin text-2xl text-slate-600" />
+                    </div>
+                  ) : null}
                 </div>
+
+                {/* Sentinel element for intersection observer */}
+                {hasNextPage && (
+                  <div
+                    ref={loadMoreRef}
+                    className="flex justify-center mt-4 mb-2 h-10"
+                  >
+                    {isFetchingNextPage && (
+                      <CgSpinner className="animate-spin text-2xl text-slate-600" />
+                    )}
+                  </div>
+                )}
               </ScrollArea>
             </div>
           </Tabs.Content>
