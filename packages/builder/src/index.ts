@@ -1,4 +1,4 @@
-import "./index.css";
+import "./assets/styles/index.css";
 
 import "iconify-icon";
 

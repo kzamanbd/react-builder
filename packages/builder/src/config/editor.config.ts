@@ -8,6 +8,7 @@ import { HtmlConfig } from "@/blocks/html";
 import { IconConfig } from "@/blocks/icon";
 import { ImageConfig } from "@/blocks/image";
 import { LinkConfig } from "@/blocks/link";
+import { SliderConfig } from "@/blocks/slider";
 import { TabsConfig } from "@/blocks/tabs";
 import { TextConfig } from "@/blocks/text";
 import { registerEditorBlocks } from "@/core";
@@ -27,4 +28,5 @@ export const BlockConfiguration = registerEditorBlocks([
   // Advanced blocks
   HtmlConfig,
   BannerConfig,
+  SliderConfig,
 ]);
