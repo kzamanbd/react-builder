@@ -65,3 +65,9 @@ export * from "./controls/textarea.control";
 export * from "./controls/toggle-group.control";
 export * from "./controls/typography.control";
 export * from "./controls/media.control";
+
+// Editor Components
+export * from "./editor";
+export * from "./editor/canvas-area";
+export * from "./editor/breakpoint-switch";
+export * from "./editor/theme-settings";

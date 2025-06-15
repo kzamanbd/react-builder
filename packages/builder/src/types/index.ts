@@ -1,7 +1,7 @@
-export * from './block'
-export * from './responsive'
-export * from './style'
-export * from './theme'
+export * from "./block";
+export * from "./responsive";
+export * from "./style";
+export * from "./theme";
 
 export type AnyObject = Record<string, unknown>;
 
@@ -58,18 +58,6 @@ export const enum ThemeSettingsType {
   LINK = "link",
   CUSTOM_CSS = "custom-css",
 }
-
-export enum BuilderResourceType {
-  PAGE = "page",
-  TEMPLATE = "template",
-  TEMPLATE_PART = "template-part",
-}
-
-export type BuilderResource = {
-  id: string;
-  name: string;
-  type: BuilderResourceType;
-};
 
 export type LocalizedValue<T = string> = {
   [key: string]: T;

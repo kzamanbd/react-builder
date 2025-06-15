@@ -1,7 +1,6 @@
 import { DroppableBlock, MoveableBlock } from "@/types/block";
 import { ResponsiveValue } from "@/types/responsive";
 import { SpacingValue, UnitValue, WithPseudoClass } from "@/types/style";
-import { BuilderResourceType } from "@/types";
 
 export const isDropableBlock = (block: unknown): block is DroppableBlock => {
   return (
@@ -69,14 +68,5 @@ export const isWithPseudoClass = (value: unknown): value is WithPseudoClass => {
       "active" in value ||
       "visited" in value ||
       "disabled" in value)
-  );
-};
-
-export const isBuilderResourceType = (
-  value: unknown
-): value is BuilderResourceType => {
-  return (
-    typeof value === "string" &&
-    Object.values(BuilderResourceType).includes(value as BuilderResourceType)
   );
 };

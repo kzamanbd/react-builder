@@ -6,7 +6,7 @@ import { Block } from "@/types/block";
 import React, { FC, useEffect, useMemo } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import CanvasArea from "./canvas-area";
+import { CanvasArea } from "./canvas-area";
 import LeftPanel from "./left-panel";
 import RightPanel from "./right-panel";
 import { classNames } from "@/utils";

@@ -20,7 +20,7 @@ import { classNames } from "@/utils";
 import { CSSProperties, FC, useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-const CanvasArea: FC = () => {
+export const CanvasArea: FC = () => {
   const content = useAppSelector(getContent);
 
   const themeSettings = useAppSelector(getActiveThemeSettings);
@@ -129,14 +129,6 @@ const CanvasArea: FC = () => {
           </ClientOnlyRenderFrame>
         </div>
       </ErrorBoundary>
-
-      {/* Overlay */}
-      {/* <div className="fixed left-0 top-0 z-111 flex h-screen w-screen items-center justify-center bg-[#00000095] text-white lg:hidden">
-        Resize your browser to be at least 1024px wide to get back into design
-        mode.
-      </div> */}
     </div>
   );
 };
-
-export default CanvasArea;
