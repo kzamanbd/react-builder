@@ -19,10 +19,11 @@ const LinkBlock: FC<BlockProps<LinkSettingsType>> = ({
   return (
     <div className="link-block">
       <a
-        href={url ?? "#"}
+        href={url || "#"}
         target={settings.link?.newWindow ? "_blank" : undefined}
         rel={settings.link?.nofollow ? "nofollow" : undefined}
         className="hover:underline"
+        onClick={(e) => e.preventDefault()}
       >
         {settings.text?.[locale] || settings.text?.en}
       </a>

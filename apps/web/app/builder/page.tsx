@@ -1,0 +1,73 @@
+"use client";
+
+import "@repo/builder/dist/builder.css";
+import { BuilderProvider, store, Editor, Block } from "@repo/builder";
+import { Header } from "./_components/header";
+import { useEffect, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
+
+export default function BuilderPage() {
+  const [initialContent, setInitialContent] = useState<Record<string, Block>>(
+    {}
+  );
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Load content from API instead of localStorage
+    const fetchContent = async () => {
+      try {
+        const response = await fetch("/api/builder-content");
+        if (!response.ok) {
+          throw new Error("Failed to fetch content");
+        }
+
+        const data = await response.json();
+        if (data.content && Object.keys(data.content).length > 0) {
+          setInitialContent(data.content);
+        }
+      } catch (error) {
+        console.error("Error loading content:", error);
+        // Fallback to localStorage if API fails
+        try {
+          const savedContent = localStorage.getItem("builder-content");
+          if (savedContent) {
+            const parsedContent = JSON.parse(savedContent);
+            setInitialContent(parsedContent);
+          }
+        } catch (localError) {
+          console.error("Error loading from localStorage:", localError);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <CgSpinner className="animate-spin text-4xl text-gray-500" size={50} />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <BuilderProvider store={store}>
+        <Header />
+
+        <main className="mt-[60px]">
+          <Editor
+            content={initialContent}
+            style={{
+              height: "calc(100vh - 60px)", // Adjust height to account for header
+            }}
+          />
+        </main>
+      </BuilderProvider>
+    </>
+  );
+}

@@ -10,19 +10,29 @@ export const Header = () => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      // Simulate saving process
-      try {
-        localStorage.setItem("builder-content", JSON.stringify(content));
-        toast.success("Content saved successfully!");
-      } catch (error) {
-        console.error("Error saving content to localStorage:", error);
-      } finally {
-        setIsSaving(false);
+    try {
+      // Save to API instead of localStorage
+      const response = await fetch('/api/builder-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save content');
       }
-    }, 1000); // Simulate a delay for saving
+
+      toast.success("Content saved successfully!");
+    } catch (error) {
+      console.error("Error saving content:", error);
+      toast.error("Failed to save content");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (

@@ -9,68 +9,70 @@ import cssBeautify from "cssbeautify";
 import { FC, memo } from "react";
 import { createPortal } from "react-dom";
 
-type Props = {
+export type StyleManagerProps = {
   content: Record<string, Block>;
   themeSettings: ThemeSettings;
 };
 
-const StyleManager: FC<Props> = memo(({ content, themeSettings }) => {
-  const breakpoints = BuilderConfiguration.getBreakpoints();
+export const StyleManager: FC<StyleManagerProps> = memo(
+  ({ content, themeSettings }) => {
+    const breakpoints = BuilderConfiguration.getBreakpoints();
 
-  const style = createStyle();
+    const style = createStyle();
 
-  style.register({
-    $global: true,
-    ".hide-on-desktop": {
-      [BuilderConfiguration.getMediaQuery(Breakpoint.DESKTOP)]: {
-        display: "none !important",
+    style.register({
+      $global: true,
+      ".hide-on-desktop": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.DESKTOP)]: {
+          display: "none !important",
+        },
       },
-    },
-    ".hide-on-tablet": {
-      [BuilderConfiguration.getMediaQuery(Breakpoint.TABLET)]: {
-        display: "none !important",
+      ".hide-on-tablet": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.TABLET)]: {
+          display: "none !important",
+        },
       },
-    },
-    ".hide-on-mobile": {
-      [BuilderConfiguration.getMediaQuery(Breakpoint.MOBILE)]: {
-        display: "none !important",
+      ".hide-on-mobile": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.MOBILE)]: {
+          display: "none !important",
+        },
       },
-    },
-  });
+    });
 
-  const defaultStyles = style.get();
+    const defaultStyles = style.get();
 
-  const contentStyles = generateContentStyles({
-    content,
-    themeSettings,
-    breakpoints,
-    config: BuilderConfiguration.getRegisteredBlocks(),
-  });
+    const contentStyles = generateContentStyles({
+      content,
+      themeSettings,
+      breakpoints,
+      config: BuilderConfiguration.getRegisteredBlocks(),
+    });
 
-  const themeStyles = generateThemeStyles({
-    settings: themeSettings,
-    breakpoints,
-  });
+    const themeStyles = generateThemeStyles({
+      settings: themeSettings,
+      breakpoints,
+    });
 
-  const styles = defaultStyles + themeStyles + contentStyles;
+    const styles = defaultStyles + themeStyles + contentStyles;
 
-  const fontsUrl = generateFontsUrl(styles);
+    const fontsUrl = generateFontsUrl(styles);
 
-  const beautifiedStyles = cssBeautify(styles);
+    const beautifiedStyles = cssBeautify(styles);
 
-  return (
-    <>
-      {createPortal(
-        <>
-          <link href={fontsUrl} id="fonts" rel="stylesheet"></link>
-          <style dangerouslySetInnerHTML={{ __html: beautifiedStyles }}></style>
-        </>,
-        document.head
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        {createPortal(
+          <>
+            <link href={fontsUrl} id="fonts" rel="stylesheet"></link>
+            <style
+              dangerouslySetInnerHTML={{ __html: beautifiedStyles }}
+            ></style>
+          </>,
+          document.head
+        )}
+      </>
+    );
+  }
+);
 
 StyleManager.displayName = "StyleManager";
-
-export default StyleManager;

@@ -1,6 +1,6 @@
 import AddNewSection from "@/components/base/add-new-section";
 import EditorRenderContent from "@/components/base/editor-render-content";
-import EditorStyleManager from "@/components/base/editor-style-manager";
+import { EditorStyleManager } from "@/components/base/editor-style-manager";
 import { FrameContextManager } from "@/components/base/frame-context-manager";
 import ClientOnlyRenderFrame from "@/components/base/render-frame";
 import { ErrorFallback } from "@/components/shared/error-fallback";

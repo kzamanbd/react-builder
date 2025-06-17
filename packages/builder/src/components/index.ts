@@ -71,3 +71,7 @@ export * from "./editor";
 export * from "./editor/canvas-area";
 export * from "./editor/breakpoint-switch";
 export * from "./editor/theme-settings";
+
+// Base Components
+export * from "./base/style-manager";
+export * from "./base/editor-style-manager";
