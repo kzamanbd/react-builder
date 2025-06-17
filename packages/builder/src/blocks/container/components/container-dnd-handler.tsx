@@ -383,7 +383,7 @@ const ContainerDndHandler: FC<BlockProps<ContainerSettingsType>> = ({
 
 type RenderChildrenProps = {
   blocks: (string | Block)[];
-  meta: BlockMeta;
+  meta?: BlockMeta;
   isEditable: boolean;
 };
 

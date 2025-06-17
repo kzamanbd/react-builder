@@ -9,15 +9,15 @@ import BlockWrapper from "./block-wrapper";
 import { ErrorFallback } from "../shared/error-fallback";
 import EditorBlockWrapper from "./editor-block-wrapper";
 
-type EditorRenderBlockProps = {
+export type EditorRenderBlockProps = {
   block: string | Block;
   index: number;
   isEditable: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
   isDragging?: boolean;
 };
 
-const EditorRenderBlock: FC<EditorRenderBlockProps> = memo((props) => {
+export const EditorRenderBlock: FC<EditorRenderBlockProps> = memo((props) => {
   const { block, index, isEditable, meta } = props;
 
   if (typeof block === "string") {
@@ -45,7 +45,7 @@ type RenderBlockProps = {
   block: Block;
   index: number;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const RenderBlock: FC<RenderBlockProps> = memo(
@@ -92,7 +92,7 @@ type RenderBlockFromIdProps = {
   blockId: string;
   index: number;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const RenderBlockFromId = memo(

@@ -1,8 +1,8 @@
 import { BuilderConfiguration } from "@/config/builder.config";
+import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useFrame } from "@/hooks/use-frame";
 import { removeBlock } from "@/store/builder-slice";
 import { BlockToolbarProps } from "@/types/block";
-import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { classNames } from "@/utils";
 import * as Popover from "@radix-ui/react-popover";
 import { FC, MouseEvent, Suspense, memo } from "react";
@@ -11,11 +11,7 @@ import { FiMove, FiTrash2 } from "react-icons/fi";
 import { IoDuplicateOutline } from "react-icons/io5";
 import { EditorContextMenu } from "../shared/editor-context-menu";
 
-type Props = BlockToolbarProps & {
-  children?: React.ReactNode;
-};
-
-const BlockToolbar: FC<Props> = memo(
+const BlockToolbar: FC<BlockToolbarProps> = memo(
   ({ blockId, blockType, isSelected, children, dragRef, previewRef }) => {
     const blockConfig = BuilderConfiguration.getBlock(blockType);
 

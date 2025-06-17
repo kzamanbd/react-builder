@@ -10,7 +10,7 @@ import ContentEditable, {
 const HeadingEditable: FC<{
   settings: HeadingSettingsType;
   id: string;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 }> = ({ id, settings, meta }) => {
   const [title, setTitle] = useBlockSettings<string>(
     id,

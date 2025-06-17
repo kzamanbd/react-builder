@@ -4,13 +4,13 @@ import { generateBlockProps } from "@/utils/block";
 import { Suspense } from "react";
 import BlockWrapper from "./block-wrapper";
 
-type Props = {
+export type RenderBlockProps = {
   index: number;
   block: Block;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
-const RenderBlock = ({ block, index, meta }: Props) => {
+export const RenderBlock = ({ block, index, meta }: RenderBlockProps) => {
   const blockId = block.id;
 
   const blockProps = generateBlockProps({ block, index, meta });

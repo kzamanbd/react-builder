@@ -5,7 +5,7 @@ import EditorRenderBlock from "./editor-render-block";
 type RenderContentClientProps = {
   content: Record<string, Block>;
   children?: React.ReactNode;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const EditorRenderContent: FC<RenderContentClientProps> = ({

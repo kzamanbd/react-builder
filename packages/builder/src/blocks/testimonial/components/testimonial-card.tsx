@@ -6,7 +6,7 @@ import { BlockMeta } from "@/types/block";
 type Props = {
   data: TestimonialItemType;
   settings: TestimonialSettingsType;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const TestimonialCard: FC<Props> = ({ data, settings, meta }) => {

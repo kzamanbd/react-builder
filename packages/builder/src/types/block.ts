@@ -92,7 +92,7 @@ export type BlockProps<T extends object = AnyObject> = Block<T> & {
   index: number;
   attributes: Record<string, string>;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 export type EditorBlockConfig<
@@ -124,6 +124,7 @@ export type BlockToolbarProps = {
   isSelected: boolean;
   dragRef: ConnectDragSource;
   previewRef: ConnectDragPreview;
+  children?: React.ReactNode;
 };
 
 export type GroupConfig = {

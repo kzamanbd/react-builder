@@ -10,7 +10,7 @@ import {
 export const renderPreset = (
   data: TestimonialItemType,
   settings: TestimonialSettingsType,
-  meta: BlockMeta
+  meta?: BlockMeta
 ) => {
   const id: TestimonialPresets =
     settings.preset?.desktop ?? TestimonialPresets.Preset1;

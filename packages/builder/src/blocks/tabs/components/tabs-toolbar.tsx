@@ -1,68 +1,66 @@
 import { BuilderConfiguration } from "@/config/builder.config";
+import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useFrame } from "@/hooks/use-frame";
 import { duplicateTab, removeBlock } from "@/store/builder-slice";
-import { BlockToolbarProps, EditorBlockConfig } from "@/types/block";
-import { useAppDispatch } from "@/hooks/use-app-dispatch";
+import { BlockToolbarProps } from "@/types/block";
 import { classNames } from "@/utils";
 import { FC, memo, MouseEvent, Suspense } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { IoDuplicateOutline } from "react-icons/io5";
 
-const TabsToolbar: FC<BlockToolbarProps> = memo(
-  ({ blockId, blockType, isSelected }) => {
-    const blockConfig = BuilderConfiguration.getBlock(blockType);
+const TabsToolbar: FC<BlockToolbarProps> = memo(({ blockId, blockType }) => {
+  const blockConfig = BuilderConfiguration.getBlock(blockType);
 
-    const { document } = useFrame();
+  const { document } = useFrame();
 
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    const duplicate = (e: MouseEvent) => {
-      e.stopPropagation();
-      dispatch(duplicateTab({ blockId }));
-    };
+  const duplicate = (e: MouseEvent) => {
+    e.stopPropagation();
+    dispatch(duplicateTab({ blockId }));
+  };
 
-    const remove = (e: MouseEvent) => {
-      e.stopPropagation();
-      dispatch(removeBlock(blockId));
-    };
+  const remove = (e: MouseEvent) => {
+    e.stopPropagation();
+    dispatch(removeBlock(blockId));
+  };
 
-    if (!document) return null;
+  if (!document) return null;
 
-    return (
+  return (
+    <div
+      className={classNames(
+        "flex items-center gap-3 bg-slate-800 px-2 py-1 text-slate-300 rounded-sm"
+      )}
+    >
       <div
-        className={classNames(
-          "flex items-center gap-3 bg-slate-800 px-2 py-1 text-slate-300 rounded-sm"
-        )}
+        role="button"
+        className="flex items-center gap-1 bg-transparent text-slate-100 hover:bg-transparent hover:text-white"
       >
-        <div
-          role="button"
-          className="flex items-center gap-1 bg-transparent text-slate-100 hover:bg-transparent hover:text-white"
-        >
-          <Suspense fallback={null}>
-            {blockConfig.icon && <blockConfig.icon />}
-          </Suspense>
-          <span className="text-xs">{blockConfig.label}</span>
-        </div>
-        {/* Duplicate */}
-        <div
-          role="button"
-          onClick={duplicate}
-          className="rounded-tr text-slate-100 hover:bg-transparent hover:text-white"
-        >
-          <IoDuplicateOutline size={16} />
-        </div>
-        {/* Remove */}
-        <div
-          role="button"
-          onClick={remove}
-          className="rounded-tr text-slate-100 hover:bg-transparent hover:text-white"
-        >
-          <FiTrash2 size={16} />
-        </div>
+        <Suspense fallback={null}>
+          {blockConfig.icon && <blockConfig.icon />}
+        </Suspense>
+        <span className="text-xs">{blockConfig.label}</span>
       </div>
-    );
-  }
-);
+      {/* Duplicate */}
+      <div
+        role="button"
+        onClick={duplicate}
+        className="rounded-tr text-slate-100 hover:bg-transparent hover:text-white"
+      >
+        <IoDuplicateOutline size={16} />
+      </div>
+      {/* Remove */}
+      <div
+        role="button"
+        onClick={remove}
+        className="rounded-tr text-slate-100 hover:bg-transparent hover:text-white"
+      >
+        <FiTrash2 size={16} />
+      </div>
+    </div>
+  );
+});
 
 TabsToolbar.displayName = "TabsToolbar";
 

@@ -106,5 +106,5 @@ export type SliderSettingsType = {
 
 export type SliderSettingsProps = {
   settings: SliderSettingsType;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };

@@ -3,12 +3,12 @@ import { generateBlockTree } from "@/utils/block";
 import { FC } from "react";
 import RenderBlock from "./render-block";
 
-type RenderContentProps = {
+export type RenderContentProps = {
   content: Record<string, Block>;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
-const RenderContent: FC<RenderContentProps> = ({ content, meta }) => {
+export const RenderContent: FC<RenderContentProps> = ({ content, meta }) => {
   const tree = generateBlockTree("root", content);
 
   const root = tree["root"];
