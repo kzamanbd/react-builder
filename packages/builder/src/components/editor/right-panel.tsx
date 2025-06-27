@@ -1,10 +1,11 @@
+"use client";
 import { useActionContext } from "@/contexts/action-context";
 import { BuilderRightPanelType } from "@/store/app-slice";
 import { classNames } from "@/utils";
 import Structure from "./structure";
 import ThemeSettings from "./theme-settings";
 
-const RightPanel = () => {
+export const RightPanel = () => {
   const { activeRightPanel } = useActionContext();
 
   return (
@@ -20,4 +21,3 @@ const RightPanel = () => {
   );
 };
 
-export default RightPanel;

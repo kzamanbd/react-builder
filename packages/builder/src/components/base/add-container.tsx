@@ -1,10 +1,11 @@
+"use client";
 import { createBlock } from "@/utils";
 import { Popover } from "@/components/shared/popover";
-import { BlockConfiguration } from "@/config/editor.config";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { addBlocks } from "@/store/builder-slice";
 import { Unit } from "@/types/style";
-import { Block, BlockType } from "@/types/block";
+import { Block, BlockType, BlockConfig } from "@/types/block";
 import { Breakpoint } from "@/types/responsive";
 import { CSSProperties, FC, ReactNode } from "react";
 import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai";
@@ -52,9 +53,9 @@ const AddContainer: FC<AddContainerProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const { settings, advancedSettings } = BlockConfiguration.getBlock(
+  const { settings, advancedSettings } = BuilderConfiguration.getBlock(
     BlockType.CONTAINER
-  );
+  ) as BlockConfig;
 
   const addContainer = ({ size, direction }: LayoutType) => {
     const parent: Block = createBlock({

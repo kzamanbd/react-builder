@@ -65,3 +65,23 @@ export * from "./controls/textarea.control";
 export * from "./controls/toggle-group.control";
 export * from "./controls/typography.control";
 export * from "./controls/media.control";
+
+// Editor Components
+export * from "./editor";
+export * from "./editor/canvas-area";
+export * from "./editor/breakpoint-switch";
+export * from "./editor/theme-settings";
+export * from "./editor/left-panel";
+export * from "./editor/right-panel";
+export * from "./editor/block-control-panel";
+export * from "./editor/block-navigation";
+
+// Base Components
+export * from "./base/editor-style-manager";
+export * from "./base/render-content";
+export * from "./base/render-block";
+export * from "./base/editor-render-block";
+export * from "./base/block-toolbar";
+
+// Provider Components
+export { BuilderProvider } from "@/contexts/builder-context";

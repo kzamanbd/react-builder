@@ -1,10 +1,11 @@
+"use client";
 import { FC } from "react";
 import { Block, BlockMeta } from "@/types/block";
 import EditorRenderBlock from "./editor-render-block";
 
 type EditorRenderChildrenProps = {
   blocks: (string | Block)[];
-  meta: BlockMeta;
+  meta?: BlockMeta;
   isEditable: boolean;
 };
 

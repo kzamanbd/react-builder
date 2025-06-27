@@ -1,4 +1,6 @@
-import { BlockConfiguration } from "@/config/editor.config";
+"use client";
+
+import { BuilderConfiguration } from "@/config/builder.config";
 import { getBlock } from "@/store/selectors";
 import { Block, BlockMeta, BlockType } from "@/types/block";
 import { generateBlockProps } from "@/utils/block";
@@ -9,15 +11,15 @@ import BlockWrapper from "./block-wrapper";
 import { ErrorFallback } from "../shared/error-fallback";
 import EditorBlockWrapper from "./editor-block-wrapper";
 
-type EditorRenderBlockProps = {
+export type EditorRenderBlockProps = {
   block: string | Block;
   index: number;
   isEditable: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
   isDragging?: boolean;
 };
 
-const EditorRenderBlock: FC<EditorRenderBlockProps> = memo((props) => {
+export const EditorRenderBlock: FC<EditorRenderBlockProps> = memo((props) => {
   const { block, index, isEditable, meta } = props;
 
   if (typeof block === "string") {
@@ -45,12 +47,12 @@ type RenderBlockProps = {
   block: Block;
   index: number;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const RenderBlock: FC<RenderBlockProps> = memo(
   ({ block, index, isEditable, meta }) => {
-    const blockConfig = BlockConfiguration.getBlock(block.type);
+    const blockConfig = BuilderConfiguration.getBlock(block.type);
 
     if (!blockConfig) {
       return null;
@@ -92,7 +94,7 @@ type RenderBlockFromIdProps = {
   blockId: string;
   index: number;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
 const RenderBlockFromId = memo(

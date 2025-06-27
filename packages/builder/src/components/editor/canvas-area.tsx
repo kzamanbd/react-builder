@@ -1,10 +1,12 @@
+"use client";
+
 import AddNewSection from "@/components/base/add-new-section";
 import EditorRenderContent from "@/components/base/editor-render-content";
-import EditorStyleManager from "@/components/base/editor-style-manager";
+import { EditorStyleManager } from "@/components/base/editor-style-manager";
 import { FrameContextManager } from "@/components/base/frame-context-manager";
 import ClientOnlyRenderFrame from "@/components/base/render-frame";
 import { ErrorFallback } from "@/components/shared/error-fallback";
-import { BreakpointConfiguration } from "@/config/breakpoints.config";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { useActionContext } from "@/contexts/action-context";
 import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useAppSelector } from "@/hooks/use-app-selector";
@@ -20,7 +22,7 @@ import { classNames } from "@/utils";
 import { CSSProperties, FC, useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-const CanvasArea: FC = () => {
+export const CanvasArea: FC = () => {
   const content = useAppSelector(getContent);
 
   const themeSettings = useAppSelector(getActiveThemeSettings);
@@ -34,7 +36,7 @@ const CanvasArea: FC = () => {
   const currentLocale = useAppSelector(getCurrentLocale);
 
   const { previewWidth } =
-    BreakpointConfiguration.getBreakpoint(currentBreakpoint);
+    BuilderConfiguration.getBreakpoint(currentBreakpoint);
 
   const frameWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -129,14 +131,6 @@ const CanvasArea: FC = () => {
           </ClientOnlyRenderFrame>
         </div>
       </ErrorBoundary>
-
-      {/* Overlay */}
-      {/* <div className="fixed left-0 top-0 z-111 flex h-screen w-screen items-center justify-center bg-[#00000095] text-white lg:hidden">
-        Resize your browser to be at least 1024px wide to get back into design
-        mode.
-      </div> */}
     </div>
   );
 };
-
-export default CanvasArea;

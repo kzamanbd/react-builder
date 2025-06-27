@@ -1,3 +1,5 @@
+"use client";
+
 import { FlexGapControl } from "@/components/controls/flex-gap.control";
 import { SelectControl } from "@/components/controls/select.control";
 import { SliderUnitControl } from "@/components/controls/slider-unit.control";
@@ -37,7 +39,7 @@ import {
 } from "react-icons/md";
 import { PiArrowUUpRightLight } from "react-icons/pi";
 
-const enum AccordionGroup {
+enum AccordionGroup {
   CONTAINER = "Container",
   ADDITIONAL = "Additional",
 }

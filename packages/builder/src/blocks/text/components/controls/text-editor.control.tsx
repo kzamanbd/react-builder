@@ -1,3 +1,5 @@
+"use client";
+
 import { BreakpointSelector } from "@/components/shared/breakpoint-selector";
 import { Label } from "@/components/shared/label";
 import { LanguageSelector } from "@/components/shared/language-selector";
@@ -50,7 +52,7 @@ const TextEditorContent: FC<Props> = ({
           {...labelProps}
         >
           {label} {responsive && <BreakpointSelector />}{" "}
-          {isLocalized && <LanguageSelector />}
+          {isLocalized && <LanguageSelector className="ms-auto" />}
         </Label>
       )}
       <TextEditor

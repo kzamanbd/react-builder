@@ -1,14 +1,26 @@
+import { StyleManager } from "@/components/server";
+import { BuilderConfiguration, ThemeConfiguration } from "@/config";
+import { BuilderConfig } from "@/types";
 import { Block, BlockMeta } from "@/types/block";
 import { generateBlockTree } from "@/utils/block";
 import { FC } from "react";
 import RenderBlock from "./render-block";
 
-type RenderContentProps = {
+export type RenderContentProps = {
   content: Record<string, Block>;
-  meta: BlockMeta;
+  meta?: BlockMeta;
+  builderConfig?: BuilderConfig; // Add builderConfig prop
 };
 
-const RenderContent: FC<RenderContentProps> = ({ content, meta }) => {
+export const RenderContent: FC<RenderContentProps> = ({
+  content,
+  meta,
+  builderConfig,
+}) => {
+  if (builderConfig) {
+    BuilderConfiguration.mergeConfig(builderConfig);
+  }
+
   const tree = generateBlockTree("root", content);
 
   const root = tree["root"];
@@ -32,6 +44,10 @@ const RenderContent: FC<RenderContentProps> = ({ content, meta }) => {
             )
         )}
       </main>
+      <StyleManager
+        content={content}
+        themeSettings={ThemeConfiguration.settings}
+      />
     </>
   );
 };

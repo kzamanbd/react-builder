@@ -70,5 +70,5 @@ export enum TestimonialPresets {
 export type PresetPropsType = {
   data: TestimonialItemType;
   settings: TestimonialSettingsType;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };

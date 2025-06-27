@@ -1,7 +1,10 @@
-export * from './block'
-export * from './responsive'
-export * from './style'
-export * from './theme'
+import { BlockGroup, BlockConfig } from "./block";
+import { BreakpointConfig } from "./responsive";
+
+export * from "./block";
+export * from "./responsive";
+export * from "./style";
+export * from "./theme";
 
 export type AnyObject = Record<string, unknown>;
 
@@ -11,17 +14,7 @@ export type OptionalKeys<T, K extends keyof T> = Omit<T, K> &
 export type RequiredKeys<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
 
-export const enum Position {
-  TOP = "top",
-  RIGHT = "right",
-  BOTTOM = "bottom",
-  LEFT = "left",
-  START = "start",
-  END = "end",
-  CENTER = "center",
-}
-
-export const enum Direction {
+export enum Direction {
   HORIZONTAL = "horizontal",
   VERTICAL = "vertical",
 }
@@ -31,25 +24,20 @@ export type SelectOption = {
   value: string;
 };
 
-export type LinkType = {
-  url?: string;
-  newWindow?: boolean;
-  nofollow?: boolean;
-  attributers?: string;
-};
-
-export type IconType = {
-  iconSet: string;
-  iconName: string;
-};
-
-export const enum SettingsType {
+export enum SettingsType {
   BLOCK = "block",
   ADVANCED = "advanced",
   THEME = "theme",
 }
 
-export const enum ThemeSettingsType {
+// Define the BuilderConfig type
+export type BuilderConfig = {
+  blocks?: BlockConfig[];
+  groups?: BlockGroup[];
+  breakpoints?: BreakpointConfig[];
+};
+
+export enum ThemeSettingsType {
   GLOBAL = "global",
   LAYOUT = "layout",
   COLOR = "color",
@@ -58,18 +46,6 @@ export const enum ThemeSettingsType {
   LINK = "link",
   CUSTOM_CSS = "custom-css",
 }
-
-export enum BuilderResourceType {
-  PAGE = "page",
-  TEMPLATE = "template",
-  TEMPLATE_PART = "template-part",
-}
-
-export type BuilderResource = {
-  id: string;
-  name: string;
-  type: BuilderResourceType;
-};
 
 export type LocalizedValue<T = string> = {
   [key: string]: T;

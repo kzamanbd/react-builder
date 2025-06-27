@@ -10,7 +10,7 @@ export const generateBlockProps = ({
   block: Block;
   index: number;
   isEditable?: boolean;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 }): BlockProps => {
   const blockId = block.id;
 

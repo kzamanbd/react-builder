@@ -1,23 +1,25 @@
-import { PreviewBlockConfiguration } from "@/config/preview.config";
+"use client";
+
 import { Block, BlockMeta } from "@/types/block";
 import { generateBlockProps } from "@/utils/block";
 import { Suspense } from "react";
 import BlockWrapper from "./block-wrapper";
+import { BuilderConfiguration } from "@/config";
 
-type Props = {
+export type RenderBlockProps = {
   index: number;
   block: Block;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
 
-const RenderBlock = ({ block, index, meta }: Props) => {
+export const RenderBlock = ({ block, index, meta }: RenderBlockProps) => {
   const blockId = block.id;
 
   const blockProps = generateBlockProps({ block, index, meta });
 
-  const config = PreviewBlockConfiguration.getBlock(block.type);
+  const config = BuilderConfiguration.getBlock(block.type);
 
-  const Component = config?.component;
+  const Component = config?.previewComponent || config?.component;
 
   if (!Component) {
     return (

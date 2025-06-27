@@ -1,11 +1,12 @@
+"use client";
+
 import { ScrollArea } from "@/components/shared/scroll-area";
 import { Tabs } from "@/components/shared/tabs";
-import { BlockConfiguration } from "@/config/editor.config";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { FC, lazy, Suspense, useState } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CgSpinner } from "react-icons/cg";
 
-type Props = {
+export type BlockControlPanelProps = {
   type: string;
 };
 
@@ -20,10 +21,10 @@ const AdvancedSettingsControl = lazy(
   () => import("@/components/controls/advance-settings.control")
 );
 
-const BlockControlPanel: FC<Props> = ({ type }) => {
+export const BlockControlPanel: FC<BlockControlPanelProps> = ({ type }) => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
-  const config = BlockConfiguration.getBlock(type);
+  const config = BuilderConfiguration.getBlock(type);
 
   const controls = config?.controls ?? [];
 
@@ -93,4 +94,3 @@ const BlockControlPanel: FC<Props> = ({ type }) => {
   );
 };
 
-export default BlockControlPanel;

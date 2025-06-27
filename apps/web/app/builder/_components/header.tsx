@@ -1,4 +1,5 @@
 import { useContent } from "@repo/builder/hooks";
+import { BreakpointSwitch } from "@repo/builder/components";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -9,19 +10,29 @@ export const Header = () => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      // Simulate saving process
-      try {
-        localStorage.setItem("builder-content", JSON.stringify(content));
-        toast.success("Content saved successfully!");
-      } catch (error) {
-        console.error("Error saving content to localStorage:", error);
-      } finally {
-        setIsSaving(false);
+    try {
+      // Save to API instead of localStorage
+      const response = await fetch('/api/builder-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save content');
       }
-    }, 1000); // Simulate a delay for saving
+
+      toast.success("Content saved successfully!");
+    } catch (error) {
+      console.error("Error saving content:", error);
+      toast.error("Failed to save content");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -33,6 +44,9 @@ export const Header = () => {
           <span className="font-bold">DnD Builder</span>
         </Link>
       </div>
+
+      <BreakpointSwitch />
+
       <button
         className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handleSave}

@@ -1,4 +1,6 @@
-import { BlockConfiguration } from "@/config/editor.config";
+"use client";
+
+import { BuilderConfiguration } from "@/config/builder.config";
 import { useBlockSettings } from "@/hooks/use-block-settings";
 import { useContainerSettings } from "@/hooks/use-container-settings";
 import {
@@ -7,7 +9,8 @@ import {
   selectBlock as setSelectedBlock,
 } from "@/store/builder-slice";
 import { getIsBlockSelected } from "@/store/selectors";
-import { Direction, Position } from "@/types";
+import { Direction } from "@/types";
+import { Position } from "@/types/style";
 import { Block, BlockType } from "@/types/block";
 import { FlexDirection } from "@/types/style";
 import { createBlock } from "@/utils";
@@ -41,7 +44,7 @@ const EditorBlockWrapper: FC<Props> = ({
 
   const { className, ...restAttributes } = attributes;
 
-  const blockTypes = BlockConfiguration.getBlockTypes();
+  const blockTypes = BuilderConfiguration.getBlockTypes();
 
   const isSelected = useAppSelector(getIsBlockSelected(blockId));
 

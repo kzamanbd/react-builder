@@ -1,4 +1,5 @@
-import { BlockConfiguration } from "@/config/editor.config";
+"use client";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { useActionContext } from "@/contexts/action-context";
 import { unselectBlock } from "@/store/builder-slice";
 import { getSelectedBlock } from "@/store/selectors";
@@ -6,11 +7,11 @@ import { useAppDispatch } from "@/hooks/use-app-dispatch";
 import { useAppSelector } from "@/hooks/use-app-selector";
 import { classNames } from "@/utils";
 import { FiChevronLeft } from "react-icons/fi";
-import BlockControlPanel from "./block-control-panel";
-import BlockNavigation from "./block-navigation";
+import {BlockControlPanel} from "./block-control-panel";
+import {BlockNavigation} from "./block-navigation";
 import CollapseShape from "../icons/collapse-shape";
 
-const LeftPanel = () => {
+export const LeftPanel = () => {
   const { isLeftPanelOpen } = useActionContext();
 
   const selectedBlock = useAppSelector(getSelectedBlock);
@@ -39,7 +40,7 @@ const LeftPanel = () => {
             className="absolute left-2 top-1/2 -translate-y-1/2"
           />
           <span className="text-base font-semibold">
-            Edit {BlockConfiguration.getBlock(selectedBlock.type)?.label}
+            Edit {BuilderConfiguration.getBlock(selectedBlock.type)?.label}
           </span>
         </button>
       )}
@@ -56,4 +57,3 @@ const LeftPanel = () => {
   );
 };
 
-export default LeftPanel;

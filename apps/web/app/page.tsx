@@ -1,42 +1,7 @@
-"use client";
-
-import "@repo/builder/dist/builder.css";
-import { BuilderProvider, store, Editor, Block } from "@repo/builder";
-import { Header } from "./_components/header";
-import { useEffect, useState } from "react";
-
 export default function HomePage() {
-  const [initialContent, setInitialContent] = useState<Record<string, Block>>(
-    {}
-  );
-
-  useEffect(() => {
-    // Load content from localStorage on client-side
-    try {
-      const savedContent = localStorage.getItem("builder-content");
-      if (savedContent) {
-        const parsedContent = JSON.parse(savedContent);
-        setInitialContent(parsedContent);
-      }
-    } catch (error) {
-      console.error("Error loading content from localStorage:", error);
-    }
-  }, []);
-
   return (
-    <>
-      <BuilderProvider store={store}>
-        <Header />
-
-        <main className="mt-[60px]">
-          <Editor
-            content={initialContent}
-            style={{
-              height: "calc(100vh - 60px)", // Adjust height to account for header
-            }}
-          />
-        </main>
-      </BuilderProvider>
-    </>
+    <div className="flex items-center justify-center h-screen">
+      <h1 className="text-4xl font-bold">Welcome to the Builder App</h1>
+    </div>
   );
 }

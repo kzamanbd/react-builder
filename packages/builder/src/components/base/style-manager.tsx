@@ -1,77 +1,71 @@
-import { BreakpointConfiguration } from "@/config/breakpoints.config";
-import { BlockConfiguration } from "@/config/editor.config";
+import { ThemeConfiguration } from "@/config";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { Block } from "@/types/block";
 import { Breakpoint } from "@/types/responsive";
+import { ThemeSettings } from "@/types/theme";
 import { createStyle } from "@/utils";
 import { generateContentStyles, generateFontsUrl } from "@/utils/style";
 import { generateThemeStyles } from "@/utils/theme";
-import { ThemeSettings } from "@/types/theme";
 import cssBeautify from "cssbeautify";
 import { FC, memo } from "react";
-import { createPortal } from "react-dom";
 
-type Props = {
+export type StyleManagerProps = {
   content: Record<string, Block>;
-  themeSettings: ThemeSettings;
+  themeSettings?: ThemeSettings;
 };
 
-const StyleManager: FC<Props> = memo(({ content, themeSettings }) => {
-  const breakpoints = BreakpointConfiguration.getBreakpoints();
+export const StyleManager: FC<StyleManagerProps> = memo(
+  ({ content, themeSettings = ThemeConfiguration.settings }) => {
+    const breakpoints = BuilderConfiguration.getBreakpoints();
 
-  const style = createStyle();
+    const style = createStyle();
 
-  style.register({
-    $global: true,
-    ".hide-on-desktop": {
-      [BreakpointConfiguration.getMediaQuery(Breakpoint.DESKTOP)]: {
-        display: "none",
+    style.register({
+      $global: true,
+      ".hide-on-desktop": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.DESKTOP)]: {
+          display: "none !important",
+        },
       },
-    },
-    ".hide-on-tablet": {
-      [BreakpointConfiguration.getMediaQuery(Breakpoint.TABLET)]: {
-        display: "none",
+      ".hide-on-tablet": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.TABLET)]: {
+          display: "none !important",
+        },
       },
-    },
-    ".hide-on-mobile": {
-      [BreakpointConfiguration.getMediaQuery(Breakpoint.MOBILE)]: {
-        display: "none",
+      ".hide-on-mobile": {
+        [BuilderConfiguration.getMediaQuery(Breakpoint.MOBILE)]: {
+          display: "none !important",
+        },
       },
-    },
-  });
+    });
 
-  const defaultStyles = style.get();
+    const defaultStyles = style.get();
 
-  const contentStyles = generateContentStyles({
-    content,
-    themeSettings,
-    breakpoints,
-    config: BlockConfiguration.getConfig(),
-  });
+    const contentStyles = generateContentStyles({
+      content,
+      themeSettings,
+      breakpoints,
+      config: BuilderConfiguration.getRegisteredBlocks(),
+    });
 
-  const themeStyles = generateThemeStyles({
-    settings: themeSettings,
-    breakpoints,
-  });
+    const themeStyles = generateThemeStyles({
+      settings: themeSettings,
+      breakpoints,
+    });
 
-  const styles = defaultStyles + themeStyles + contentStyles;
+    const styles = defaultStyles + themeStyles + contentStyles;
 
-  const fontsUrl = generateFontsUrl(styles);
+    const fontsUrl = generateFontsUrl(styles);
 
-  const beautifiedStyles = cssBeautify(styles);
+    const beautifiedStyles = cssBeautify(styles);
 
-  return (
-    <>
-      {createPortal(
-        <>
-          <link href={fontsUrl} id="fonts" rel="stylesheet"></link>
-          <style dangerouslySetInnerHTML={{ __html: beautifiedStyles }}></style>
-        </>,
-        document.head
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        <link href={fontsUrl} id="fonts" rel="stylesheet"></link>
+        <style dangerouslySetInnerHTML={{ __html: beautifiedStyles }}></style>
+      </>
+    );
+  }
+);
 
 StyleManager.displayName = "StyleManager";
-
-export default StyleManager;

@@ -1,6 +1,6 @@
 import BlockPlaceholder from "@/components/base/block-placeholder";
 import EditorRenderBlock from "@/components/base/editor-render-block";
-import { BlockConfiguration } from "@/config/editor.config";
+import { BuilderConfiguration } from "@/config/builder.config";
 import { useBlockSettings } from "@/hooks/use-block-settings";
 import { useContainerSettings } from "@/hooks/use-container-settings";
 import {
@@ -11,7 +11,8 @@ import {
   setBlockSettingsValueByKey,
 } from "@/store/builder-slice";
 import { getIsBlockSelected } from "@/store/selectors";
-import { Direction, Position } from "@/types";
+import { Direction } from "@/types";
+import { Position } from "@/types/style";
 import { Block, BlockMeta, BlockProps, BlockType } from "@/types/block";
 import { FlexDirection, Unit } from "@/types/style";
 import { createBlock } from "@/utils";
@@ -63,7 +64,7 @@ const ContainerDndHandler: FC<BlockProps<ContainerSettingsType>> = ({
     Position.TOP | Position.RIGHT | Position.BOTTOM | Position.LEFT | null
   >(null);
 
-  const blockTypes = BlockConfiguration.getBlockTypes();
+  const blockTypes = BuilderConfiguration.getBlockTypes();
 
   const { settings, advancedSettings } = useContainerSettings();
 
@@ -383,7 +384,7 @@ const ContainerDndHandler: FC<BlockProps<ContainerSettingsType>> = ({
 
 type RenderChildrenProps = {
   blocks: (string | Block)[];
-  meta: BlockMeta;
+  meta?: BlockMeta;
   isEditable: boolean;
 };
 

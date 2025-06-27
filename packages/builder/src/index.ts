@@ -4,10 +4,8 @@ import "iconify-icon";
 
 export * from "./types";
 
-export * from "./components/editor";
+export { Editor } from "./components";
 
-export { BuilderProvider } from "./contexts/builder-context";
+export { BuilderProvider } from "./components";
 
 export { store } from "./store";
-
-export * from "./store/selectors";

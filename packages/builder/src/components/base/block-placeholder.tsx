@@ -1,4 +1,5 @@
-import { Position } from "@/types";
+"use client";
+import { Position } from "@/types/style";
 import { FC } from "react";
 
 type BlockPlaceholderProps = {

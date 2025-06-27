@@ -1,4 +1,4 @@
-import { LinkType } from "@/types";
+import { LinkType } from "@/types/block";
 import { BlockMeta } from "@/types/block";
 import { ResponsiveValue } from "@/types/responsive";
 import { LocalizedValue } from "@/types";
@@ -106,5 +106,5 @@ export type SliderSettingsType = {
 
 export type SliderSettingsProps = {
   settings: SliderSettingsType;
-  meta: BlockMeta;
+  meta?: BlockMeta;
 };
