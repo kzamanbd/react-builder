@@ -30,9 +30,9 @@ export enum SettingsType {
 
 // Define the BuilderConfig type
 export type BuilderConfig = {
-  blocks?: BlockConfig[];
+  blocks?: Partial<BlockConfig>[];
   groups?: BlockGroup[];
-  breakpoints?: BreakpointConfig[];
+  breakpoints?: Partial<BreakpointConfig>[];
 };
 
 export enum ThemeSettingsType {
