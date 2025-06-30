@@ -6,7 +6,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,js,jsx,json,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,js,jsx,json,css}\"",
-    "publish-packages": "turbo run build && lint && changeset version && changeset publish"
+    "publish-packages": "turbo run build && changeset version && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
@@ -16,5 +16,6 @@
     "turbo": "^2.5.4"
   },
   "packageManager": "pnpm@9.1.1",
-  "name": "dnd-builder"
+  "name": "dnd-builder",
+  "keywords": []
 }
