@@ -1,5 +1,5 @@
-import { useContent } from "@dnd-page-builder/react/hooks";
-import { BreakpointSwitch, Tooltip } from "@dnd-page-builder/react/components";
+import { useContent } from "@dndbuilder.com/react/hooks";
+import { BreakpointSwitch, Tooltip } from "@dndbuilder.com/react/components";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";

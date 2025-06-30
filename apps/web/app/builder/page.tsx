@@ -1,9 +1,9 @@
 "use client";
 
-import { Block } from "@dnd-page-builder/react";
-import { BuilderProvider, Editor } from "@dnd-page-builder/react";
-import "@dnd-page-builder/react/dist/style.css";
-import { store } from "@dnd-page-builder/react";
+import { Block } from "@dndbuilder.com/react";
+import { BuilderProvider, Editor } from "@dndbuilder.com/react";
+import "@dndbuilder.com/react/dist/style.css";
+import { store } from "@dndbuilder.com/react";
 import { useEffect, useState } from "react";
 import { Header } from "./_components/header";
 
