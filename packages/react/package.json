@@ -11,7 +11,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://dnd-builder-web.vercel.app/",
+  "homepage": "https://dndbuilder.com/",
   "exports": {
     ".": {
       "import": "./dist/index.js"
