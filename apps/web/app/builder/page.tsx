@@ -1,9 +1,9 @@
 "use client";
 
-import { Block } from "@repo/builder";
-import { BuilderProvider, Editor } from "@repo/builder";
-import "@repo/builder/dist/builder.css";
-import { store } from "@repo/builder";
+import { Block } from "@dndbuilder.com/react";
+import { BuilderProvider, Editor } from "@dndbuilder.com/react";
+import "@dndbuilder.com/react/dist/style.css";
+import { store } from "@dndbuilder.com/react";
 import { useEffect, useState } from "react";
 import { Header } from "./_components/header";
 

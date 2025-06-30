@@ -1,7 +1,8 @@
 import clientPromise from "@/lib/mongodb";
-import { Block } from "@repo/builder";
-import { RenderContent } from "@repo/builder/components/server";
-import "@repo/builder/dist/builder.css";
+import { Block, BlockType, BuilderConfig } from "@dndbuilder.com/react";
+import { RenderContent } from "@dndbuilder.com/react/components/server";
+import "@dndbuilder.com/react/dist/style.css";
+import CustomLinkBlock from "../components/blocks/link/link.preview";
 
 async function fetchContent(): Promise<Record<string, Block>> {
   let content: Record<string, Block> = {};
@@ -30,10 +31,20 @@ export default async function PreviewPage() {
   // Fetch content from MongoDB using the utility function
   const content = await fetchContent();
 
+  // Create a custom builder configuration that overrides the Link block
+  const builderConfig: BuilderConfig = {
+    blocks: [
+      {
+        type: BlockType.LINK,
+        previewComponent: CustomLinkBlock,
+      },
+    ],
+  };
+
   return (
     <>
-      {/* Render the content with custom builder configuration */}
-      <RenderContent content={content} />
+      {/* Render the content with a custom builder configuration */}
+      <RenderContent content={content} builderConfig={builderConfig} />
     </>
   );
 }
