@@ -48,6 +48,10 @@
       "import": "./dist/selectors.js",
       "types": "./dist/store/selectors.d.ts"
     },
+    "./utils": {
+      "import": "./dist/utils.js",
+      "types": "./dist/utils/index.d.ts"
+    },
     "./dist/style.css": {
       "import": "./dist/style.css"
     }

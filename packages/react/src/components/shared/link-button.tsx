@@ -56,7 +56,7 @@ export const LinkButton = ({
     violet: "bg-slate-800 hover:bg-slate-900 text-white",
     yellow: "bg-yellow-500 hover:bg-yellow-600 text-white",
     primary: "bg-slate-800 hover:bg-slate-900 text-white",
-    secondary: "bg-secondary-500 hover:bg-secondary-600 text-white",
+    secondary: "bg-slate-500 hover:bg-slate-600 text-white",
     danger: "bg-danger-500 hover:bg-danger-600 text-white",
     white: "bg-white hover:bg-slate-100 text-slate-800",
   };

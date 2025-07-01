@@ -14,6 +14,7 @@ export default defineConfig({
         components: resolve(__dirname, "src/components/index.ts"),
         "components/server": resolve(__dirname, "src/components/server.ts"),
         "store/selectors": resolve(__dirname, "src/store/selectors.ts"),
+        utils: resolve(__dirname, "src/utils.ts"),
       },
       formats: ["es"],
       // fileName: (format, entryName) => `${entryName}.js`,

@@ -1,4 +1,9 @@
-// Popover scroll behavior
+/**
+ * Handles scrolling behavior for popovers to ensure they remain visible
+ * @param open - Whether the popover is open
+ * @param rootEl - The root element that the popover is attached to
+ * @param popoverHeight - The height of the popover in pixels
+ */
 export const handlePopoverScroll = (
   open: boolean,
   rootEl: HTMLElement | null,

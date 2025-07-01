@@ -14,6 +14,13 @@ import { colord } from "colord";
 import { Styles } from "free-style";
 import { isEmpty } from "lodash";
 
+/**
+ * Generates CSS styles for the theme based on theme settings
+ * @param options - The options for generating theme styles
+ * @param options.settings - The theme settings
+ * @param options.breakpoints - The breakpoint configurations
+ * @returns A string of CSS for the theme
+ */
 export const generateThemeStyles = ({
   settings,
   breakpoints,
@@ -279,6 +286,11 @@ export const generateThemeStyles = ({
   return styles.get();
 };
 
+/**
+ * Generates CSS variables for color presets
+ * @param presets - The color presets from theme settings
+ * @returns An object with CSS variables for color presets
+ */
 export const generateColorPresetsVariables = (presets: ThemeSettings["color"]["presets"]) => {
   return presets?.reduce(
     (acc, preset) => {
@@ -289,6 +301,11 @@ export const generateColorPresetsVariables = (presets: ThemeSettings["color"]["p
   );
 };
 
+/**
+ * Generates CSS variables for theme colors
+ * @param color - The color settings from theme settings
+ * @returns An object with CSS variables for theme colors
+ */
 export const generateColorVariables = (color: ThemeSettings["color"]) => {
   const variables: Record<string, string> = {
     // Color
@@ -315,6 +332,14 @@ export const generateColorVariables = (color: ThemeSettings["color"]) => {
   return variables;
 };
 
+/**
+ * Generates CSS variables for typography settings
+ * @param options - The options for generating typography variables
+ * @param options.prefix - The prefix for the CSS variables
+ * @param options.value - The typography settings
+ * @param options.breakpoints - The breakpoint configurations
+ * @returns An object with CSS variables for typography
+ */
 export const generateTypographyVariables = ({
   prefix,
   value,
