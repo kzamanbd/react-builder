@@ -1,6 +1,15 @@
 import { Block, BlockMeta, BlockProps } from "@/types/block";
 import { classNames } from "@/utils";
 
+/**
+ * Generates props for a block component
+ * @param options - The options for generating block props
+ * @param options.block - The block to generate props for
+ * @param options.index - The index of the block
+ * @param options.isEditable - Whether the block is editable
+ * @param options.meta - Additional metadata for the block
+ * @returns The generated block props
+ */
 export const generateBlockProps = ({
   block,
   index,
@@ -60,6 +69,12 @@ export const generateBlockProps = ({
   };
 };
 
+/**
+ * Recursively generates a tree structure from flat block data
+ * @param root - The ID of the root block
+ * @param data - A record of blocks indexed by their IDs
+ * @returns A tree structure of blocks
+ */
 export const generateBlockTree = (
   root: string,
   data: Record<string, Block>

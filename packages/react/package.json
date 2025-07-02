@@ -12,6 +12,10 @@
     "dist"
   ],
   "homepage": "https://dndbuilder.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dndbuilder/project"
+  },
   "keywords": [
     "react",
     "drag-and-drop",
@@ -47,6 +51,10 @@
     "./store/selectors": {
       "import": "./dist/selectors.js",
       "types": "./dist/store/selectors.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils.js",
+      "types": "./dist/utils/index.d.ts"
     },
     "./dist/style.css": {
       "import": "./dist/style.css"

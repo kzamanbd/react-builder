@@ -20,6 +20,12 @@ import { Styles } from "free-style";
 import { cloneDeep, identity, isEmpty, pickBy } from "lodash";
 import { isUnitValue } from "./guard";
 
+/**
+ * Generates CSS styles for a specific block
+ * @param blockId - The ID of the block
+ * @param style - The styles to apply to the block
+ * @returns A string of CSS with the block ID as the selector
+ */
 export const generateBlockStyle = (blockId: string, style: Styles) => {
   const css = createStyle();
 
@@ -30,6 +36,15 @@ export const generateBlockStyle = (blockId: string, style: Styles) => {
   return finalStyle;
 };
 
+/**
+ * Generates CSS styles for all blocks in the content
+ * @param options - The options for generating content styles
+ * @param options.content - The content blocks
+ * @param options.themeSettings - The theme settings
+ * @param options.breakpoints - The breakpoint configurations
+ * @param options.config - The block configurations
+ * @returns A string of CSS for all blocks
+ */
 export const generateContentStyles = ({
   content,
   themeSettings,
@@ -92,6 +107,12 @@ export const generateContentStyles = ({
     }, "");
 };
 
+/**
+ * Generates responsive styles for different breakpoints
+ * @param breakpoints - The breakpoint configurations
+ * @param callback - A function that returns styles for a specific breakpoint
+ * @returns Styles object with media queries for different breakpoints
+ */
 export function generateResponsiveStyle(
   breakpoints: BreakpointConfig[],
   callback: (breakpoint: Breakpoint) => Styles
@@ -113,6 +134,12 @@ export function generateResponsiveStyle(
   // return styles;
 }
 
+/**
+ * Generates styles for different pseudo-classes (hover, focus, etc.)
+ * @param callback - A function that returns styles for a specific pseudo-class
+ * @param pseudoClassesOptions - Optional list of pseudo-classes to generate styles for
+ * @returns Styles object with pseudo-class selectors
+ */
 export function generatePseudoStyle(
   callback: (pseudoClass: PseudoClass) => Styles,
   pseudoClassesOptions?: PseudoClass[]
@@ -140,6 +167,13 @@ export function generatePseudoStyle(
   return styles;
 }
 
+/**
+ * Generates advanced styles for a block based on its settings
+ * @param options - The options for generating advanced styles
+ * @param options.settings - The advanced settings for the block
+ * @param options.breakpoints - The breakpoint configurations
+ * @returns Styles object with advanced styling properties
+ */
 export function generateAdvancedStyle({
   settings,
   breakpoints,
