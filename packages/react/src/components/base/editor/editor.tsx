@@ -22,13 +22,6 @@ export type EditorProps = {
 export const Editor: FC<EditorProps> = ({ content, className, builderConfig, ...props }) => {
   const dispatch = useAppDispatch();
 
-  // const contentState = useAppSelector(getContent);
-
-  // Memoize the isDirty calculation to prevent recalculating on every render
-  // const isDirty = useMemo(() => {
-  //   return JSON.stringify(content) !== JSON.stringify(contentState);
-  // }, [content, contentState]);
-
   useEffect(() => {
     if (!content) {
       dispatch(clearContent());

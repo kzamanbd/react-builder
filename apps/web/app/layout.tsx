@@ -1,8 +1,8 @@
 import { Open_Sans } from "next/font/google";
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { Footer } from "./_components/footer";
-import { Header } from "./_components/header";
+import { Footer } from "./(base)/_components/footer";
+import { Header } from "./(base)/_components/header";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -70,10 +70,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={openSans.className}>
       <body>
-        <Header />
         {children}
         <Toaster />
-        <Footer />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
+
 import { BlockConfig } from "@/types/block";
-import { Suspense, useRef } from "react";
+import { memo, Suspense, useRef } from "react";
 import { useDrag } from "react-dnd";
 import { FiGrid, FiLock } from "react-icons/fi";
 import { LicenseManager } from "@/licensing";
@@ -10,7 +11,7 @@ type Props = {
   block: BlockConfig;
 };
 
-const BlockNavigationItem = ({ block }: Props) => {
+const BlockNavigationItem = memo(({ block }: Props) => {
   const isPremium = LicenseManager.isBlockPremium(block.type);
   const canUseBlock = LicenseManager.canUseBlock(block.type);
 
@@ -66,6 +67,6 @@ const BlockNavigationItem = ({ block }: Props) => {
       <p className={classNames("mt-auto text-center text-xs")}>{block.label}</p>
     </div>
   );
-};
+});
 
 export default BlockNavigationItem;

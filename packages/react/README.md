@@ -30,13 +30,20 @@ pnpm add @dndbuilder.com/react
 
 ```jsx
 import React from "react";
-import { Builder, BuilderProvider } from "@dndbuilder.com/react";
+import { Editor, BuilderProvider } from "@dndbuilder.com/react";
+import { store } from "@dndbuilder.com/react";
 import "@dndbuilder.com/react/dist/style.css";
 
 function App() {
+  // Optional: Initial content for the editor
+  const [initialContent, setInitialContent] = useState({});
+
   return (
-    <BuilderProvider blocks={myBlockConfigs}>
-      <Builder />
+    <BuilderProvider store={store}>
+      <Editor 
+        content={initialContent}
+        builderConfig={editorConfig} 
+      />
     </BuilderProvider>
   );
 }
@@ -75,7 +82,7 @@ async function MyPage() {
 }
 ```
 
-## Customizing Blocks
+## Custom Block
 
 The page builder allows you to create custom blocks or override existing block configurations.
 
@@ -84,89 +91,113 @@ The page builder allows you to create custom blocks or override existing block c
 To create a custom block, you need to:
 
 1. Create a component for your block
-2. Define the block configuration
-3. Pass the configuration to the BuilderProvider
+2. Define the block configuration using `createBlockConfig` utility
+3. Include the block in your editor configuration
 
 ```jsx
-import React from "react";
-import { BlockProps, BlockType, BlockGroup } from "@dndbuilder.com/react";
+// 1. Create your block component (card.block.tsx)
+import { BlockProps } from "@dndbuilder.com/react";
+import { FC } from "react";
+import { CardSettingsType } from "../types";
 
-// 1. Create your block component
-const MyCustomBlock = ({ settings, meta }) => {
+export const CardBlock: FC<BlockProps<CardSettingsType>> = ({ settings, meta }) => {
   return (
-    <div className="my-custom-block">
+    <div className="my-custom-card">
       <h3>{settings.title}</h3>
       <p>{settings.description}</p>
     </div>
   );
 };
 
-// 2. Define your block configuration
-const myCustomBlockConfig = {
-  type: "my-custom-block", // Unique identifier for your block
-  label: "My Custom Block", // Display name in the block picker
-  component: MyCustomBlock, // Component used in the editor
-  previewComponent: MyCustomBlock, // Component used for preview (can be different)
-  settings: {
-    title: "Default Title",
-    description: "Default description",
+export default CardBlock;
+
+// 2. Define your block configuration (card.config.ts)
+import { BlockGroup } from "@dndbuilder.com/react";
+import { createBlockConfig } from "@dndbuilder.com/react/utils";
+import { lazy } from "react";
+import { FiSquare } from "react-icons/fi";
+import { CardSettingsType } from "./types";
+
+const CardConfig = createBlockConfig<CardSettingsType>({
+  type: "card", // Custom block type
+  label: "Card",
+  icon: FiSquare,
+  component: lazy(() => import("./components/card.block")),
+  isVisible: () => true,
+  group: "Custom", // Group under Custom blocks
+  settings: {},
+  style: ({ settings, breakpoints }) => {
+    return {};
   },
-  group: BlockGroup.BASIC, // Which group to show this block in
-  controls: [], // Define controls for the block settings
+  controls: [
+    {
+      label: "Style",
+      component: lazy(() => import("./components/card-style.control")),
+    },
+    {
+      label: "Content",
+      component: lazy(() => import("./components/card-content.control")),
+    },
+  ],
+});
+
+export default CardConfig;
+
+// 3. Include the block in your editor configuration (editor.config.ts)
+import CardConfig from "../components/blocks/card/card.config";
+
+export const editorConfig = {
+  blocks: [
+    CardConfig,
+    // Other blocks...
+  ],
+  // Other configuration options...
 };
-
-// 3. Pass the configuration to the BuilderProvider
-function App() {
-  const builderConfig = {
-    blocks: [myCustomBlockConfig],
-  };
-
-  return (
-    <BuilderProvider builderConfig={builderConfig}>
-      <Builder />
-    </BuilderProvider>
-  );
-}
 ```
 
 ### Overriding an Existing Block
 
-You can override the configuration of an existing block by providing a partial configuration with the same block type:
+You can override the configuration of an existing block by extending the existing block configuration:
 
 ```jsx
-import React from "react";
-import { BlockProps, BlockType } from "@dndbuilder.com/react";
-import { RenderContent } from "@dndbuilder.com/react/components/server";
+import { BlockType } from "@dndbuilder.com/react";
+import { createBlockConfig } from "@dndbuilder.com/react/utils";
+import { lazy } from "react";
 
-// Create a custom component for the Link block
-const CustomLinkBlock = ({ settings, meta }) => {
-  const locale = meta?.locale || "en";
-
+// Create a custom component for the existing block type
+const CustomHeadingBlock = ({ settings, meta }) => {
   return (
-    <a
-      href={settings.link?.url || "#"}
-      target={settings.link?.newWindow ? "_blank" : undefined}
-      className="my-custom-link-style"
-    >
-      {settings.text?.[locale]}
-    </a>
+    <h2 className="my-custom-heading-style">
+      {settings.text}
+    </h2>
   );
 };
 
-// Override the Link block configuration
-const builderConfig = {
-  blocks: [
+// Override the Heading block configuration
+const CustomHeadingConfig = createBlockConfig({
+  type: BlockType.HEADING, // Use the existing block type
+  component: lazy(() => import("./components/custom-heading.block")),
+  // Override other properties as needed
+  controls: [
     {
-      type: BlockType.LINK, // Use the existing block type
-      previewComponent: CustomLinkBlock, // Override only the preview component
+      label: "Custom Style",
+      component: lazy(() => import("./components/custom-heading-style.control")),
     },
+  ],
+});
+
+// Include the overridden block in your editor configuration
+export const editorConfig = {
+  blocks: [
+    CustomHeadingConfig,
+    // Other blocks...
   ],
 };
 
 // Use the custom configuration when rendering content
 function PreviewPage() {
   const content = fetchContent();
-  return <RenderContent content={content} builderConfig={builderConfig} />;
+  return <RenderContent content={content} builderConfig={editorConfig} />;
 }
 ```
 

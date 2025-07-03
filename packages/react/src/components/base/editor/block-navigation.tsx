@@ -1,18 +1,20 @@
 "use client";
-import { BuilderConfiguration } from "@/config/builder.config";
-import BlockNavigationItem from "./block-navigation-item";
 import { Accordion } from "@/components/shared/accordion";
 import { ScrollArea } from "@/components/shared/scroll-area";
-import { BiSearch } from "react-icons/bi";
-import { useMemo, useState } from "react";
+import { BuilderConfiguration } from "@/config/builder.config";
+import { BlockConfig } from "@/types/block";
 import { classNames, objectKeys } from "@/utils";
-import { BlockGroup, BlockConfig } from "@/types/block";
+import { memo, useMemo, useState } from "react";
+import { BiSearch } from "react-icons/bi";
+import BlockNavigationItem from "./block-navigation-item";
 
 export const BlockNavigation = () => {
   const [search, setSearch] = useState("");
 
+  const blocks = BuilderConfiguration.getBlocks();
+
   const availableGroups = useMemo(() => {
-    return BuilderConfiguration.getBlocks()
+    return blocks
       .filter((block) => block.label.toLowerCase().includes(search.toLowerCase()))
       .reduce(
         (acc, block) => {
@@ -23,9 +25,9 @@ export const BlockNavigation = () => {
           acc[group].push(block);
           return acc;
         },
-        {} as Record<BlockGroup, BlockConfig[]>
+        {} as Record<string, BlockConfig[]>
       );
-  }, [search]);
+  }, [search, blocks]);
 
   return (
     <div>
@@ -94,3 +96,5 @@ export const BlockNavigation = () => {
     </div>
   );
 };
+
+BlockNavigation.displayName = "BlockNavigation";

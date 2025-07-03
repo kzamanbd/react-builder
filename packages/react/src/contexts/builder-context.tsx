@@ -4,6 +4,9 @@ import { store } from "../store";
 import { Provider } from "react-redux";
 import { ActionProvider } from "./action-context";
 import { DefaultOptions, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BuilderConfig } from "@/types";
+import { useEffect } from "react";
+import { BuilderConfiguration } from "@/config";
 
 export type BuilderContextType = {
   store: typeof store;

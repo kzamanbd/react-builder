@@ -5,6 +5,7 @@ export * from "./block";
 export * from "./responsive";
 export * from "./style";
 export * from "./theme";
+export * from "./media";
 
 export type AnyObject = Record<string, unknown>;
 
