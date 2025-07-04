@@ -41,10 +41,7 @@ export function PricingSection({ className }: PricingSectionProps) {
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span>Basic block components</span>
                 </li>
-                <li className="flex items-center">
-                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Drag & drop interface</span>
-                </li>
+
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span>Undo/Redo functionality</span>
@@ -56,6 +53,14 @@ export function PricingSection({ className }: PricingSectionProps) {
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span>Community support</span>
+                </li>
+                <li className="flex items-center">
+                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
+                  <span>Full Customization</span>
+                </li>
+                <li className="flex items-center">
+                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
+                  <span>Unlimited Projects</span>
                 </li>
               </ul>
               <Button className="w-full bg-transparent" variant="outline" asChild>
@@ -92,30 +97,41 @@ export function PricingSection({ className }: PricingSectionProps) {
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span className="font-medium">Advanced blocks</span>
+                  <span>Advanced blocks</span>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span className="font-medium">Global Theme Settings</span>
-                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+                  <span>Global Theme Settings</span>
+                  <Badge
+                    variant="outline"
+                    className="ml-2 border-yellow-300 bg-yellow-500/10 text-yellow-500"
+                  >
+                    Coming Soon
+                  </Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span className="font-medium">Block Library</span>
-                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+                  <span>Block Library</span>
+                  <Badge
+                    variant="outline"
+                    className="ml-2 border-yellow-300 bg-yellow-500/10 text-yellow-500"
+                  >
+                    Coming Soon
+                  </Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span className="font-medium">Asset Manager</span>
-                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+                  <span>Asset Manager</span>
+                  <Badge
+                    variant="outline"
+                    className="ml-2 border-yellow-300 bg-yellow-500/10 text-yellow-500"
+                  >
+                    Coming Soon
+                  </Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span>Priority support</span>
-                </li>
-                <li className="flex items-center">
-                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Advanced customization</span>
                 </li>
               </ul>
               <Button className="w-full bg-black hover:bg-gray-800" disabled>

@@ -97,10 +97,7 @@ export const MediaControl: FC<MediaProps> = ({
       const newMedia: Media = {
         id: generateUniqueId(),
         url: urlInput,
-        source: "url",
         base64Data,
-        size: blob.size,
-        updatedAt: new Date().toISOString(),
       };
 
       setValue(newMedia);
@@ -134,11 +131,8 @@ export const MediaControl: FC<MediaProps> = ({
         const newMedia: Media = {
           id: generateUniqueId(),
           url: URL.createObjectURL(file),
-          source: "local",
           base64Data,
           name: file.name,
-          size: file.size,
-          updatedAt: new Date().toISOString(),
         };
 
         setValue(newMedia);
