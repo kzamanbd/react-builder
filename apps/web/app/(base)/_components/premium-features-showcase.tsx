@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { LuPackage } from "react-icons/lu";
 import { classNames } from "@/lib/utils";
+import {AiOutlineCloudUpload} from "react-icons/ai";
 
 interface PremiumFeaturesShowcaseProps {
   className?: string;
@@ -31,7 +32,10 @@ export function PremiumFeaturesShowcase({ className }: PremiumFeaturesShowcasePr
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20">
               <LuPackage className="h-6 w-6" />
             </div>
-            <h3 className="mb-2 font-semibold">Global Theme Settings</h3>
+            <h3 className="mb-2 font-semibold">
+              Global Theme Settings
+              <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+            </h3>
             <p className="text-sm opacity-80">Customize your site's appearance</p>
           </div>
 
@@ -39,15 +43,21 @@ export function PremiumFeaturesShowcase({ className }: PremiumFeaturesShowcasePr
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20">
               <LuPackage className="h-6 w-6" />
             </div>
-            <h3 className="mb-2 font-semibold">Block Library</h3>
+            <h3 className="mb-2 font-semibold">
+              Block Library
+              <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+            </h3>
             <p className="text-sm opacity-80">Reusable component collection</p>
           </div>
 
           <div className="rounded-lg border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20">
-              <LuPackage className="h-6 w-6" />
+              <AiOutlineCloudUpload className="h-6 w-6" />
             </div>
-            <h3 className="mb-2 font-semibold">Asset Manager</h3>
+            <h3 className="mb-2 font-semibold">
+              Asset Manager
+              <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+            </h3>
             <p className="text-sm opacity-80">Organize and manage media files</p>
           </div>
         </div>

@@ -1,7 +1,9 @@
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { FiLayers, FiMousePointer } from "react-icons/fi";
-import { LuUndo, LuSmartphone, LuPalette, LuPlug } from "react-icons/lu";
+import { LuUndo, LuSmartphone, LuPalette } from "react-icons/lu";
 import { classNames } from "@/lib/utils";
+import {AiOutlineCloudUpload} from "react-icons/ai";
 
 interface FeaturesSectionProps {
   className?: string;
@@ -84,11 +86,14 @@ export function FeaturesSection({ className }: FeaturesSectionProps) {
           <Card className="border-0 shadow-lg transition-shadow hover:shadow-xl">
             <Card.Header>
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
-                <LuPlug className="h-6 w-6 text-gray-900" />
+                <AiOutlineCloudUpload className="h-6 w-6 text-gray-900" />
               </div>
-              <Card.Title>Plugin System</Card.Title>
+              <Card.Title>
+               Asset Manager
+                <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
+              </Card.Title>
               <Card.Description>
-                Extensible architecture supporting third-party plugins and extensions
+                Manage images, videos, and other assets with an integrated asset manager
               </Card.Description>
             </Card.Header>
           </Card>

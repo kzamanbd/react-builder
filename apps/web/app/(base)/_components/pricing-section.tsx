@@ -97,14 +97,17 @@ export function PricingSection({ className }: PricingSectionProps) {
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span className="font-medium">Global Theme Settings</span>
+                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span className="font-medium">Block Library</span>
+                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span className="font-medium">Asset Manager</span>
+                  <Badge variant="outline" className="ml-2 bg-yellow-500/10 text-yellow-500">Coming Soon</Badge>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
