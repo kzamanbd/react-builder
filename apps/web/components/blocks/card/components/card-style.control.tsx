@@ -18,9 +18,9 @@ import { TfiAlignJustify } from "react-icons/tfi";
 
 const CardStyleControl = () => {
   return (
-    <Accordion defaultValue={"Dimensions"} type="single" collapsible>
-      <Accordion.Item value="Dimensions">
-        <Accordion.Trigger className="p-4">Dimensions</Accordion.Trigger>
+    <Accordion defaultValue={"Card"} type="single" collapsible>
+      <Accordion.Item value="Card">
+        <Accordion.Trigger className="p-4">Card</Accordion.Trigger>
         <Accordion.Content className="px-4">
           {/* Width */}
           <SliderUnitControl
@@ -51,12 +51,7 @@ const CardStyleControl = () => {
 
           {/* Margin */}
           <SpacingControl responsive label="Margin" fieldName="margin" type={SettingsType.BLOCK} />
-        </Accordion.Content>
-      </Accordion.Item>
 
-      <Accordion.Item value="Style">
-        <Accordion.Trigger className="p-4">Style</Accordion.Trigger>
-        <Accordion.Content className="px-4">
           {/* Background */}
           <Tabs defaultValue={PseudoClass.DEFAULT}>
             <Tabs.List className="mb-2 mt-0 h-8 w-full rounded-full">
@@ -106,6 +101,45 @@ const CardStyleControl = () => {
 
           {/* Box Shadow */}
           <BoxShadowControl label="Box Shadow" fieldName="boxShadow" type={SettingsType.BLOCK} />
+        </Accordion.Content>
+      </Accordion.Item>
+
+      <Accordion.Item value="Image">
+        <Accordion.Trigger className="p-4">Image</Accordion.Trigger>
+        <Accordion.Content className="px-4">
+          {/* Image */}
+          <SliderUnitControl
+            responsive
+            label="Width"
+            fieldName="image.width"
+            type={SettingsType.BLOCK}
+            units={[Unit.PX, Unit.PERCENTAGE, Unit.EM, Unit.REM]}
+            className="mt-0"
+          />
+
+          <SliderUnitControl
+            responsive
+            label="Height"
+            fieldName="image.height"
+            type={SettingsType.BLOCK}
+            units={[Unit.PX, Unit.PERCENTAGE, Unit.EM, Unit.REM]}
+          />
+
+          {/* Padding */}
+          <SpacingControl
+            responsive
+            label="Padding"
+            fieldName="image.padding"
+            type={SettingsType.BLOCK}
+          />
+
+          {/* Margin */}
+          <SpacingControl
+            responsive
+            label="Margin"
+            fieldName="image.margin"
+            type={SettingsType.BLOCK}
+          />
         </Accordion.Content>
       </Accordion.Item>
 

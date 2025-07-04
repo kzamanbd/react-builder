@@ -41,6 +41,16 @@ const CardContentControl = () => {
           />
 
           {/* Link */}
+
+          <InputControl
+            label="Link Text"
+            fieldName="link.text"
+            type={SettingsType.BLOCK}
+            placeholder="Enter link text"
+            direction={"col"}
+            isLocalized
+          />
+
           <LinkControl label="Link" fieldName="link" type={SettingsType.BLOCK} />
         </Accordion.Content>
       </Accordion.Item>

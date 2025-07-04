@@ -12,7 +12,6 @@ import {
 } from "@dndbuilder.com/react";
 
 export type CardSettingsType = {
-  image?: Media;
   width?: ResponsiveValue<UnitValue>;
   height?: ResponsiveValue<UnitValue>;
   padding?: ResponsiveValue<SpacingValue>;
@@ -22,6 +21,14 @@ export type CardSettingsType = {
   };
   border?: BorderFieldType;
   boxShadow?: WithPseudoClass<BoxShadow>;
+
+  image?: Media & {
+    height?: ResponsiveValue<UnitValue>;
+    width?: ResponsiveValue<UnitValue>;
+    padding?: ResponsiveValue<SpacingValue>;
+    margin?: ResponsiveValue<SpacingValue>;
+  };
+
   title?: {
     text?: LocalizedValue<string>;
     color?: WithPseudoClass<string>;
@@ -38,12 +45,13 @@ export type CardSettingsType = {
     margin?: ResponsiveValue<SpacingValue>;
   };
   link?: LinkType & {
+    text?: LocalizedValue<string>;
     color?: WithPseudoClass<string>;
-    typography?: TypographyType;
-    padding?: ResponsiveValue<SpacingValue>;
-    margin?: ResponsiveValue<SpacingValue>;
     background?: {
       color?: WithPseudoClass<string>;
     };
+    typography?: TypographyType;
+    padding?: ResponsiveValue<SpacingValue>;
+    margin?: ResponsiveValue<SpacingValue>;
   };
 };

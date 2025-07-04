@@ -15,7 +15,7 @@ export default async function ContactPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
-        <section className="py-20">
+        <section className="pt-20">
           <div className="container mx-auto px-4 text-center">
             <Badge variant="secondary" className="mb-4">
               💬 Get in Touch
@@ -29,9 +29,9 @@ export default async function ContactPage() {
         </section>
 
         {/* Contact Methods */}
-        <section className="pb-12">
+        <section className="pb-20">
           <div className="container mx-auto px-4">
-            <div className="mb-16 grid gap-8 md:grid-cols-3">
+            {/* <div className="mb-16 grid gap-8 md:grid-cols-3">
               <Card className="border-0 text-center shadow-lg">
                 <Card.Header>
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
@@ -73,7 +73,7 @@ export default async function ContactPage() {
                   <p className="text-sm text-gray-600">San Francisco, CA 94105</p>
                 </Card.Content>
               </Card>
-            </div>
+            </div> */}
 
             {/* Contact Form */}
             <div className="mx-auto max-w-2xl">

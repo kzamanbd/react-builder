@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bprogress/next": "^3.2.12",
     "@dndbuilder.com/react": "workspace:*",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-slot": "^1.1.2",

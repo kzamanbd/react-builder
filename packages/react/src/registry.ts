@@ -3,16 +3,6 @@ import { BlockConfig } from "@/types/block";
 import deepmerge from "deepmerge";
 
 /**
- * Global registry for blocks, groups, and breakpoints
- * This is a singleton class that manages the registration and retrieval of blocks, groups, and breakpoints
- */
-let registeredBlocks: Record<string, BlockConfig> = {};
-
-let groupOrder: string[] = [];
-
-let breakpoints: Record<string, BreakpointConfig> = {};
-
-/**
  * BuilderRegistry class for managing block configurations
  * Implemented as a singleton
  */
@@ -39,6 +29,15 @@ export class BuilderRegistry {
     return BuilderRegistry.instance;
   }
 
+  // Object to hold registered blocks
+  private registeredBlocks: Record<string, BlockConfig> = {};
+
+  // Object to hold registered breakpoints
+  private breakpoints: Record<string, BreakpointConfig> = {};
+
+  // Array to hold the order of registered groups
+  private groupOrder: string[] = [];
+
   /**
    * Register multiple blocks at once
    * @param blocks - Array of block configurations to register
@@ -56,16 +55,16 @@ export class BuilderRegistry {
    * @throws Error if the block type is already registered
    */
   registerBlock(block: BlockConfig) {
-    if (registeredBlocks[block.type]) {
+    if (this.registeredBlocks[block.type]) {
       throw new Error(`Block type "${block.type}" already registered`);
     }
-    registeredBlocks[block.type] = block;
+    this.registeredBlocks[block.type] = block;
 
     return this;
   }
 
   getRegisteredBlocks(): Record<string, BlockConfig> {
-    return registeredBlocks;
+    return this.registeredBlocks;
   }
 
   /**
@@ -73,7 +72,7 @@ export class BuilderRegistry {
    * @returns Object containing all registered blocks
    */
   getBlocks(): BlockConfig[] {
-    return Object.values(registeredBlocks);
+    return Object.values(this.registeredBlocks);
   }
 
   /**
@@ -82,11 +81,11 @@ export class BuilderRegistry {
    * @returns The block configuration if found, otherwise undefined
    */
   getBlock(type: string): BlockConfig {
-    if (!registeredBlocks[type]) {
+    if (!this.registeredBlocks[type]) {
       throw new Error(`Block type "${type}" is not registered`);
     }
 
-    return registeredBlocks[type];
+    return this.registeredBlocks[type];
   }
 
   /**
@@ -95,7 +94,7 @@ export class BuilderRegistry {
    * @returns Array of blocks that belong to the specified group
    */
   getBlocksByGroup(group: string): BlockConfig[] {
-    return Object.values(registeredBlocks).filter((block) => block.group === group);
+    return Object.values(this.registeredBlocks).filter((block) => block.group === group);
   }
 
   /**
@@ -103,7 +102,7 @@ export class BuilderRegistry {
    * @returns Array of block type strings
    */
   getBlockTypes(): string[] {
-    return Object.keys(registeredBlocks);
+    return Object.keys(this.registeredBlocks);
   }
 
   /**
@@ -111,7 +110,7 @@ export class BuilderRegistry {
    * @returns Array of group configurations
    */
   setGroupsOrder(groups: string[]) {
-    groupOrder = groups;
+    this.groupOrder = groups;
     return this;
   }
 
@@ -120,7 +119,7 @@ export class BuilderRegistry {
    * @returns Array of block groups in the order they were registered
    */
   getGroupsOrder(): string[] {
-    return groupOrder;
+    return this.groupOrder;
   }
 
   /**
@@ -129,7 +128,7 @@ export class BuilderRegistry {
    * @returns The index of the group in the registered order, or -1 if not found
    */
   getGroupOrder(group: string): number {
-    return groupOrder.indexOf(group);
+    return this.groupOrder.indexOf(group);
   }
 
   /**
@@ -150,10 +149,10 @@ export class BuilderRegistry {
    * @throws Error if the breakpoint key is already registered
    */
   registerBreakpoint(breakpoint: BreakpointConfig) {
-    if (breakpoints[breakpoint.key]) {
+    if (this.breakpoints[breakpoint.key]) {
       throw new Error(`Breakpoint "${breakpoint.key}" is already registered`);
     }
-    breakpoints[breakpoint.key] = breakpoint;
+    this.breakpoints[breakpoint.key] = breakpoint;
 
     return this;
   }
@@ -164,10 +163,10 @@ export class BuilderRegistry {
    * @returns The breakpoint configuration if found, otherwise undefined
    */
   getBreakpoint(key: string): BreakpointConfig {
-    if (!breakpoints[key]) {
+    if (!this.breakpoints[key]) {
       throw new Error(`Breakpoint "${key}" is not registered`);
     }
-    return breakpoints[key];
+    return this.breakpoints[key];
   }
 
   /**
@@ -175,7 +174,7 @@ export class BuilderRegistry {
    * @returns Array of all registered breakpoint configurations
    */
   getBreakpoints(): BreakpointConfig[] {
-    return Object.values(breakpoints);
+    return Object.values(this.breakpoints);
   }
   /**
    * Get a media query string for a specific breakpoint
@@ -199,11 +198,13 @@ export class BuilderRegistry {
       config.blocks.forEach((block) => {
         // Add a type guard to ensure block.type is defined
         if (block.type) {
-          const existingBlock = registeredBlocks[block.type];
+          const existingBlock = this.registeredBlocks[block.type];
 
           if (existingBlock) {
             // If a block already exists, deep merge it with the existing one
-            registeredBlocks[block.type] = deepmerge(existingBlock, block);
+            this.registeredBlocks[block.type] = deepmerge(existingBlock, block, {
+              arrayMerge: (_destinationArray, sourceArray) => sourceArray,
+            });
           } else {
             // If a block doesn't exist, register it
             // Check if block has all required properties to be a complete BlockConfig
@@ -239,11 +240,13 @@ export class BuilderRegistry {
       config.breakpoints.forEach((breakpoint) => {
         // Add a type guard to ensure breakpoint.key is defined
         if (breakpoint.key !== undefined) {
-          const existingBreakpoint = breakpoints[breakpoint.key];
+          const existingBreakpoint = this.breakpoints[breakpoint.key];
 
           if (existingBreakpoint) {
             // If breakpoint already exists, deep merge it with the existing one
-            breakpoints[breakpoint.key] = deepmerge(existingBreakpoint, breakpoint);
+            this.breakpoints[breakpoint.key] = deepmerge(existingBreakpoint, breakpoint, {
+              arrayMerge: (_destinationArray, sourceArray) => sourceArray,
+            });
           } else {
             // If breakpoint doesn't exist, register it
             // Check if breakpoint has all required properties to be a complete BreakpointConfig

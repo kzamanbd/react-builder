@@ -9,7 +9,7 @@ export default function ThankYouPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Thank You Section */}
-      <section className="py-20 lg:py-32">
+      <section className="py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="mx-auto max-w-2xl">
             {/* Success Icon */}

@@ -23,8 +23,10 @@ export default function ExamplesPage() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href={"https://www.npmjs.com/package/@dndbuilder.com/react"} target="_blank">
               <Button size="lg" className="bg-black hover:bg-gray-800">
-                <LuExternalLink className="mr-2 h-4 w-4" />
-                Get Early Access
+                <Link href={"/builder"} className="flex items-center">
+                  <LuExternalLink className="mr-2 h-4 w-4" />
+                  View Demo
+                </Link>
               </Button>
             </Link>
             <Button variant="outline" size="lg">

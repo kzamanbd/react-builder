@@ -203,7 +203,7 @@ export default function ChangelogPage() {
           </div>
         </section>
         {/* Subscribe to Updates */}
-        <section className="bg-white py-20">
+        {/* <section className="bg-white py-20">
           <div className="container mx-auto px-4 text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900">Stay Updated</h2>
             <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
@@ -218,7 +218,7 @@ export default function ChangelogPage() {
               <Button>Subscribe</Button>
             </div>
           </div>
-        </section>{" "}
+        </section>{" "} */}
       </main>
     </div>
   );

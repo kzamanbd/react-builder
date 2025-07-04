@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FiCheck, FiStar } from "react-icons/fi";
 import { classNames } from "@/lib/utils";
+import Link from "next/link";
+import { LuArrowRight, LuDownload } from "react-icons/lu";
 
 interface PricingSectionProps {
   className?: string;
@@ -56,8 +58,11 @@ export function PricingSection({ className }: PricingSectionProps) {
                   <span>Community support</span>
                 </li>
               </ul>
-              <Button className="w-full bg-transparent" variant="outline">
-                Get Started Free
+              <Button className="w-full bg-transparent" variant="outline" asChild>
+                <Link href="https://www.npmjs.com/package/@dndbuilder.com/react" target="_blank">
+                  Get Started Free
+                  <LuArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </Card.Content>
           </Card>
@@ -110,7 +115,9 @@ export function PricingSection({ className }: PricingSectionProps) {
                   <span>Advanced customization</span>
                 </li>
               </ul>
-              <Button className="w-full bg-black hover:bg-gray-800">Upgrade to Premium</Button>
+              <Button className="w-full bg-black hover:bg-gray-800" disabled>
+                Upgrade to Premium
+              </Button>
             </Card.Content>
           </Card>
         </div>

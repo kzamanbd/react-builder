@@ -2,6 +2,7 @@ import { classNames } from "@/lib/utils";
 import Link from "next/link";
 import { FiGithub, FiMail, FiTwitter } from "react-icons/fi";
 import { TbDragDrop } from "react-icons/tb";
+import { RiTwitterXLine } from "react-icons/ri";
 
 interface FooterProps {
   className?: string;
@@ -24,20 +25,23 @@ export function Footer({ className }: FooterProps) {
             </p>
             <div className="flex space-x-4">
               <Link
-                href="https://github.com/dnd-builder/react"
+                href="https://github.com/dndbuilder/project"
                 className="text-gray-400 transition-colors hover:text-white"
               >
                 <FiGithub className="h-5 w-5" />
               </Link>
               <Link
-                href="https://twitter.com/dndbuilder"
+                href="https://x.com/dnd_builder"
                 className="text-gray-400 transition-colors hover:text-white"
               >
-                <FiTwitter className="h-5 w-5" />
+                <RiTwitterXLine className="h-5 w-5" />
               </Link>
-              <Link href="/contact" className="text-gray-400 transition-colors hover:text-white">
+              <a
+                href="mailto:support@dndbuilder.com"
+                className="text-gray-400 transition-colors hover:text-white"
+              >
                 <FiMail className="h-5 w-5" />
-              </Link>
+              </a>
             </div>
           </div>
 

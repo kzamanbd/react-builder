@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LuArrowRight, LuDownload, LuPlay } from "react-icons/lu";
 import { classNames } from "@/lib/utils";
+import Link from "next/link";
 
 interface HeroSectionProps {
   className?: string;
@@ -26,10 +27,12 @@ export function HeroSection({ className }: HeroSectionProps) {
           pages with intuitive drag-and-drop functionality and extensive customization options.
         </p>
         <div className="mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button size="lg" className="bg-black px-8 text-white hover:bg-gray-800">
-            <LuDownload className="mr-2 h-4 w-4" />
-            Get Started Free
-            <LuArrowRight className="ml-2 h-4 w-4" />
+          <Button size="lg" className="bg-black px-8 text-white hover:bg-gray-800" asChild>
+            <Link href="https://www.npmjs.com/package/@dndbuilder.com/react" target="_blank">
+              <LuDownload className="mr-2 h-4 w-4" />
+              Get Started Free
+              <LuArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
           <Button variant="outline" size="lg" className="border-gray-300 bg-transparent px-8">
             <LuPlay className="mr-2 h-4 w-4" />

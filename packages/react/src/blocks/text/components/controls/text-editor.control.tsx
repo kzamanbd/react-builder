@@ -21,7 +21,7 @@ type Props = {
   labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
-const TextEditorContent: FC<Props> = ({
+const TextEditorControl: FC<Props> = ({
   className,
   label,
   responsive,
@@ -61,4 +61,4 @@ const TextEditorContent: FC<Props> = ({
   );
 };
 
-export default TextEditorContent;
+export default TextEditorControl;
