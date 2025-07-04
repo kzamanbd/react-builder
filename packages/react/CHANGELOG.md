@@ -1,5 +1,11 @@
 # @dndbuilder.com/react
 
+## 0.0.4
+
+### Patch Changes
+
+- 40879b0: fix: remove unused `useIcons` exports from hooks
+
 ## 0.0.3
 
 ### Patch Changes
