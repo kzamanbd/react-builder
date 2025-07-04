@@ -38,8 +38,6 @@ export const MediaControl: FC<MediaProps> = ({
   fieldName,
   mode,
   className,
-  multiple,
-  helpText,
   accept = {
     "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
   },
@@ -91,16 +89,13 @@ export const MediaControl: FC<MediaProps> = ({
       }
 
       // Convert blob to base64
-      const base64Data = await fileToBase64(blob as File);
+      // const base64Data = await fileToBase64(blob as File);
 
       // Create new media object
       const newMedia: Media = {
         id: generateUniqueId(),
         url: urlInput,
-        source: "url",
-        base64Data,
-        size: blob.size,
-        updatedAt: new Date().toISOString(),
+        // base64Data,
       };
 
       setValue(newMedia);
@@ -133,12 +128,10 @@ export const MediaControl: FC<MediaProps> = ({
         // Create new media object
         const newMedia: Media = {
           id: generateUniqueId(),
-          url: URL.createObjectURL(file),
-          source: "local",
-          base64Data,
+          // url: URL.createObjectURL(file),
+          url: base64Data, // Use base64 data as URL
+          // base64Data,
           name: file.name,
-          size: file.size,
-          updatedAt: new Date().toISOString(),
         };
 
         setValue(newMedia);

@@ -19,7 +19,7 @@ import { BlockGroup, Breakpoint } from "@/types";
 import { FiMonitor } from "react-icons/fi";
 import { AiOutlineMobile, AiOutlineTablet } from "react-icons/ai";
 
-const builderRegistry = new BuilderRegistry();
+const builderRegistry = BuilderRegistry.getInstance();
 
 builderRegistry.registerBlocks([
   ContainerConfig,

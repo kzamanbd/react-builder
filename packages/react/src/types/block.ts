@@ -70,12 +70,7 @@ export enum BlockType {
 
 export enum BlockGroup {
   BASIC = "Basic",
-  LAYOUT = "Layout",
-  ECOMMERCE = "Ecommerce",
-  SITE = "Site",
   ADVANCED = "Advanced",
-  TEMPLATE = "Template",
-  TEMPLATE_PART = "Template Part",
   OTHERS = "Others",
 }
 
@@ -110,7 +105,7 @@ export type BlockConfig<T extends object = any /* @typescript-eslint/no-explicit
     themeSettings: Theme["settings"];
     breakpoints: BreakpointConfig[];
   }) => Styles;
-  group?: BlockGroup;
+  group?: string;
   controls: BlockControl[];
   disableAdvancedSettings?: boolean;
   isVisible?: (params?: AnyObject) => boolean;

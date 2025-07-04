@@ -30,13 +30,20 @@ pnpm add @dndbuilder.com/react
 
 ```jsx
 import React from "react";
-import { Builder, BuilderProvider } from "@dndbuilder.com/react";
+import { Editor, BuilderProvider } from "@dndbuilder.com/react";
+import { store } from "@dndbuilder.com/react";
 import "@dndbuilder.com/react/dist/style.css";
 
 function App() {
+  // Optional: Initial content for the editor
+  const [initialContent, setInitialContent] = useState({});
+
   return (
-    <BuilderProvider blocks={myBlockConfigs}>
-      <Builder />
+    <BuilderProvider store={store}>
+      <Editor 
+        content={initialContent}
+        builderConfig={editorConfig} 
+      />
     </BuilderProvider>
   );
 }
@@ -75,7 +82,7 @@ async function MyPage() {
 }
 ```
 
-## Customizing Blocks
+## Custom Block
 
 The page builder allows you to create custom blocks or override existing block configurations.
 
@@ -84,89 +91,202 @@ The page builder allows you to create custom blocks or override existing block c
 To create a custom block, you need to:
 
 1. Create a component for your block
-2. Define the block configuration
-3. Pass the configuration to the BuilderProvider
+2. Define the block configuration using `createBlockConfig` utility
+3. Include the block in your editor configuration
+
+#### Example: Card Block
+
+The Card block is a versatile component that can be used to display content in a structured format. Here's how it's implemented in the Testimonial block:
 
 ```jsx
-import React from "react";
-import { BlockProps, BlockType, BlockGroup } from "@dndbuilder.com/react";
+// 1. Create your block component (testimonial-card.tsx)
+import { FC } from "react";
+import { TestimonialItemType, TestimonialSettingsType } from "../types";
+import { renderPreset } from "../utils";
+import { BlockMeta } from "@/types/block";
 
-// 1. Create your block component
-const MyCustomBlock = ({ settings, meta }) => {
+type Props = {
+  data: TestimonialItemType;
+  settings: TestimonialSettingsType;
+  meta?: BlockMeta;
+};
+
+const TestimonialCard: FC<Props> = ({ data, settings, meta }) => {
+  return renderPreset(data, settings, meta);
+};
+
+export default TestimonialCard;
+
+// 2. Create a preset component (preset-one.tsx)
+const PresetOne: FC<PresetPropsType> = ({ data, meta }) => {
+  const locale = meta?.locale || "en";
+  const name = data.name?.[locale];
+  const position = data.position?.[locale];
+  const content = data.content?.[locale];
+
   return (
-    <div className="my-custom-block">
-      <h3>{settings.title}</h3>
-      <p>{settings.description}</p>
-    </div>
+    <figure className="testimonial-card">
+      <blockquote className="review-msg text-dark-800 text-lg tracking-tight">
+        <p>{content}</p>
+      </blockquote>
+
+      {data.showRating && (
+        <div className="text-dark-700 mt-3 flex gap-x-1">
+          <Rating count={5} value={data.rating ?? 0} size={14} />
+        </div>
+      )}
+
+      <figcaption className="mt-4 flex items-center gap-x-6">
+        {/* Image */}
+        <div className="image-wrapper flex h-12 w-12 items-center justify-center rounded-full border">
+          {data.image ? (
+            <img
+              className="bg-dark-50 h-full w-full rounded-full"
+              src={data.image.url}
+              alt={name}
+            />
+          ) : (
+            <MdFaceRetouchingNatural className="text-dark-400 text-lg" />
+          )}
+        </div>
+
+        <div className="text-sm leading-4">
+          {/* Name */}
+          <div className="text-dark-900 font-semibold">{name}</div>
+
+          {/* Position */}
+          {position && <div className="text-dark-600 mt-0.5">{position}</div>}
+        </div>
+      </figcaption>
+    </figure>
   );
 };
 
-// 2. Define your block configuration
-const myCustomBlockConfig = {
-  type: "my-custom-block", // Unique identifier for your block
-  label: "My Custom Block", // Display name in the block picker
-  component: MyCustomBlock, // Component used in the editor
-  previewComponent: MyCustomBlock, // Component used for preview (can be different)
+// 3. Define your block configuration (testimonial.config.ts)
+import { createBlockConfig } from "@dndbuilder.com/react/utils";
+import { lazy } from "react";
+import { FiMessageSquare } from "react-icons/fi";
+import { TestimonialSettingsType } from "./types";
+
+const TestimonialConfig = createBlockConfig<TestimonialSettingsType>({
+  type: "testimonial",
+  label: "Testimonial",
+  icon: FiMessageSquare,
+  component: lazy(() => import("./components/testimonial.block")),
+  isVisible: () => true,
+  group: "Content",
   settings: {
-    title: "Default Title",
-    description: "Default description",
+    // Default settings including card configuration
+    card: {
+      alignment: { desktop: "left" },
+      backgroundColor: { desktop: { default: "#ffffff" } },
+      padding: { desktop: { top: 24, right: 24, bottom: 24, left: 24 } },
+      border: {
+        radius: { default: { topLeft: 8, topRight: 8, bottomRight: 8, bottomLeft: 8 } },
+        type: { default: "solid" },
+        color: { default: "#e5e7eb" },
+        width: { desktop: { default: { top: 1, right: 1, bottom: 1, left: 1 } } }
+      },
+      boxShadow: {
+        default: {
+          color: "#00000014",
+          horizontal: 0,
+          vertical: 1,
+          blur: 3,
+          spread: 0,
+          position: "outset"
+        }
+      }
+    },
+    // Other settings...
   },
-  group: BlockGroup.BASIC, // Which group to show this block in
-  controls: [], // Define controls for the block settings
+  style: ({ settings, breakpoints }) => {
+    // Generate styles for the card
+    return {
+      "& .testimonial-card": {
+        backgroundColor: settings.card?.backgroundColor?.desktop?.default,
+        textAlign: settings.card?.alignment?.desktop,
+        // Other styles...
+      }
+    };
+  },
+  controls: [
+    {
+      label: "Style",
+      component: lazy(() => import("./components/testimonial-style.control")),
+    },
+    {
+      label: "Content",
+      component: lazy(() => import("./components/testimonial-content.control")),
+    },
+  ],
+});
+
+export default TestimonialConfig;
+
+// 4. Include the block in your editor configuration (editor.config.ts)
+import TestimonialConfig from "../blocks/testimonial/testimonial.config";
+
+export const editorConfig = {
+  blocks: [
+    TestimonialConfig,
+    // Other blocks...
+  ],
+  // Other configuration options...
 };
-
-// 3. Pass the configuration to the BuilderProvider
-function App() {
-  const builderConfig = {
-    blocks: [myCustomBlockConfig],
-  };
-
-  return (
-    <BuilderProvider builderConfig={builderConfig}>
-      <Builder />
-    </BuilderProvider>
-  );
-}
 ```
+
+The Card block in this example has the following features:
+
+- **Responsive Design**: Supports different layouts for different screen sizes
+- **Customizable Styling**: Configure background color, padding, border, and box shadow
+- **Text Alignment**: Align content left, center, or right
+- **Multiple Presets**: Choose from different preset layouts
+- **Hover Effects**: Apply different styles on hover using pseudo-classes
 
 ### Overriding an Existing Block
 
-You can override the configuration of an existing block by providing a partial configuration with the same block type:
+You can override the configuration of an existing block by extending the existing block configuration:
 
 ```jsx
-import React from "react";
-import { BlockProps, BlockType } from "@dndbuilder.com/react";
-import { RenderContent } from "@dndbuilder.com/react/components/server";
+import { BlockType } from "@dndbuilder.com/react";
+import { createBlockConfig } from "@dndbuilder.com/react/utils";
+import { lazy } from "react";
 
-// Create a custom component for the Link block
-const CustomLinkBlock = ({ settings, meta }) => {
-  const locale = meta?.locale || "en";
-
+// Create a custom component for the existing block type
+const CustomHeadingBlock = ({ settings, meta }) => {
   return (
-    <a
-      href={settings.link?.url || "#"}
-      target={settings.link?.newWindow ? "_blank" : undefined}
-      className="my-custom-link-style"
-    >
-      {settings.text?.[locale]}
-    </a>
+    <h2 className="my-custom-heading-style">
+      {settings.text}
+    </h2>
   );
 };
 
-// Override the Link block configuration
-const builderConfig = {
-  blocks: [
+// Override the Heading block configuration
+const CustomHeadingConfig = createBlockConfig({
+  type: BlockType.HEADING, // Use the existing block type
+  component: lazy(() => import("./components/custom-heading.block")),
+  // Override other properties as needed
+  controls: [
     {
-      type: BlockType.LINK, // Use the existing block type
-      previewComponent: CustomLinkBlock, // Override only the preview component
+      label: "Custom Style",
+      component: lazy(() => import("./components/custom-heading-style.control")),
     },
+  ],
+});
+
+// Include the overridden block in your editor configuration
+export const editorConfig = {
+  blocks: [
+    CustomHeadingConfig,
+    // Other blocks...
   ],
 };
 
 // Use the custom configuration when rendering content
 function PreviewPage() {
   const content = fetchContent();
-  return <RenderContent content={content} builderConfig={builderConfig} />;
+  return <RenderContent content={content} builderConfig={editorConfig} />;
 }
 ```
 

@@ -5,7 +5,7 @@ import { Accordion } from "@/components/shared/accordion";
 // import DropCap from './controls/DropCap';
 // import Columns from './controls/Columns';
 // import ColumnGap from './controls/ColumnGap';
-import TextEditorContent from "./text-editor.control";
+import TextEditorControl from "./text-editor.control";
 import { SettingsType } from "@/types";
 
 const TextContentControl = () => {
@@ -15,7 +15,7 @@ const TextContentControl = () => {
         <Accordion.Trigger className="p-4">General</Accordion.Trigger>
         <Accordion.Content className="px-4">
           {/* Text Content */}
-          <TextEditorContent
+          <TextEditorControl
             className="mt-0"
             label="Text Content"
             type={SettingsType.BLOCK}

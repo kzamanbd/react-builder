@@ -6,6 +6,7 @@ import "@dndbuilder.com/react/dist/style.css";
 import { store } from "@dndbuilder.com/react";
 import { useEffect, useState } from "react";
 import { Header } from "./_components/header";
+import { editorConfig } from "./config/editor.config";
 
 export default function BuilderPage() {
   const [initialContent, setInitialContent] = useState<Record<string, Block>>({});
@@ -53,6 +54,7 @@ export default function BuilderPage() {
         <main className="mt-[60px]">
           <Editor
             content={initialContent}
+            builderConfig={editorConfig}
             style={{
               height: "calc(100vh - 60px)", // Adjust height to account for header
             }}

@@ -1,16 +1,42 @@
 import { BreakpointConfig, BuilderConfig } from "@/types";
-import { BlockGroup, BlockConfig } from "@/types/block";
+import { BlockConfig } from "@/types/block";
 import deepmerge from "deepmerge";
 
 /**
- * BlockRegistry class for managing block configurations
+ * BuilderRegistry class for managing block configurations
+ * Implemented as a singleton
  */
 export class BuilderRegistry {
+  // Static instance property to hold the single instance
+  private static instance: BuilderRegistry | null = null;
+
+  // Private constructor to prevent direct instantiation
+  private constructor() {
+    if (BuilderRegistry.instance) {
+      throw new Error("Use BuilderRegistry.getInstance() to get the instance");
+    }
+    BuilderRegistry.instance = this;
+  }
+
+  // Static method to get the instance
+  public static getInstance(): BuilderRegistry {
+    // Create the instance if it doesn't exist
+    if (!BuilderRegistry.instance) {
+      BuilderRegistry.instance = new BuilderRegistry();
+    }
+
+    // Return the instance
+    return BuilderRegistry.instance;
+  }
+
+  // Object to hold registered blocks
   private registeredBlocks: Record<string, BlockConfig> = {};
 
-  private groupOrder: BlockGroup[] = [];
-
+  // Object to hold registered breakpoints
   private breakpoints: Record<string, BreakpointConfig> = {};
+
+  // Array to hold the order of registered groups
+  private groupOrder: string[] = [];
 
   /**
    * Register multiple blocks at once
@@ -54,9 +80,11 @@ export class BuilderRegistry {
    * @param type - The type of the block to retrieve
    * @returns The block configuration if found, otherwise undefined
    */
-  getBlock(type: string): BlockConfig {
+  getBlock(type: string): BlockConfig | undefined {
     if (!this.registeredBlocks[type]) {
-      throw new Error(`Block type "${type}" is not registered`);
+      // throw new Error(`Block type "${type}" is not registered`);
+      console.warn(`Block type "${type}" is not registered`);
+      return undefined; // Return undefined instead of throwing an error
     }
 
     return this.registeredBlocks[type];
@@ -83,7 +111,7 @@ export class BuilderRegistry {
    * Get all registered groups
    * @returns Array of group configurations
    */
-  setGroupsOrder(groups: BlockGroup[]) {
+  setGroupsOrder(groups: string[]) {
     this.groupOrder = groups;
     return this;
   }
@@ -92,7 +120,7 @@ export class BuilderRegistry {
    * Get the order of registered groups
    * @returns Array of block groups in the order they were registered
    */
-  getGroupsOrder(): BlockGroup[] {
+  getGroupsOrder(): string[] {
     return this.groupOrder;
   }
 
@@ -101,7 +129,7 @@ export class BuilderRegistry {
    * @param group - The group to find the order index for
    * @returns The index of the group in the registered order, or -1 if not found
    */
-  getGroupOrder(group: BlockGroup): number {
+  getGroupOrder(group: string): number {
     return this.groupOrder.indexOf(group);
   }
 
@@ -176,24 +204,28 @@ export class BuilderRegistry {
 
           if (existingBlock) {
             // If a block already exists, deep merge it with the existing one
-            this.registeredBlocks[block.type] = deepmerge(existingBlock, block);
+            this.registeredBlocks[block.type] = deepmerge(existingBlock, block, {
+              arrayMerge: (_destinationArray, sourceArray) => sourceArray,
+            });
           } else {
             // If a block doesn't exist, register it
             // Check if block has all required properties to be a complete BlockConfig
             if (
-              block.label !== undefined && 
-              block.component !== undefined && 
-              block.settings !== undefined && 
+              block.label !== undefined &&
+              block.component !== undefined &&
+              block.settings !== undefined &&
               block.controls !== undefined
             ) {
               this.registerBlock(block as BlockConfig);
             } else {
-              console.warn(`Block "${block.type}" is missing required properties and cannot be registered`);
+              console.warn(
+                `Block "${block.type}" is missing required properties and cannot be registered`
+              );
             }
           }
         } else {
           // Handle blocks with undefined type
-          console.warn('Block with undefined type encountered and skipped');
+          console.warn("Block with undefined type encountered and skipped");
         }
       });
     }
@@ -214,7 +246,9 @@ export class BuilderRegistry {
 
           if (existingBreakpoint) {
             // If breakpoint already exists, deep merge it with the existing one
-            this.breakpoints[breakpoint.key] = deepmerge(existingBreakpoint, breakpoint);
+            this.breakpoints[breakpoint.key] = deepmerge(existingBreakpoint, breakpoint, {
+              arrayMerge: (_destinationArray, sourceArray) => sourceArray,
+            });
           } else {
             // If breakpoint doesn't exist, register it
             // Check if breakpoint has all required properties to be a complete BreakpointConfig
@@ -227,12 +261,14 @@ export class BuilderRegistry {
             ) {
               this.registerBreakpoint(breakpoint as BreakpointConfig);
             } else {
-              console.warn(`Breakpoint "${breakpoint.key}" is missing required properties and cannot be registered`);
+              console.warn(
+                `Breakpoint "${breakpoint.key}" is missing required properties and cannot be registered`
+              );
             }
           }
         } else {
           // Handle breakpoints with an undefined key
-          console.warn('Breakpoint with undefined key encountered and skipped');
+          console.warn("Breakpoint with undefined key encountered and skipped");
         }
       });
     }

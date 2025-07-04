@@ -1,9 +1,8 @@
 import { Open_Sans } from "next/font/google";
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { Footer } from "./_components/footer";
-import { Header } from "./_components/header";
 import "./globals.css";
+import ProgressProvider from "@/providers/progress-provider";
 
 const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -13,7 +12,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://pagebuilder.example.com"),
+  metadataBase: new URL("https://dndbuilder.com"),
   title: {
     default: "DnD Builder - Create Beautiful Pages with Drag and Drop",
     template: "%s | DnD Builder",
@@ -42,7 +41,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://pagebuilder.example.com",
+    url: "https://dndbuilder.com",
     title: "DnD Builder - Create Beautiful Pages with Drag and Drop",
     description:
       "A powerful drag-and-drop page builder for creating beautiful, responsive web pages without coding.",
@@ -70,10 +69,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={openSans.className}>
       <body>
-        <Header />
-        {children}
+        <ProgressProvider>{children}</ProgressProvider>
         <Toaster />
-        <Footer />
       </body>
     </html>
   );
