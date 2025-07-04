@@ -1,6 +1,38 @@
-# DnD Page Builder
+# @dndbuilder.com/react
 
 A powerful drag-and-drop page builder for React applications. This package provides a comprehensive set of components, hooks, and utilities for building customizable page editors with a block-based approach.
+
+[![Version](https://img.shields.io/npm/v/@dndbuilder.com/react)](https://www.npmjs.com/package/@dndbuilder.com/react)
+[![License](https://img.shields.io/npm/l/@dndbuilder.com/react)](https://github.com/dndbuilder/project/blob/main/LICENSE)
+
+## Table of Contents
+
+- [@dndbuilder.com/react](#dndbuildercomreact)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Quick Start](#quick-start)
+  - [Core Concepts](#core-concepts)
+    - [Editor](#editor)
+    - [Blocks](#blocks)
+    - [Controls](#controls)
+    - [Store](#store)
+  - [API Reference](#api-reference)
+    - [Components](#components)
+    - [Server Components](#server-components)
+    - [Hooks](#hooks)
+    - [Utilities](#utilities)
+  - [Working with Content](#working-with-content)
+    - [Saving Content](#saving-content)
+    - [Rendering Content](#rendering-content)
+  - [Customization](#customization)
+    - [Creating Custom Blocks](#creating-custom-blocks)
+    - [Overriding Existing Blocks](#overriding-existing-blocks)
+    - [Styling](#styling)
+  - [Advanced Usage](#advanced-usage)
+    - [Server-Side Rendering](#server-side-rendering)
+  - [Troubleshooting](#troubleshooting)
+    - [Common Issues](#common-issues)
 
 ## Features
 
@@ -29,10 +61,16 @@ pnpm add @dndbuilder.com/react
 ## Quick Start
 
 ```jsx
-import React from "react";
+import React, { useState } from "react";
 import { Editor, BuilderProvider } from "@dndbuilder.com/react";
 import { store } from "@dndbuilder.com/react";
 import "@dndbuilder.com/react/dist/style.css";
+
+// Basic editor configuration
+const editorConfig = {
+  blocks: [], // Your blocks will go here
+  // Other configuration options
+};
 
 function App() {
   // Optional: Initial content for the editor
@@ -40,10 +78,7 @@ function App() {
 
   return (
     <BuilderProvider store={store}>
-      <Editor 
-        content={initialContent}
-        builderConfig={editorConfig} 
-      />
+      <Editor content={initialContent} builderConfig={editorConfig} />
     </BuilderProvider>
   );
 }
@@ -51,42 +86,147 @@ function App() {
 export default App;
 ```
 
-## Saving Content
+## Core Concepts
 
-To save content, you can use the `useContent` hook to access the editor state.
+### Editor
+
+The Editor is the main component that provides the drag-and-drop interface for building pages. It manages the state of the page content and provides tools for editing blocks.
+
+### Blocks
+
+Blocks are the building blocks of pages. Each block represents a specific type of content, such as headings, paragraphs, images, or more complex components like testimonials or pricing tables.
+
+### Controls
+
+Controls are UI components that allow users to configure block settings. They provide interfaces for adjusting properties like text, colors, spacing, and other styling options.
+
+### Store
+
+The store manages the state of the editor, including the content structure, selected blocks, and undo/redo history. It's built on Redux and provides a predictable state container.
+
+## API Reference
+
+### Components
+
+The package exports several components for building and rendering pages:
+
+- `Editor`: The main editor component
+- `BuilderProvider`: Provider component for the editor state
 
 ```jsx
-import { useContent } from "@dndbuilder.com/react";
-function MyComponent() {
+import { Editor, BuilderProvider } from "@dndbuilder.com/react";
+```
+
+### Server Components
+
+For server-side rendering, you can use the `RenderContent` component to render content fetched from your backend
+
+```jsx
+import { RenderContent } from "@dndbuilder.com/react/components/server";
+```
+
+### Hooks
+
+Custom hooks for accessing and manipulating the editor state:
+
+- `useContent`: Access and update the content state
+- `useBuilderSelector`: Select blocks and manage selection state
+- `useBuilderDispatch`: Dispatch actions to the editor store
+- `useSettings`: Access and update editor settings
+- `useFieldName`: Generate settings field names
+
+```jsx
+import {
+  useContent,
+  useBuilderSelector,
+  useBuilderDispatch,
+  useSettings,
+  useFieldName,
+} from "@dndbuilder.com/react/hooks";
+```
+
+### Utilities
+
+Utility functions for working with blocks and content:
+
+- `createBlockConfig`: Create a block configuration
+- `createId`: Generate unique IDs for blocks
+- `generateResponsiveStyles`: Generate responsive styles for blocks
+- `generatePsuedoStyles`: Generate pseudo styles for blocks
+- `generateTypography`: Generate typography styles
+- `generateSpacing`: Generate spacing styles
+- `generateUnitValue`: Generate unit values for styles
+- `generateBoxShadow`: Generate box shadow styles
+- `generateBackground`: Generate background styles
+
+```jsx
+import {
+  createBlockConfig,
+  createId,
+  generateResponsiveStyles,
+  generatePsuedoStyles,
+  generateTypography,
+  generateSpacing,
+  generateUnitValue,
+  generateBoxShadow,
+  generateBackground,
+} from "@dndbuilder.com/react/utils";
+```
+
+## Working with Content
+
+### Saving Content
+
+To save content, you can use the `useContent` hook to access the editor state:
+
+```jsx
+import { useContent } from "@dndbuilder.com/react/hooks";
+
+function SaveButton() {
   const { content, saveContent } = useContent();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Save content to your backend or local storage
-    console.log("Saving content:", content);
-    saveContent();
+    try {
+      await fetch("/api/save-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      saveContent(); // Mark content as saved
+    } catch (error) {
+      console.error("Failed to save content:", error);
+    }
   };
 
   return <button onClick={handleSave}>Save Content</button>;
 }
 ```
 
-## Rendering Content
+### Rendering Content
 
-To render content on the frontend, use the `RenderContent` component.
+To render content on the frontend, use the `RenderContent` component:
 
 ```jsx
 import { RenderContent } from "@dndbuilder.com/react/components/server";
-async function MyPage() {
-  const content = await fetchContent(); // Fetch content from your backend
-  return <RenderContent content={content} />;
+import { editorConfig } from "./editorConfig"; // Your editor configuration
+
+async function ContentPage() {
+  // Fetch content from your backend
+  const response = await fetch("/api/get-content");
+  const { content } = await response.json();
+
+  return (
+    <div className="page-container">
+      <RenderContent content={content} builderConfig={editorConfig} />
+    </div>
+  );
 }
 ```
 
-## Custom Block
+## Customization
 
-The page builder allows you to create custom blocks or override existing block configurations.
-
-### Creating a Custom Block
+### Creating Custom Blocks
 
 To create a custom block, you need to:
 
@@ -94,173 +234,93 @@ To create a custom block, you need to:
 2. Define the block configuration using `createBlockConfig` utility
 3. Include the block in your editor configuration
 
-#### Example: Card Block
-
-The Card block is a versatile component that can be used to display content in a structured format. Here's how it's implemented in the Testimonial block:
+Here's a simplified example of creating a custom block:
 
 ```jsx
-// 1. Create your block component (testimonial-card.tsx)
-import { FC } from "react";
-import { TestimonialItemType, TestimonialSettingsType } from "../types";
-import { renderPreset } from "../utils";
-import { BlockMeta } from "@/types/block";
+// 1. Create your block component (my-block.tsx)
+import React from "react";
+import { BlockProps } from "@dndbuilder.com/react/types";
 
-type Props = {
-  data: TestimonialItemType;
-  settings: TestimonialSettingsType;
-  meta?: BlockMeta;
-};
-
-const TestimonialCard: FC<Props> = ({ data, settings, meta }) => {
-  return renderPreset(data, settings, meta);
-};
-
-export default TestimonialCard;
-
-// 2. Create a preset component (preset-one.tsx)
-const PresetOne: FC<PresetPropsType> = ({ data, meta }) => {
-  const locale = meta?.locale || "en";
-  const name = data.name?.[locale];
-  const position = data.position?.[locale];
-  const content = data.content?.[locale];
-
+const MyBlock = ({ settings, meta }: BlockProps) => {
   return (
-    <figure className="testimonial-card">
-      <blockquote className="review-msg text-dark-800 text-lg tracking-tight">
-        <p>{content}</p>
-      </blockquote>
-
-      {data.showRating && (
-        <div className="text-dark-700 mt-3 flex gap-x-1">
-          <Rating count={5} value={data.rating ?? 0} size={14} />
-        </div>
-      )}
-
-      <figcaption className="mt-4 flex items-center gap-x-6">
-        {/* Image */}
-        <div className="image-wrapper flex h-12 w-12 items-center justify-center rounded-full border">
-          {data.image ? (
-            <img
-              className="bg-dark-50 h-full w-full rounded-full"
-              src={data.image.url}
-              alt={name}
-            />
-          ) : (
-            <MdFaceRetouchingNatural className="text-dark-400 text-lg" />
-          )}
-        </div>
-
-        <div className="text-sm leading-4">
-          {/* Name */}
-          <div className="text-dark-900 font-semibold">{name}</div>
-
-          {/* Position */}
-          {position && <div className="text-dark-600 mt-0.5">{position}</div>}
-        </div>
-      </figcaption>
-    </figure>
+    <div className="my-custom-block">
+      <h3>{settings.title}</h3>
+      <p>{settings.description}</p>
+    </div>
   );
 };
 
-// 3. Define your block configuration (testimonial.config.ts)
+export default MyBlock;
+
+// 2. Create a control component (my-block-control.tsx)
+import React from "react";
+import { ControlProps } from "@dndbuilder.com/react/types";
+import { TextInput } from "@dndbuilder.com/react/components";
+
+const MyBlockControl = ({ settings, updateSettings }: ControlProps) => {
+  return (
+    <div className="control-panel">
+      <TextInput
+        label="Title"
+        value={settings.title || ""}
+        onChange={(value) => updateSettings({ title: value })}
+      />
+      <TextInput
+        label="Description"
+        value={settings.description || ""}
+        onChange={(value) => updateSettings({ description: value })}
+      />
+    </div>
+  );
+};
+
+export default MyBlockControl;
+
+// 3. Define your block configuration (my-block.config.ts)
 import { createBlockConfig } from "@dndbuilder.com/react/utils";
 import { lazy } from "react";
-import { FiMessageSquare } from "react-icons/fi";
-import { TestimonialSettingsType } from "./types";
+import { FiBox } from "react-icons/fi";
 
-const TestimonialConfig = createBlockConfig<TestimonialSettingsType>({
-  type: "testimonial",
-  label: "Testimonial",
-  icon: FiMessageSquare,
-  component: lazy(() => import("./components/testimonial.block")),
+const MyBlockConfig = createBlockConfig({
+  type: "my-block",
+  label: "My Custom Block",
+  icon: FiBox,
+  component: lazy(() => import("./my-block")),
   isVisible: () => true,
-  group: "Content",
+  group: "Custom",
   settings: {
-    // Default settings including card configuration
-    card: {
-      alignment: { desktop: "left" },
-      backgroundColor: { desktop: { default: "#ffffff" } },
-      padding: { desktop: { top: 24, right: 24, bottom: 24, left: 24 } },
-      border: {
-        radius: { default: { topLeft: 8, topRight: 8, bottomRight: 8, bottomLeft: 8 } },
-        type: { default: "solid" },
-        color: { default: "#e5e7eb" },
-        width: { desktop: { default: { top: 1, right: 1, bottom: 1, left: 1 } } }
-      },
-      boxShadow: {
-        default: {
-          color: "#00000014",
-          horizontal: 0,
-          vertical: 1,
-          blur: 3,
-          spread: 0,
-          position: "outset"
-        }
-      }
-    },
-    // Other settings...
-  },
-  style: ({ settings, breakpoints }) => {
-    // Generate styles for the card
-    return {
-      "& .testimonial-card": {
-        backgroundColor: settings.card?.backgroundColor?.desktop?.default,
-        textAlign: settings.card?.alignment?.desktop,
-        // Other styles...
-      }
-    };
+    title: "Default Title",
+    description: "Default description text",
   },
   controls: [
     {
-      label: "Style",
-      component: lazy(() => import("./components/testimonial-style.control")),
-    },
-    {
       label: "Content",
-      component: lazy(() => import("./components/testimonial-content.control")),
+      component: lazy(() => import("./my-block-control")),
     },
   ],
 });
 
-export default TestimonialConfig;
+export default MyBlockConfig;
 
-// 4. Include the block in your editor configuration (editor.config.ts)
-import TestimonialConfig from "../blocks/testimonial/testimonial.config";
+// 4. Include the block in your editor configuration
+import MyBlockConfig from "./blocks/my-block/my-block.config";
 
 export const editorConfig = {
   blocks: [
-    TestimonialConfig,
+    MyBlockConfig,
     // Other blocks...
   ],
-  // Other configuration options...
 };
 ```
 
-The Card block in this example has the following features:
+### Overriding Existing Blocks
 
-- **Responsive Design**: Supports different layouts for different screen sizes
-- **Customizable Styling**: Configure background color, padding, border, and box shadow
-- **Text Alignment**: Align content left, center, or right
-- **Multiple Presets**: Choose from different preset layouts
-- **Hover Effects**: Apply different styles on hover using pseudo-classes
-
-### Overriding an Existing Block
-
-You can override the configuration of an existing block by extending the existing block configuration:
+You can override the configuration of an existing block by extending it:
 
 ```jsx
-import { BlockType } from "@dndbuilder.com/react";
+import { BlockType } from "@dndbuilder.com/react/types";
 import { createBlockConfig } from "@dndbuilder.com/react/utils";
 import { lazy } from "react";
-
-// Create a custom component for the existing block type
-const CustomHeadingBlock = ({ settings, meta }) => {
-  return (
-    <h2 className="my-custom-heading-style">
-      {settings.text}
-    </h2>
-  );
-};
 
 // Override the Heading block configuration
 const CustomHeadingConfig = createBlockConfig({
@@ -282,20 +342,71 @@ export const editorConfig = {
     // Other blocks...
   ],
 };
+```
 
-// Use the custom configuration when rendering content
-function PreviewPage() {
-  const content = fetchContent();
+### Styling
+
+You can customize the appearance of blocks by:
+
+1. Using the built-in style controls
+2. Providing custom CSS classes
+3. Implementing custom style functions
+
+```jsx
+// Custom style function example
+const MyBlockConfig = createBlockConfig({
+  // ...other configuration
+  style: ({ settings, breakpoints }) => {
+    return {
+      "& .my-custom-block": {
+        backgroundColor: settings.backgroundColor,
+        padding: `${settings.padding}px`,
+        borderRadius: `${settings.borderRadius}px`,
+        // Add responsive styles
+        [breakpoints.md]: {
+          flexDirection: "row",
+        },
+        [breakpoints.sm]: {
+          flexDirection: "column",
+        },
+      },
+    };
+  },
+});
+```
+
+## Advanced Usage
+
+### Server-Side Rendering
+
+The package supports server-side rendering (SSR) with Next.js.
+
+```jsx
+// Next.js page component
+import { RenderContent } from "@dndbuilder.com/react/components/server";
+import { editorConfig } from "../editorConfig"; // Your editor configuration
+
+export default function Page({ content }) {
   return <RenderContent content={content} builderConfig={editorConfig} />;
+}
+
+// Server-side data fetching
+export async function getServerSideProps() {
+  const response = await fetch("https://api.example.com/content");
+  const content = await response.json();
+
+  return {
+    props: { content },
+  };
 }
 ```
 
-You can override any property of an existing block, including:
+## Troubleshooting
 
-- `component`: The component used in the editor
-- `previewComponent`: The component used for preview
-- `settings`: Default settings for the block
-- `controls`: Controls for the block settings
-- `style`: Function to generate CSS styles for the block
+### Common Issues
 
-The custom configuration is deep-merged with the existing configuration, so you only need to specify the properties you want to override.
+1. **Block not rendering**: Ensure the block component is correctly registered in the editor configuration.
+2. **Styling issues**: Check your CSS classes and ensure they are applied correctly.
+3. **Type errors**: Verify that your TypeScript types match the expected interfaces.
+
+For more information, visit [dndbuilder.com](https://dndbuilder.com/).
