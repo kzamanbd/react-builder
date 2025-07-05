@@ -6,11 +6,16 @@ import Image, { ImageProps } from "next/image";
 // React component you want, including inline styles,
 // components from other libraries, and more.
 
-export function useMDXComponents(components: MDXComponents): MDXComponents {
+export function useMDXComponents(components: MDXComponents = {}): MDXComponents {
   return {
-    img: (props) => (
-      <Image sizes="100vw" style={{ width: "100%", height: "auto" }} {...(props as ImageProps)} />
-    ),
     ...components,
+    img: (props) => (
+      <Image
+        sizes="100vw"
+        style={{ width: "100%", height: "auto" }}
+        {...(props as ImageProps)}
+      />
+    ),
   };
+}
 }
