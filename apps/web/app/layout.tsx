@@ -3,6 +3,7 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import ProgressProvider from "@/providers/progress-provider";
+import { Analytics } from "@vercel/analytics/next";
 
 const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ProgressProvider>{children}</ProgressProvider>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
