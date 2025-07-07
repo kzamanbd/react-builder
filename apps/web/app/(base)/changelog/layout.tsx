@@ -10,11 +10,11 @@ export default function MdxLayout({ children }: { children: React.ReactNode }) {
         <section className="pt-20">
           <div className="container mx-auto px-4 text-center">
             <Badge variant="secondary" className="mb-4">
-              📝 What's New
+              📝 What&apos;s New
             </Badge>
             <h1 className="mb-6 text-4xl font-bold text-gray-900 lg:text-5xl">Changelog</h1>
             <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
-              Stay updated with our latest features, improvements, and bug fixes. Here’s what’s new
+              Stay updated with our latest features, improvements, and bug fixes. Here&apos;s what&apos;s new
               in our React components library.
             </p>
           </div>
