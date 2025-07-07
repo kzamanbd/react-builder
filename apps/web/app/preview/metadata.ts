@@ -2,14 +2,16 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Page Preview - View Your Created Page",
-  description: "Preview your page as it will appear to visitors. See how your design looks before publishing.",
+  description:
+    "Preview your page as it will appear to visitors. See how your design looks before publishing.",
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
     title: "Page Preview - View Your Created Page",
-    description: "Preview your page as it will appear to visitors. See how your design looks before publishing.",
+    description:
+      "Preview your page as it will appear to visitors. See how your design looks before publishing.",
     images: [
       {
         url: "/images/preview-og-image.jpg",

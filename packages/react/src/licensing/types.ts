@@ -6,8 +6,8 @@
  * Enum representing the available license tiers
  */
 export enum LicenseTier {
-  FREE = 'free',
-  PREMIUM = 'premium',
+  FREE = "free",
+  PREMIUM = "premium",
 }
 
 /**
@@ -18,17 +18,17 @@ export interface License {
    * The license tier
    */
   tier: LicenseTier;
-  
+
   /**
    * Optional license key
    */
   key?: string;
-  
+
   /**
    * Optional expiration date
    */
   expiresAt?: Date;
-  
+
   /**
    * Optional list of custom blocks allowed for this license
    */
@@ -43,7 +43,7 @@ export interface BlockLicenseConfig {
    * Whether the block is premium
    */
   isPremium: boolean;
-  
+
   /**
    * The minimum license tier required to use this block
    */

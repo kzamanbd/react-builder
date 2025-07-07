@@ -34,13 +34,14 @@ export default function TermsOfServicePage() {
                 <div>
                   <h2 className="mb-4 text-2xl font-bold text-gray-900">1. Acceptance of Terms</h2>
                   <p className="mb-4 leading-relaxed text-gray-700">
-                    By accessing and using DnD Builder (&quot;the Service&quot;), you accept and agree to be
-                    bound by the terms and provision of this agreement. If you do not agree to abide
-                    by the above, please do not use this service.
+                    By accessing and using DnD Builder (&quot;the Service&quot;), you accept and
+                    agree to be bound by the terms and provision of this agreement. If you do not
+                    agree to abide by the above, please do not use this service.
                   </p>
                   <p className="leading-relaxed text-gray-700">
-                    These Terms of Service (&quot;Terms&quot;) govern your use of our website located at
-                    dndbuilder.com (the &quot;Service&quot;) operated by DnD Builder (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
+                    These Terms of Service (&quot;Terms&quot;) govern your use of our website
+                    located at dndbuilder.com (the &quot;Service&quot;) operated by DnD Builder
+                    (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
                   </p>
                 </div>
 
@@ -85,8 +86,8 @@ export default function TermsOfServicePage() {
                   </h2>
                   <p className="mb-4 leading-relaxed text-gray-700">
                     Some parts of the Service are billed on a subscription basis
-                    (&quot;Subscription(s)&quot;). You will be billed in advance on a recurring and periodic
-                    basis (&quot;Billing Cycle&quot;).
+                    (&quot;Subscription(s)&quot;). You will be billed in advance on a recurring and
+                    periodic basis (&quot;Billing Cycle&quot;).
                   </p>
                   <ul className="list-inside list-disc space-y-2 text-gray-700">
                     <li>Subscriptions are billed monthly or annually as selected</li>
@@ -166,8 +167,8 @@ export default function TermsOfServicePage() {
                 <div>
                   <h2 className="mb-4 text-2xl font-bold text-gray-900">8. Disclaimer</h2>
                   <p className="mb-4 leading-relaxed text-gray-700">
-                    The information on this website is provided on an &quot;as is&quot; basis. To the fullest
-                    extent permitted by law, this Company:
+                    The information on this website is provided on an &quot;as is&quot; basis. To
+                    the fullest extent permitted by law, this Company:
                   </p>
                   <ul className="list-inside list-disc space-y-2 text-gray-700">
                     <li>

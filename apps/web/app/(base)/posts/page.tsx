@@ -73,7 +73,9 @@ export default function BlogPostPage() {
       <section className="bg-white py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
-            <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">What&apos;s Coming</h2>
+            <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
+              What&apos;s Coming
+            </h2>
             <div className="grid gap-6 md:grid-cols-2">
               {upcomingTopics.map((topic, index) => (
                 <Card key={index} className="border-0 shadow-lg">

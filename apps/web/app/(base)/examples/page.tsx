@@ -17,8 +17,8 @@ export default function ExamplesPage() {
           </Badge>
           <h1 className="mb-6 text-4xl font-bold text-gray-900 lg:text-5xl">Examples Gallery</h1>
           <p className="mb-8 text-xl text-gray-600">
-            We&apos;re curating an amazing collection of real-world examples, templates, and demos built
-            with DnD Builder. Stay tuned for inspiration!
+            We&apos;re curating an amazing collection of real-world examples, templates, and demos
+            built with DnD Builder. Stay tuned for inspiration!
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href={"https://www.npmjs.com/package/@dndbuilder.com/react"} target="_blank">
