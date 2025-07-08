@@ -142,7 +142,6 @@ describe("AuthController", () => {
         firstName: "Test",
         lastName: "User",
         role: UserRole.CUSTOMER,
-        validatePassword: async () => true,
       };
 
       // Act

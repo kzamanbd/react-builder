@@ -15,6 +15,8 @@ The API project now has comprehensive test coverage for its endpoints:
 
 - `src/app.controller.spec.ts`: Tests for the root endpoint controller
 - `src/auth/auth.controller.spec.ts`: Tests for the authentication controller
+- `src/pages/pages.service.spec.ts`: Tests for the pages service
+- `src/pages/pages.controller.spec.ts`: Tests for the pages controller
 
 ### End-to-End Tests
 
@@ -31,6 +33,11 @@ The tests cover the following endpoints:
 - `POST /auth/register`: Register a new user
 - `POST /auth/login`: Login a user
 - `GET /auth/profile`: Get the authenticated user's profile
+- `POST /pages`: Create a new page
+- `GET /pages`: Get all pages for the authenticated user
+- `GET /pages/:id`: Get a specific page by ID
+- `PUT /pages/:id`: Update a specific page by ID
+- `DELETE /pages/:id`: Delete a specific page by ID
 
 For each endpoint, the tests cover:
 

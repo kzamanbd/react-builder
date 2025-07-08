@@ -5,6 +5,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { PagesModule } from "./pages/pages.module";
 import { databaseConfig } from "./config/database.config";
 
 @Module({
@@ -17,6 +18,7 @@ import { databaseConfig } from "./config/database.config";
     }),
     AuthModule,
     UsersModule,
+    PagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
