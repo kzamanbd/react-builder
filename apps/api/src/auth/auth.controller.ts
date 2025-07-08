@@ -23,10 +23,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get("profile")
-  async getProfile(
-    @CurrentUser() user: User
-  ): Promise<Omit<User, "validatePassword" | "password">> {
-    const { password, validatePassword, ...result } = user;
+  async getProfile(@CurrentUser() user: User): Promise<Omit<User, "password">> {
+    const { password, ...result } = user;
     return result;
   }
 }

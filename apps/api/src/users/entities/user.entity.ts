@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
 import * as bcrypt from "bcrypt";
+import { Document } from "mongoose";
 
 export enum UserRole {
   CUSTOMER = "customer",
@@ -14,7 +14,12 @@ export type UserDocument = User & Document;
   collection: "users",
 })
 export class User {
-  @Prop({ required: true })
+  @Prop({
+    type: String,
+    get: function (this: UserDocument) {
+      return this._id?.toString();
+    },
+  })
   id: string;
 
   @Prop({ required: true, unique: true })
@@ -35,15 +40,9 @@ export class User {
     default: UserRole.CUSTOMER,
   })
   role: UserRole;
-
-  async validatePassword(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
-  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.set("id", true);
 
 UserSchema.pre("save", async function (next) {
   const user = this as UserDocument;

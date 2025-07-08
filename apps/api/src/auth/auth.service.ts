@@ -5,6 +5,7 @@ import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
 import { AuthResponseDto } from "./dto/auth-response.dto";
 import { User } from "../users/entities/user.entity";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,8 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     try {
       const user = await this.usersService.findByEmail(loginDto.email);
-      const isPasswordValid = await user.validatePassword(loginDto.password);
+
+      const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
 
       if (!isPasswordValid) {
         throw new UnauthorizedException("Invalid credentials");

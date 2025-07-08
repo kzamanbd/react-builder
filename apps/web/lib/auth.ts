@@ -22,11 +22,11 @@ export const authOptions: AuthOptions = {
         }
 
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
           const response = await fetch(`${apiUrl}/auth/login`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email: credentials.email,
@@ -65,10 +65,6 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
-  pages: {
-    signIn: "/login",
-    signOut: "/",
-  },
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: User & { token?: string } }) {
       if (user) {
@@ -89,17 +85,17 @@ export const authOptions: AuthOptions = {
 
 export async function getUserProfile(token: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     const response = await fetch(`${apiUrl}/auth/profile`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch user profile');
+      throw new Error("Failed to fetch user profile");
     }
 
     return await response.json();
@@ -126,11 +122,11 @@ export async function registerUser({
       throw new Error("Missing required fields");
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
     const response = await fetch(`${apiUrl}/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
@@ -142,7 +138,7 @@ export async function registerUser({
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to register user');
+      throw new Error(errorData.message || "Failed to register user");
     }
 
     const data = await response.json();

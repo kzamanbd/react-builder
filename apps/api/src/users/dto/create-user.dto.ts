@@ -11,10 +11,11 @@ export class CreateUserDto {
   password: string;
 
   @IsString({ message: "First name must be a string" })
-  @IsOptional()
+  @IsNotEmpty({ message: "First name is required" })
   firstName?: string;
 
   @IsString({ message: "Last name must be a string" })
+  @IsNotEmpty({ message: "Last name is required" })
   @IsOptional()
   lastName?: string;
 }
