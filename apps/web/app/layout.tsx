@@ -1,8 +1,10 @@
 import { Open_Sans } from "next/font/google";
 import React from "react";
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from 'react-hot-toast';
+import { Toaster } from "sonner";
 import "./globals.css";
 import ProgressProvider from "@/providers/progress-provider";
+import NextAuthSessionProvider from "@/providers/session-provider";
 import { Analytics } from "@vercel/analytics/next";
 
 const openSans = Open_Sans({
@@ -70,8 +72,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={openSans.className}>
       <body>
-        <ProgressProvider>{children}</ProgressProvider>
-        <Toaster />
+        <NextAuthSessionProvider>
+          <ProgressProvider>{children}</ProgressProvider>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              classNames: {
+                toast: "max-w-[90vw] !w-fit", // makes toast width adapt to content
+              },
+            }}
+          />
+        </NextAuthSessionProvider>
         <Analytics />
       </body>
     </html>

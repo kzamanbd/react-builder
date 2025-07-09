@@ -1,5 +1,3 @@
-const { defineConfig } = require("eslint/config");
-
 const tsParser = require("@typescript-eslint/parser");
 const js = require("@eslint/js");
 
@@ -11,10 +9,10 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-module.exports = defineConfig([
+module.exports = [
+  ...compat.extends("@repo/eslint-config/react-internal.js"),
   {
-    extends: compat.extends("@repo/eslint-config/react-internal.js"),
-
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       parser: tsParser,
 
@@ -23,4 +21,4 @@ module.exports = defineConfig([
       },
     },
   },
-]);
+];
