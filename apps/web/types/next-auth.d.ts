@@ -14,10 +14,15 @@ declare module "next-auth" {
     } & DefaultSession["user"];
     accessToken?: string; // Optional access token
   }
+
+  interface User {
+    token?: string;
+  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
+    accessToken?: string;
   }
 }

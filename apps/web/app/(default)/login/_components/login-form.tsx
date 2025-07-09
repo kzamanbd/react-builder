@@ -19,7 +19,7 @@ export default function LoginForm() {
 
   const searchParams = useSearchParams();
 
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

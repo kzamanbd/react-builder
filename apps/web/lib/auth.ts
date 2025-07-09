@@ -1,14 +1,11 @@
-import clientPromise from "./mongodb";
-import { AuthOptions, Session } from "next-auth";
+import { Account, AuthOptions, Session, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { JWT } from "next-auth/jwt";
-import { User } from "next-auth";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { BASE_URL } from "./constants";
 
 export const authOptions: AuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -22,8 +19,7 @@ export const authOptions: AuthOptions = {
         }
 
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-          const response = await fetch(`${apiUrl}/auth/login`, {
+          const response = await fetch(`${BASE_URL}/auth/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -69,7 +65,41 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: User & { token?: string } }) {
+    async signIn({ user, account }: { user: User; account?: Account | null }) {
+      // Only process for OAuth providers
+      if (account && account.provider && account.provider !== "credentials") {
+        try {
+          // Send social login data to API
+          const response = await fetch(`${BASE_URL}/auth/social-login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              provider: account.provider,
+              email: user.email,
+              name: user.name,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            // Store the API token in the user object to be used in the jwt callback
+            user.token = data.token;
+            return true;
+          }
+
+          return false;
+        } catch (error) {
+          console.error("Error during social login API call:", error);
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -78,13 +108,19 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT & { accessToken?: string } }) {
-      if (token && session.user) {
-        session.user = {
-          id: token.id,
-          name: token.name || session.user.name || "",
-          email: token.email || session.user.email || "",
-        };
-        session.accessToken = token.accessToken;
+      if (token) {
+        if (session.user) {
+          session.user = {
+            id: token.id,
+            name: token.name || session.user.name || "",
+            email: token.email || session.user.email || "",
+          };
+        }
+
+        // Make sure to set the accessToken on the session
+        if (token.accessToken) {
+          session.accessToken = token.accessToken;
+        }
       }
       return session;
     },
@@ -93,8 +129,7 @@ export const authOptions: AuthOptions = {
 
 export async function getUserProfile(token: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-    const response = await fetch(`${apiUrl}/auth/profile`, {
+    const response = await fetch(`${BASE_URL}/auth/profile`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -130,8 +165,7 @@ export async function registerUser({
       throw new Error("Missing required fields");
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-    const response = await fetch(`${apiUrl}/auth/register`, {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

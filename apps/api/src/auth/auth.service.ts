@@ -1,11 +1,12 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { UsersService } from "../users/users.service";
-import { CreateUserDto } from "../users/dto/create-user.dto";
-import { LoginDto } from "./dto/login.dto";
-import { AuthResponseDto } from "./dto/auth-response.dto";
-import { User } from "../users/entities/user.entity";
 import * as bcrypt from "bcrypt";
+import { CreateUserDto } from "../users/dto/create-user.dto";
+import { User } from "../users/entities/user.entity";
+import { UsersService } from "../users/users.service";
+import { AuthResponseDto } from "./dto/auth-response.dto";
+import { LoginDto } from "./dto/login.dto";
+import { SocialLoginDto } from "./dto/social-login.dto";
 
 @Injectable()
 export class AuthService {
@@ -35,6 +36,38 @@ export class AuthService {
       return this.buildResponse(user, token);
     } catch (error) {
       throw new UnauthorizedException("Invalid credentials");
+    }
+  }
+
+  async socialLogin(loginDto: SocialLoginDto): Promise<AuthResponseDto> {
+    try {
+      const user = await this.usersService.findByEmail(loginDto.email);
+
+      if (!user) {
+        const names = loginDto.name?.split(" ") || [];
+        const firstName = names[0] || "User";
+        const lastName = names.slice(1).join(" ") || "";
+
+        // Generate a random password for social users
+        const password = Math.random().toString(36).slice(-10);
+
+        // If user does not exist, create a new one
+        const newUser = await this.usersService.create({
+          email: loginDto.email,
+          password, // Use a random password for social login
+          firstName,
+          lastName,
+        });
+
+        const token = this.generateToken(newUser);
+        return this.buildResponse(newUser, token);
+      }
+
+      // If user exists, generate a token
+      const token = this.generateToken(user);
+      return this.buildResponse(user, token);
+    } catch (error) {
+      throw new UnauthorizedException("Social authentication failed");
     }
   }
 

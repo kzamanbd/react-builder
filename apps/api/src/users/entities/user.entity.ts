@@ -35,7 +35,7 @@ export class User {
   @Prop({ type: String, required: true })
   firstName: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   lastName: string;
 
   @Prop({

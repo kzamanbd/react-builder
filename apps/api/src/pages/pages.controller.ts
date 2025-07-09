@@ -14,11 +14,14 @@ export class PagesController {
 
   @Post()
   async create(@Body() createPageDto: CreatePageDto, @CurrentUser() user: User): Promise<Page> {
+    console.log("MONGODB_URI", process.env.MONGODB_URI);
+
     return this.pagesService.create(createPageDto, user);
   }
 
   @Get()
   async findAll(@CurrentUser() user: User): Promise<Page[]> {
+    console.log("MONGODB_URI", process.env.MONGODB_URI);
     return this.pagesService.findAll(user.id);
   }
 

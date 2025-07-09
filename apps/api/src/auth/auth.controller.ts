@@ -6,6 +6,7 @@ import { AuthResponseDto } from "./dto/auth-response.dto";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { User } from "../users/entities/user.entity";
+import { SocialLoginDto } from "./dto/social-login.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -26,5 +27,10 @@ export class AuthController {
   async getProfile(@CurrentUser() user: User): Promise<Omit<User, "password">> {
     const { password, ...result } = user;
     return result;
+  }
+
+  @Post("social-login")
+  async socialLogin(@Body() loginDto: SocialLoginDto): Promise<AuthResponseDto> {
+    return this.authService.socialLogin(loginDto);
   }
 }
