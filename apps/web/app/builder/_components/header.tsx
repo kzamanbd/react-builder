@@ -1,30 +1,57 @@
+'use client";';
+
 import { BreakpointSwitch, Tooltip, UndoRedo } from "@dndbuilder.com/react/components";
 import { useContent } from "@dndbuilder.com/react/hooks";
 import Link from "next/link";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { FC, useState } from "react";
+import { toast } from "sonner";
 import { LuScanEye } from "react-icons/lu";
 import { TbDragDrop } from "react-icons/tb";
+import { BASE_URL } from "@/lib/constants";
+import { useSession } from "next-auth/react";
 
-export const Header = () => {
+type HeaderProps = {
+  pageId?: string;
+};
+
+export const Header: FC<HeaderProps> = ({ pageId }) => {
   const [content] = useContent();
 
   const [isSaving, setIsSaving] = useState(false);
 
+  const { data: session } = useSession();
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      // Save to API instead of localStorage
-      const response = await fetch("/api/builder-content", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content }),
-      });
+      if (!pageId) {
+        // Create new page if pageId is not provided
+        const response = await fetch(`${BASE_URL}/pages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: session?.accessToken ? `Bearer ${session.accessToken}` : "",
+          },
+          body: JSON.stringify({ name: "home", content }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to save content");
+        if (!response.ok) {
+          throw new Error("Failed to create new page");
+        }
+      } else {
+        // Update existing page
+        const response = await fetch(`${BASE_URL}/pages/${pageId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: session?.accessToken ? `Bearer ${session.accessToken}` : "",
+          },
+          body: JSON.stringify({ content }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update page");
+        }
       }
 
       toast.success("Content saved successfully!");
