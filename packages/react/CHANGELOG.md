@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - d2a1f6f: feat: add theme settings
-  feat: add layer panel
+- d2a1f6f: feat: add layer panel
 
 ## 0.1.2
 

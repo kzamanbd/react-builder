@@ -330,6 +330,84 @@ const MyBlockConfig = createBlockConfig({
 });
 ```
 
+## Theming
+
+The package provides a comprehensive theming system that allows you to customize the appearance of your application. Themes can be used to define colors, typography, spacing, and other visual aspects of your application.
+
+### Theme Structure
+
+A theme consists of the following properties:
+
+- `id`: A unique identifier for the theme
+- `name`: A human-readable name for the theme
+- `settings`: An object containing the theme settings
+
+The theme settings include:
+
+- `layout`: Container width, padding, and gap settings
+- `color`: Accent color, background color, text color, and color presets
+- `typography`: Typography settings for body text and headings
+- `button`: Button styling including typography, colors, borders, and shadows
+- `link`: Link styling including colors and typography
+- `form`: Form element styling including labels and inputs
+- `customCss`: Custom CSS to be applied globally
+
+### Using Themes
+
+You can access and update the current theme using the `useTheme` hook:
+
+```jsx
+import { useTheme } from "@dndbuilder.com/react/hooks";
+
+function ThemeToggle() {
+  const [theme, setTheme] = useTheme();
+
+  const toggleDarkMode = () => {
+    setTheme({
+      ...theme,
+      settings: {
+        ...theme.settings,
+        color: {
+          ...theme.settings.color,
+          backgroundColor:
+            theme.settings.color.backgroundColor === "#ffffff" ? "#1a1a1a" : "#ffffff",
+          textColor: theme.settings.color.textColor === "#1a1a1a" ? "#ffffff" : "#1a1a1a",
+        },
+      },
+    });
+  };
+
+  return <button onClick={toggleDarkMode}>Toggle Dark Mode</button>;
+}
+```
+
+### Saving Themes
+
+To save a theme, you can use the same approach as saving content:
+
+```jsx
+import { useTheme } from "@dndbuilder.com/react/hooks";
+
+function SaveThemeButton() {
+  const [theme] = useTheme();
+
+  const handleSave = async () => {
+    try {
+      await fetch("/api/save-theme", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ theme }),
+      });
+      console.log("Theme saved successfully");
+    } catch (error) {
+      console.error("Failed to save theme:", error);
+    }
+  };
+
+  return <button onClick={handleSave}>Save Theme</button>;
+}
+```
+
 ## Advanced Usage
 
 ### Server-Side Rendering

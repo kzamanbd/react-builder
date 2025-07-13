@@ -26,6 +26,10 @@ A powerful drag-and-drop page builder for React applications. This package provi
     - [Creating Custom Blocks](#creating-custom-blocks)
     - [Overriding Existing Blocks](#overriding-existing-blocks)
     - [Styling](#styling)
+  - [Theming](#theming)
+    - [Theme Structure](#theme-structure)
+    - [Using Themes](#using-themes)
+    - [Saving Themes](#saving-themes)
   - [Advanced Usage](#advanced-usage)
     - [Server-Side Rendering](#server-side-rendering)
   - [Troubleshooting](#troubleshooting)
@@ -43,6 +47,8 @@ A powerful drag-and-drop page builder for React applications. This package provi
 - 🧰 **Extensible API**: Easily extend with custom blocks and functionality
 - 🔌 **Plugin System**: Support for third-party plugins and extensions
 - 📦 **Tree-Shakable**: Import only what you need
+- 🌐 **Server-Side Rendering**: Compatible with Next.js for SSR
+- 🔍 **TypeScript Support**: Fully typed with TypeScript for better development experience
 
 ## Installation
 
@@ -134,6 +140,7 @@ Custom hooks for accessing and manipulating the editor state:
 - `useSettings`: Access and update editor settings
 - `useFieldName`: Generate settings field names
 - `useAction`: Access editor actions like save, copy, paste, undo, redo, and panel management
+- `useTheme`: Access and update the current theme
 
 ```jsx
 import {
@@ -142,6 +149,7 @@ import {
   useBuilderDispatch,
   useSettings,
   useFieldName,
+  useTheme,
 } from "@dndbuilder.com/react/hooks";
 ```
 
@@ -373,6 +381,84 @@ const MyBlockConfig = createBlockConfig({
     };
   },
 });
+```
+
+## Theming
+
+The package provides a comprehensive theming system that allows you to customize the appearance of your application. Themes can be used to define colors, typography, spacing, and other visual aspects of your application.
+
+### Theme Structure
+
+A theme consists of the following properties:
+
+- `id`: A unique identifier for the theme
+- `name`: A human-readable name for the theme
+- `settings`: An object containing the theme settings
+
+The theme settings include:
+
+- `layout`: Container width, padding, and gap settings
+- `color`: Accent color, background color, text color, and color presets
+- `typography`: Typography settings for body text and headings
+- `button`: Button styling including typography, colors, borders, and shadows
+- `link`: Link styling including colors and typography
+- `form`: Form element styling including labels and inputs
+- `customCss`: Custom CSS to be applied globally
+
+### Using Themes
+
+You can access and update the current theme using the `useTheme` hook:
+
+```jsx
+import { useTheme } from "@dndbuilder.com/react/hooks";
+
+function ThemeToggle() {
+  const [theme, setTheme] = useTheme();
+
+  const toggleDarkMode = () => {
+    setTheme({
+      ...theme,
+      settings: {
+        ...theme.settings,
+        color: {
+          ...theme.settings.color,
+          backgroundColor:
+            theme.settings.color.backgroundColor === "#ffffff" ? "#1a1a1a" : "#ffffff",
+          textColor: theme.settings.color.textColor === "#1a1a1a" ? "#ffffff" : "#1a1a1a",
+        },
+      },
+    });
+  };
+
+  return <button onClick={toggleDarkMode}>Toggle Dark Mode</button>;
+}
+```
+
+### Saving Themes
+
+To save a theme, you can use the same approach as saving content:
+
+```jsx
+import { useTheme } from "@dndbuilder.com/react/hooks";
+
+function SaveThemeButton() {
+  const [theme] = useTheme();
+
+  const handleSave = async () => {
+    try {
+      await fetch("/api/save-theme", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ theme }),
+      });
+      console.log("Theme saved successfully");
+    } catch (error) {
+      console.error("Failed to save theme:", error);
+    }
+  };
+
+  return <button onClick={handleSave}>Save Theme</button>;
+}
 ```
 
 ## Advanced Usage
