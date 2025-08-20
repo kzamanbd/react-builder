@@ -89,7 +89,7 @@ export function PricingSection({ className }: PricingSectionProps) {
                 </li>
               </ul>
               <Button className="w-full bg-black hover:bg-gray-800" asChild>
-                <Link href="https://mostafizurhimself.gumroad.com/l/dnd-builder">
+                <Link href="https://purchase.dndbuilder.com/">
                   Get Lifetime Access
                 </Link>
               </Button>
