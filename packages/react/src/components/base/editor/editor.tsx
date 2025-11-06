@@ -20,9 +20,17 @@ export type EditorProps = {
   className?: string;
   builderConfig?: BuilderConfig; // Add builderConfig prop
   theme?: Theme;
+  children?: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "content" | "className">;
 
-export const Editor: FC<EditorProps> = ({ content, className, builderConfig, theme, ...props }) => {
+export const Editor: FC<EditorProps> = ({
+  content,
+  className,
+  builderConfig,
+  theme,
+  children,
+  ...props
+}) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -73,6 +81,10 @@ export const Editor: FC<EditorProps> = ({ content, className, builderConfig, the
   //     window.removeEventListener("beforeunload", handleBeforeUnload);
   //   };
   // }, [isDirty]);
+
+  if (children) {
+    return <DndProvider backend={HTML5Backend}>{children}</DndProvider>;
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>

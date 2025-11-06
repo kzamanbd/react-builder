@@ -62,7 +62,7 @@ export const AssetManager: FC<AssetManagerProps> = memo(
     return (
       <>
         <link href={fontsUrl} id="fonts" rel="stylesheet"></link>
-        <style dangerouslySetInnerHTML={{ __html: beautifiedStyles }}></style>
+        <style id="builder-styles" dangerouslySetInnerHTML={{ __html: beautifiedStyles }}></style>
         <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
       </>
     );

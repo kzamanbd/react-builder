@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { FiCheck, FiStar } from "react-icons/fi";
 import { classNames } from "@/lib/utils";
 import Link from "next/link";
-import { LuArrowRight, LuDownload } from "react-icons/lu";
+import { FiCheck, FiStar } from "react-icons/fi";
+import { LuArrowRight } from "react-icons/lu";
 
 interface PricingSectionProps {
   className?: string;
@@ -33,13 +33,10 @@ export function PricingSection({ className }: PricingSectionProps) {
               </Badge>
             </div>
             <Card.Header className="pb-8 text-center">
-              <Card.Title className="text-2xl">Lifetime Deal</Card.Title>
-              <div className="mt-4 text-4xl font-bold text-gray-900">
-                $99
-                {/* <span className="text-lg font-normal text-gray-600">/once</span> */}
-              </div>
+              <Card.Title className="text-2xl">Free Plan</Card.Title>
+              <div className="mt-4 text-4xl font-bold text-gray-900">$0</div>
               <Card.Description className="mt-2">
-                Lifetime access with 1 year of updates
+                Get started with the free plan. No credit card required.
               </Card.Description>
             </Card.Header>
             <Card.Content>
@@ -89,9 +86,7 @@ export function PricingSection({ className }: PricingSectionProps) {
                 </li>
               </ul>
               <Button className="w-full bg-black hover:bg-gray-800" asChild>
-                <Link href="https://purchase.dndbuilder.com/">
-                  Get Lifetime Access
-                </Link>
+                <Link href="/register">Get Started Free</Link>
               </Button>
             </Card.Content>
           </Card>
@@ -105,7 +100,7 @@ export function PricingSection({ className }: PricingSectionProps) {
                 {/* <span className="text-lg font-normal text-gray-600">/pricing</span> */}
               </div>
               <Card.Description className="mt-2">
-                Everything in LTD plus custom development
+                Everything in Free Plan plus custom development
               </Card.Description>
             </Card.Header>
             <Card.Content>
@@ -114,21 +109,14 @@ export function PricingSection({ className }: PricingSectionProps) {
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
                   <span>Everything in LTD plus...</span>
                 </li>
+
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>24x7 Phone Support</span>
+                  <span>AI Powered Content Generation</span>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Dedicated Slack Channel</span>
-                </li>
-                <li className="flex items-center">
-                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Unlimited Sessions</span>
-                </li>
-                <li className="flex items-center">
-                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Unlimited Cloud Storage</span>
+                  <span>Custom Block Development</span>
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
@@ -136,7 +124,15 @@ export function PricingSection({ className }: PricingSectionProps) {
                 </li>
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Custom Development</span>
+                  <span>Custom Theme Development</span>
+                </li>
+                <li className="flex items-center">
+                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
+                  <span>24x7 Phone Support</span>
+                </li>
+                <li className="flex items-center">
+                  <FiCheck className="mr-3 h-5 w-5 text-green-600" />
+                  <span>Dedicated Slack Channel</span>
                 </li>
               </ul>
               <Button variant="outline" size="lg" className="w-full" asChild>
