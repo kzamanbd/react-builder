@@ -1,5 +1,11 @@
 # @dndbuilder.com/react
 
+## 0.3.0
+
+### Minor Changes
+
+- b651369: feat: make editor component composeable
+
 ## 0.2.1
 
 ### Patch Changes
