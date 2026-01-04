@@ -1,5 +1,11 @@
 # @dndbuilder.com/react
 
+## 1.0.0
+
+### Major Changes
+
+- 4f9b2cf: Major Release - First Stable Version
+
 ## 0.3.0
 
 ### Minor Changes
