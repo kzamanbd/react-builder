@@ -97,7 +97,6 @@ export function PricingSection({ className }: PricingSectionProps) {
               <Card.Title className="text-2xl">Enterprise Deal</Card.Title>
               <div className="mt-4 text-4xl font-bold text-gray-900">
                 Custom
-                {/* <span className="text-lg font-normal text-gray-600">/pricing</span> */}
               </div>
               <Card.Description className="mt-2">
                 Everything in Free Plan plus custom development
@@ -107,7 +106,7 @@ export function PricingSection({ className }: PricingSectionProps) {
               <ul className="mb-8 space-y-3">
                 <li className="flex items-center">
                   <FiCheck className="mr-3 h-5 w-5 text-green-600" />
-                  <span>Everything in LTD plus...</span>
+                  <span>Everything in Free Plan plus...</span>
                 </li>
 
                 <li className="flex items-center">
