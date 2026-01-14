@@ -67,13 +67,13 @@ jobs:
             - name: Update version
               run: |
                   # Update package.json files with new version
-                  pnpm --recursive exec npm version ${{ github.event.inputs.version }} --no-git-tag-version --allow-same-version
+                  pnpm --filter @draftscripts/droppr exec npm version ${{ github.event.inputs.version }} --no-git-tag-version --allow-same-version
 
             - name: Build packages
-              run: pnpm run build
+              run: pnpm --filter @draftscripts/droppr run build
 
             - name: Run tests
-              run: pnpm run test --if-present
+              run: pnpm --filter @draftscripts/droppr run test --if-present
 
             - name: Create tag and commit
               run: |
@@ -87,7 +87,7 @@ jobs:
                   git push origin v${{ github.event.inputs.version }}
 
             - name: Publish to npm
-              run: pnpm --recursive publish --access public
+              run: pnpm --filter @draftscripts/droppr publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
