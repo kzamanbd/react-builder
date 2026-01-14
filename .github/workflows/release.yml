@@ -67,7 +67,7 @@ jobs:
             - name: Update version
               run: |
                   # Update package.json files with new version
-                  pnpm --recursive exec npm version ${{ github.event.inputs.version }} --no-git-tag-version
+                  pnpm --recursive exec npm version ${{ github.event.inputs.version }} --no-git-tag-version --allow-same-version
 
             - name: Build packages
               run: pnpm run build
