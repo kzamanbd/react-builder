@@ -1,9 +1,9 @@
-import { defineConfig } from "vite";
-import { resolve } from "path";
-import react from "@vitejs/plugin-react";
-import dts from "vite-plugin-dts";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from "path";
 import preserveDirectives from "rollup-plugin-preserve-directives";
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
   build: {
@@ -26,7 +26,7 @@ export default defineConfig({
       output: {
         preserveModules: true,
         assetFileNames: (assetInfo) => {
-          if (assetInfo.names.includes("react.css")) {
+          if (assetInfo.names.includes("react.css") || assetInfo.names.includes("droppr.css")) {
             return "style.css";
           }
 

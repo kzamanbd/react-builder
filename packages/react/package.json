@@ -1,5 +1,5 @@
 {
-  "name": "@dndbuilder.com/react",
+  "name": "@draftscripts/droppr",
   "description": "Drag and drop builder for React",
   "author": "DnD Builder",
   "license": "MIT",
@@ -11,10 +11,10 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://dndbuilder.com/",
+  "homepage": "https://draftscripts.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dndbuilder/react"
+    "url": "https://github.com/draftscripts/droppr"
   },
   "keywords": [
     "react",

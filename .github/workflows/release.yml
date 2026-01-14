@@ -1,0 +1,109 @@
+name: Release Packages
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version to release (e.g., 1.0.0, 1.0.0-beta.1)"
+                required: true
+                type: string
+            branch:
+                description: "Branch to release from"
+                required: true
+                type: choice
+                options:
+                    - main
+                    - develop
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            packages: write
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.inputs.branch }}
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+
+            - name: Setup pnpm config
+              run: pnpm config set store-dir ~/.pnpm-store
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Configure Git
+              run: |
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "github-actions[bot]"
+
+            - name: Update version
+              run: |
+                  # Update package.json files with new version
+                  pnpm --recursive exec npm version ${{ github.event.inputs.version }} --no-git-tag-version
+
+            - name: Build packages
+              run: pnpm run build
+
+            - name: Run tests
+              run: pnpm run test --if-present
+
+            - name: Create tag and commit
+              run: |
+                  git add .
+                  git commit -m "chore(release): publish v${{ github.event.inputs.version }}"
+                  git tag -a v${{ github.event.inputs.version }} -m "Release v${{ github.event.inputs.version }}"
+
+            - name: Push changes and tags
+              run: |
+                  git push origin ${{ github.event.inputs.branch }}
+                  git push origin v${{ github.event.inputs.version }}
+
+            - name: Publish to npm
+              run: pnpm --recursive publish --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Create Release Notes
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ github.event.inputs.version }}
+                  release_name: Release v${{ github.event.inputs.version }}
+                  body: |
+                      ## Release v${{ github.event.inputs.version }}
+
+                      Released from branch: `${{ github.event.inputs.branch }}`
+
+                      ### Changes
+                      - See [commits](https://github.com/${{ github.repository }}/compare/HEAD~1...HEAD) for detailed changes
+                  draft: false
+                  prerelease: ${{ contains(github.event.inputs.version, '-') }}
